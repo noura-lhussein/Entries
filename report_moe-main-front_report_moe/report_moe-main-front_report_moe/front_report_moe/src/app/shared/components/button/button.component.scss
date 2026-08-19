@@ -1,0 +1,207 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+@use 'styles/mixins' as mixins;
+
+:host {
+  display: inline-block;
+  font-family: $font-family-base;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  font-weight: $fw-semibold;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+  font-family: inherit;
+  line-height: 1.25;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.btn:focus-visible {
+  @include mixins.focus-ring;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.btn-primary {
+  background-color: $button-primary-bg;
+  color: $bg-primary;
+  border-color: $primary;
+  box-shadow: 0 2px 8px rgba($primary, 0.22);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: $button-primary-hover;
+  border-color: $button-primary-hover;
+}
+
+.btn-secondary {
+  background-color: $gray-100;
+  color: $gray-700;
+  border-color: $border-color;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: $primary-tint;
+  border-color: rgba($primary, 0.28);
+  color: $primary;
+}
+
+.btn-danger {
+  background-color: $button-danger-bg;
+  color: $bg-primary;
+  border-color: $button-danger-bg;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: $button-danger-hover;
+  border-color: $button-danger-hover;
+}
+
+.btn-success {
+  background-color: $button-success-hover;
+  color: $bg-primary;
+  border-color: $button-success-hover;
+}
+
+.btn-success:hover:not(:disabled) {
+  background-color: $button-success-bg;
+  border-color: $button-success-bg;
+}
+
+.btn-ghost {
+  background-color: $bg-primary;
+  color: $gray-700;
+  border-color: $border-color;
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background-color: $gray-50;
+  border-color: rgba($primary, 0.28);
+  color: $primary;
+}
+
+.btn-ghost.active:not(:disabled) {
+  border-color: $primary;
+  background: $primary-tint;
+  color: $primary-dark;
+}
+
+.btn-link {
+  background-color: transparent;
+  color: $primary;
+  border-color: transparent;
+  padding-left: $spacing-1;
+  padding-right: $spacing-1;
+}
+
+.btn-link:hover:not(:disabled) {
+  color: $primary-hover;
+  text-decoration: underline;
+}
+
+.size-xs {
+  padding: $spacing-1 10px;
+  font-size: $font-size-xs;
+}
+
+.size-sm {
+  padding: 6px $spacing-3;
+  font-size: 0.8125rem;
+}
+
+.size-md {
+  padding: $spacing-2 $spacing-4;
+  font-size: $font-size-sm;
+}
+
+.size-lg {
+  padding: 10px $spacing-5;
+  font-size: $font-size-base;
+}
+
+.size-xl {
+  padding: $spacing-3 $spacing-6;
+  font-size: $font-size-lg;
+}
+
+.icon-only.size-xs,
+.icon-only.size-sm,
+.icon-only.size-md {
+  padding: $spacing-1;
+  min-width: 32px;
+  min-height: 32px;
+}
+
+.icon-only .btn-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.icon-only.btn-success {
+  background-color: transparent;
+  color: $confirm-color;
+  border-color: transparent;
+}
+
+.icon-only.btn-success:hover:not(:disabled) {
+  background-color: $confirm-bg-hover;
+  border-color: transparent;
+  color: $confirm-color;
+}
+
+.icon-only.btn-danger {
+  background-color: transparent;
+  color: $reject-color;
+  border-color: transparent;
+}
+
+.icon-only.btn-danger:hover:not(:disabled) {
+  background-color: $reject-bg-hover;
+  border-color: transparent;
+  color: $reject-color;
+}
+
+.icon-only.btn-warning {
+  background-color: transparent;
+  color: $note-color;
+  border-color: transparent;
+}
+
+.icon-only.btn-warning:hover:not(:disabled) {
+  background-color: $note-bg-hover;
+  border-color: transparent;
+  color: $note-color;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 600ms linear infinite;
+}
+
+@include mixins.spin-keyframes;

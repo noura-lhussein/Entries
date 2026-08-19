@@ -1,0 +1,30 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+:host {
+  display: block;
+}
+
+.empty-state {
+  @include empty-state(false);
+
+  &.compact {
+    @include empty-state(true);
+  }
+}
+
+.empty-state mat-icon {
+  @include empty-state-icon(false);
+}
+
+.empty-state.compact mat-icon {
+  @include empty-state-icon(true);
+}
+
+.empty-state mat-icon.spin {
+  @include spin-animation;
+}
+
+.message {
+  @include empty-state-message;
+}

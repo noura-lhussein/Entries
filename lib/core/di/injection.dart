@@ -11,6 +11,8 @@ import '../../features/auth/presentation/bloc/auth_bloc.dart';
 import '../../features/water/data/datasources/water_remote_data_source.dart';
 import '../../features/water/data/datasources/water_admin_remote_data_source.dart';
 import '../../features/oil_gas/data/datasources/oil_gas_remote_data_source.dart';
+import '../../features/builder/data/datasources/builder_remote_data_source.dart';
+import '../../features/builder/presentation/bloc/data_entry_bloc.dart';
 import '../../features/electricity/data/datasources/electricity_remote_data_source.dart';
 import '../../features/geology/data/datasources/geology_remote_data_source.dart';
 import '../../features/water/data/repositories/water_repository_impl.dart';
@@ -43,6 +45,7 @@ Future<void> initInjection() async {
   getIt.registerLazySingleton(() => WaterAdminRemoteDataSource(getIt()));
   getIt.registerLazySingleton(() => OilGasRemoteDataSource(getIt()));
   getIt.registerLazySingleton(() => ElectricityRemoteDataSource(getIt()));
+  getIt.registerLazySingleton(() => BuilderRemoteDataSource(getIt()));
   getIt.registerLazySingleton(() => GeologyRemoteDataSource(getIt()));
 
   // Repository
@@ -84,6 +87,7 @@ Future<void> initInjection() async {
       getWaterLookupsUseCase: getIt(),
     ),
   );
+  getIt.registerFactory(() => DataEntryBloc(getIt()));
 
   getIt.registerLazySingleton(() => AuthListenable(getIt()));
 

@@ -1,0 +1,102 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+
+.app-modal-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 99999 !important;
+  padding: $spacing-4;
+  box-sizing: border-box;
+}
+
+.app-modal-content {
+  background: $bg-primary !important;
+  border-radius: $radius-xl !important;
+  box-shadow: $shadow-2xl !important;
+  max-height: $modal-max-height !important;
+  overflow: hidden !important;
+  position: relative !important;
+  z-index: 100000 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+}
+
+.app-modal-small {
+  width: 90%;
+  max-width: 400px;
+}
+
+.app-modal-medium {
+  width: 90%;
+  max-width: 600px;
+}
+
+.app-modal-large {
+  width: 90%;
+  max-width: 800px;
+}
+
+.app-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-6;
+  border-bottom: 1px solid $border-color;
+  flex-shrink: 0;
+}
+
+.app-modal-header h3 {
+  margin: 0;
+  font-size: $font-size-lg;
+  font-weight: $fw-semibold;
+  color: $gray-800;
+}
+
+.app-modal-close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  color: $gray-500;
+  transition: color $transition-fast;
+}
+
+.app-modal-close-btn:hover {
+  color: $gray-800;
+}
+
+.app-modal-body {
+  padding: $spacing-6;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.app-modal-footer {
+  display: flex;
+  gap: 12px;
+  padding: $spacing-6;
+  padding-bottom: calc(#{$spacing-6} + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid $border-color;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  background: $bg-primary;
+}
+
+.app-modal-footer:not(:has(*)) {
+  display: none;
+}

@@ -34,7 +34,7 @@ class ElectricityHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'التقرير اليومي — كهرباء',
+                  'إدخال بيانات الكهرباء',
                   style: TextStyle(
                     fontFamily: 'Cairo',
                     fontSize: 16.sp,
@@ -44,7 +44,7 @@ class ElectricityHeader extends StatelessWidget {
                 ),
                 SizedBox(height: 3.h),
                 Text(
-                  'إدخال كامل لبيانات التقرير اليومي يدوياً أو عبر قالب Excel.',
+                  'النماذج تُحمَّل ديناميكياً حسب القسم والحقول المعرّفة في النظام.',
                   style: TextStyle(
                     fontFamily: 'Cairo',
                     fontSize: 11.sp,

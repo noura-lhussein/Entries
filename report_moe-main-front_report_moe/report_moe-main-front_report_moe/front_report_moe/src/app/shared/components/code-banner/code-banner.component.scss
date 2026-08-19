@@ -1,0 +1,111 @@
+@use 'styles/variables' as *;
+
+.code-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  background: linear-gradient(135deg, $olive-bg 0%, $olive-bg-end 55%, #d4dcc4 100%);
+  border: 2px solid $olive-border;
+  box-shadow: 0 4px 14px $olive-shadow;
+}
+
+.code-banner.size-large {
+  margin: 0 0 20px;
+  padding: 20px 24px;
+  border-radius: 14px;
+}
+
+.code-banner.size-compact {
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px $olive-shadow;
+}
+
+.code-banner-label {
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $olive;
+}
+
+.size-large .code-banner-label {
+  font-size: 0.75rem;
+}
+
+.size-compact .code-banner-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+}
+
+.code-banner-value {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: $olive-dark;
+  line-height: 1.2;
+  word-break: break-all;
+}
+
+.size-large .code-banner-value {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+}
+
+.size-compact .code-banner-value {
+  font-size: 1.5rem;
+  letter-spacing: 0.05em;
+}
+
+.code-banner-value.is-preview {
+  color: $olive;
+  opacity: 0.95;
+}
+
+.code-banner-segments {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  max-width: 100%;
+}
+
+.code-banner-segments.is-preview .code-segment {
+  opacity: 0.92;
+}
+
+.code-segment {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: $olive-dark;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba($olive-border, 0.85);
+  border-radius: 8px;
+  padding: 4px 10px;
+  line-height: 1.2;
+  word-break: break-all;
+}
+
+.size-large .code-segment {
+  font-size: clamp(0.95rem, 2.5vw, 1.25rem);
+}
+
+.size-compact .code-segment {
+  font-size: 0.875rem;
+}
+
+.code-banner-hint {
+  margin: 0;
+  max-width: 36rem;
+  font-size: 0.8125rem;
+  color: $olive-mid;
+}
+
+@media (max-width: 720px) {
+  .code-banner.size-large {
+    padding: 16px 14px;
+  }
+}

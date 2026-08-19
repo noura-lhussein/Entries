@@ -1,0 +1,108 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+@use 'styles/mixins' as *;
+
+.empty-all {
+  @include empty-block;
+}
+
+.title-group {
+  margin-bottom: $spacing-6;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &.title-group--bare {
+    margin-bottom: $spacing-4;
+  }
+}
+
+.title-group-header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  margin-bottom: $spacing-4;
+  padding-bottom: $spacing-2;
+  border-bottom: 2px solid rgba($primary, 0.25);
+}
+
+.title-group-icon {
+  color: $section-header-accent;
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.title-group-name {
+  margin: 0;
+  font-size: $font-size-lg;
+  font-weight: $fw-bold;
+  color: $gray-800;
+}
+
+.title-group-count {
+  font-size: $font-size-sm;
+  color: $primary;
+  font-weight: $fw-medium;
+}
+
+.sub-slice {
+  margin-bottom: $spacing-6;
+  margin-inline-start: $spacing-2;
+  padding-inline-start: $spacing-4;
+  border-inline-start: 3px solid rgba($primary, 0.2);
+}
+
+.sub-slice-header {
+  @include sub-section-header;
+  margin-bottom: $spacing-3;
+}
+
+.sub-slice-header mat-icon {
+  color: $primary;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.sub-slice-path {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-1;
+  flex-wrap: wrap;
+  font-size: $font-size-sm;
+  font-weight: $fw-semibold;
+  color: $gray-700;
+}
+
+.path-sep {
+  color: $gray-400;
+  font-weight: $fw-regular;
+}
+
+.sub-slice-count {
+  margin-inline-start: auto;
+  font-size: $font-size-xs;
+  color: $primary;
+  font-weight: $fw-medium;
+}
+
+.slice-empty {
+  @include empty-block;
+  margin: 0;
+}
+
+.infinite-scroll-sentinel {
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-4 0;
+  color: $gray-400;
+}
+
+.infinite-scroll-hint {
+  font-size: $font-size-sm;
+}

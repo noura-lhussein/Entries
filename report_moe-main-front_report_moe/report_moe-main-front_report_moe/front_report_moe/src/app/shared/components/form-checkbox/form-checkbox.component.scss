@@ -1,0 +1,48 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+
+:host {
+  display: block;
+  font-family: $font-family-base;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.checkbox-row {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  cursor: pointer;
+  user-select: none;
+}
+
+input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  accent-color: $primary;
+  cursor: pointer;
+  margin: 0;
+}
+
+.text {
+  font-size: $font-size-sm;
+  color: $gray-700;
+  font-weight: $fw-medium;
+}
+
+.hint {
+  font-size: $font-size-xs;
+  color: $gray-500;
+  margin-left: 26px;
+}
+
+.error {
+  font-size: $font-size-xs;
+  color: $error-text;
+  margin-left: 26px;
+}

@@ -1,0 +1,26 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem $spacing-6;
+  background: #fcfbf8;
+  border-top: 1px solid $border-color;
+  color: $gray-500;
+  font-size: 0.8125rem;
+  font-family: $font-family-base;
+  min-height: 2.75rem;
+  box-sizing: border-box;
+}
+
+.footer strong {
+  color: $primary;
+  font-weight: $fw-semibold;
+}
+
+.version {
+  color: $gray-400;
+}

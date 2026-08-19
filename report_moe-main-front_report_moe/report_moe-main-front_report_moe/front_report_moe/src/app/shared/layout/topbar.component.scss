@@ -1,0 +1,216 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+@use 'styles/mixins' as mixins;
+
+:host {
+  display: block;
+  font-family: $font-family-base;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+  padding: 0 $spacing-4;
+  background: $bg-primary;
+  border-bottom: 1px solid $border-color;
+  box-shadow: 0 1px 3px rgba($gray-800, 0.06);
+  height: 3.5rem;
+  min-height: 3.5rem;
+  box-sizing: border-box;
+}
+
+.icon-btn {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid $border-color;
+  background: $bg-primary;
+  border-radius: 0.375rem;
+  color: $gray-700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+  position: relative;
+}
+
+.icon-btn:hover {
+  background-color: $primary-tint;
+  border-color: rgba($primary, 0.25);
+  color: $primary;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  margin-left: auto;
+}
+
+:host-context([dir='rtl']) .actions {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.lang-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 2.25rem;
+  padding: $spacing-2 12px;
+  border: 1px solid $border-color;
+  background: $bg-primary;
+  border-radius: 0.375rem;
+  color: $gray-700;
+  font-weight: $fw-semibold;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+  font-family: inherit;
+}
+
+.lang-btn:hover {
+  background-color: $primary-tint;
+  border-color: rgba($primary, 0.25);
+  color: $primary;
+}
+
+.lang-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.badge {
+  position: absolute;
+  top: -0.2rem;
+  right: -0.2rem;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 $spacing-1;
+  background-color: $button-success-hover;
+  color: $bg-primary;
+  border-radius: $radius-full;
+  font-size: 0.625rem;
+  font-weight: $fw-bold;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.user-menu {
+  position: relative;
+}
+
+.avatar-btn {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  border-radius: $radius-full;
+}
+
+.avatar-btn:focus-visible {
+  @include mixins.focus-ring;
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: $radius-full;
+  background-color: $primary;
+  color: $bg-primary;
+  font-weight: $fw-semibold;
+  font-size: $font-size-sm;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + $spacing-2);
+  right: 0;
+  min-width: 240px;
+  background: $bg-primary;
+  border: 1px solid $border-color;
+  border-radius: 0.75rem;
+  box-shadow:
+    0 12px 28px rgba($gray-800, 0.1),
+    0 2px 8px rgba($gray-800, 0.04);
+  z-index: 50;
+  padding: $spacing-2;
+}
+
+:host-context([dir='rtl']) .dropdown {
+  right: auto;
+  left: 0;
+}
+
+.user-info {
+  padding: $spacing-2 12px;
+}
+
+.user-name {
+  font-weight: $fw-semibold;
+  color: $gray-800;
+  font-size: $font-size-sm;
+}
+
+.user-email {
+  font-size: $font-size-xs;
+  color: $gray-500;
+  margin-top: 2px;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: $border-color;
+  margin: $spacing-1 0;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: $spacing-2 12px;
+  border: none;
+  background: transparent;
+  color: $gray-700;
+  font-size: $font-size-sm;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.dropdown-item:hover {
+  background-color: $primary-tint;
+  color: $gray-800;
+}
+
+.dropdown-item mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.dropdown-item.danger {
+  color: $button-danger-hover;
+}
+
+.dropdown-item.danger:hover {
+  background-color: $error-bg;
+}

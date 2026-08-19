@@ -1,0 +1,80 @@
+// Syrian Zone / MOE unified typography — HayyakumAllah first for Arabic UI
+
+$font-family-brand: 'HayyakumAllah', 'Noto Sans Arabic', ui-sans-serif, system-ui, sans-serif;
+$font-family-base: $font-family-brand;
+$font-family-sans: $font-family-base;
+$font-family-mono: 'Courier New', monospace;
+
+// Base Font Size (16px — match moeds / readable Arabic UI)
+$base-font-size: 16px;
+$base-line-height: 1.55;
+
+// Font Weights
+$fw-regular: 400;
+$fw-medium: 500;
+$fw-semibold: 600;
+$fw-bold: 700;
+
+// Type Scale (relative to 16px root)
+$font-size-3xl: 2rem;
+$line-height-3xl: 1.25;
+
+$font-size-2xl: 1.625rem;
+$line-height-2xl: 1.3;
+
+$font-size-xl: 1.375rem;
+$line-height-xl: 1.4;
+
+$font-size-lg: 1.1875rem;
+$line-height-lg: 1.45;
+
+$font-size-base: 1.0625rem;
+$line-height-base: 1.55;
+
+$font-size-sm: 0.9375rem;
+$line-height-sm: 1.5;
+
+$font-size-xs: 0.8125rem;
+$line-height-xs: 1.45;
+
+@mixin text-3xl {
+  font-size: $font-size-3xl;
+  line-height: $line-height-3xl;
+  font-weight: $fw-bold;
+}
+
+@mixin text-2xl {
+  font-size: $font-size-2xl;
+  line-height: $line-height-2xl;
+  font-weight: $fw-bold;
+}
+
+@mixin text-xl {
+  font-size: $font-size-xl;
+  line-height: $line-height-xl;
+  font-weight: $fw-semibold;
+}
+
+@mixin text-lg {
+  font-size: $font-size-lg;
+  line-height: $line-height-lg;
+  font-weight: $fw-semibold;
+}
+
+@mixin text-base {
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  font-weight: $fw-regular;
+}
+
+@mixin text-sm {
+  font-size: $font-size-sm;
+  line-height: $line-height-sm;
+  font-weight: $fw-regular;
+}
+
+@mixin text-xs {
+  font-size: $font-size-xs;
+  line-height: $line-height-xs;
+  font-weight: $fw-regular;
+}

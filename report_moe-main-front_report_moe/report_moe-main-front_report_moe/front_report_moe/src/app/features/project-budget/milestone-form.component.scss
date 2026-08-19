@@ -1,0 +1,50 @@
+.page-container {
+  max-width: 980px;
+}
+
+.milestone-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 20px;
+  margin-top: 8px;
+  overflow: visible;
+  align-items: start;
+}
+
+.milestone-form app-form-section-title {
+  margin-top: 8px;
+}
+
+.milestone-form app-form-section-title:first-child {
+  margin-top: 0;
+}
+
+.milestone-form .span-full {
+  grid-column: 1 / -1;
+}
+
+.validation-summary {
+  grid-column: 1 / -1;
+  border: 1px solid #fecaca;
+  background: #fff1f2;
+  color: #991b1b;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-top: -4px;
+}
+
+.validation-summary p {
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+
+.validation-summary ul {
+  margin: 0;
+  padding-left: 16px;
+}
+
+@media (max-width: 720px) {
+  .milestone-form {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,164 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+
+:host {
+  display: block;
+  font-family: $font-family-base;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+label {
+  font-size: $font-size-sm;
+  font-weight: $fw-semibold;
+  color: $gray-700;
+}
+
+.required {
+  color: $button-danger-hover;
+  margin-left: 2px;
+}
+
+.custom-select {
+  padding: 10px 12px;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-family: inherit;
+  background: $bg-primary;
+  color: $gray-800;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all $transition-fast;
+}
+
+.custom-select:focus {
+  outline: none;
+  border-color: $primary;
+  box-shadow: 0 0 0 3px rgba($primary, 0.15);
+}
+
+.custom-select:disabled {
+  background: $gray-100;
+  color: $gray-400;
+  cursor: not-allowed;
+}
+
+.chips-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-2;
+  padding: 12px;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  background: #fafafa;
+  min-height: 50px;
+  align-content: flex-start;
+}
+
+.empty-state {
+  width: 100%;
+  text-align: center;
+  color: $gray-400;
+  font-size: $font-size-sm;
+  padding: 12px 0;
+}
+
+.chip-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: $spacing-2 12px;
+  background: $commit-note-bg;
+  border: 1px solid #bfdbfe;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  color: $info-text;
+}
+
+.chip-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  color: $button-danger-hover;
+  cursor: pointer;
+  font-size: $font-size-base;
+  padding: 0;
+  transition: color $transition-fast;
+}
+
+.chip-remove:hover {
+  color: $reject-color;
+}
+
+.hint {
+  font-size: $font-size-xs;
+  color: $gray-500;
+}
+
+.error {
+  font-size: $font-size-xs;
+  color: $error-text;
+}
+
+.has-error .custom-select {
+  border-color: $error-border;
+  background-color: $error-bg;
+}
+
+.select-row {
+  display: flex;
+  gap: $spacing-2;
+  align-items: stretch;
+}
+
+.select-row .custom-select {
+  flex: 1;
+}
+
+.select-all-btn {
+  white-space: nowrap;
+  padding: 0 14px;
+  border: 1px solid $primary;
+  background: $primary-tint;
+  color: $section-header-accent;
+  border-radius: $radius-md;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: $fw-semibold;
+  font-family: inherit;
+  transition: background $transition-fast;
+}
+
+.select-all-btn:hover {
+  background: rgba($primary, 0.12);
+}
+
+.clear-all-btn {
+  align-self: flex-start;
+  margin-top: 2px;
+  padding: $spacing-1 10px;
+  border: 1px solid $error-border;
+  background: $error-bg;
+  color: $error-text;
+  border-radius: $radius-md;
+  cursor: pointer;
+  font-size: $font-size-xs;
+  font-weight: $fw-semibold;
+  font-family: inherit;
+  transition: background $transition-fast;
+}
+
+.clear-all-btn:hover {
+  background: rgba($error-border, 0.2);
+}

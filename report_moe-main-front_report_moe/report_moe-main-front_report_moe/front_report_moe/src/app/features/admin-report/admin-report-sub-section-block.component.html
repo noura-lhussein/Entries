@@ -1,0 +1,30 @@
+<div class="sub-block">
+  <div class="sub-block-header">
+    <mat-icon>folder_open</mat-icon>
+    <h3>{{ block.subSection.name }}</h3>
+    <div class="bulk-actions" *ngIf="canConfirm">
+      <app-button [iconOnly]="true" size="sm" variant="danger" icon="cancel" [label]="t('info-report.bulk-reject')"
+        [title]="t('info-report.bulk-reject')" (clicked)="blockBulkReject.emit()" />
+      <app-button [iconOnly]="true" size="sm" variant="warning" icon="comment"
+        [label]="t('admin-report.commit-with-note-tooltip')" [title]="t('admin-report.commit-with-note-tooltip')"
+        (clicked)="blockBulkCommitNote.emit()" />
+      <app-button [iconOnly]="true" size="sm" variant="success" icon="check_circle"
+        [label]="t('info-report.bulk-confirm')" [title]="t('info-report.bulk-confirm')"
+        (clicked)="blockBulkConfirm.emit()" />
+    </div>
+  </div>
+
+  <app-empty-state *ngIf="block.isLoading" icon="refresh" size="compact" [spinning]="true" />
+
+  <div class="empty-block" *ngIf="!block.isLoading && block.titleTables.length === 0">
+    {{ emptyMessage }}
+  </div>
+
+  <ng-container *ngIf="!block.isLoading">
+    <app-admin-report-title-block *ngFor="let tt of block.titleTables; trackBy: trackByTitleId" [titleTable]="tt"
+      [canConfirm]="canConfirm" [emptyMessage]="emptyMessage" [loadHint]="t('admin-report.click-title-to-load')"
+      (headerToggle)="titleToggle.emit(tt)" (bulkConfirm)="titleBulkConfirm.emit({ titleTable: tt, approve: $event })"
+      (bulkCommitNote)="titleBulkCommitNote.emit(tt)" (rowConfirm)="onRowConfirm(tt, $event)"
+      (rowCommitNote)="onRowCommitNote(tt, $event)" (loadMore)="titleLoadMore.emit(tt)" />
+  </ng-container>
+</div>

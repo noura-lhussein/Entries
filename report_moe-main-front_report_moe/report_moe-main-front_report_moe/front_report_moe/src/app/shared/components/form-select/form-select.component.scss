@@ -1,0 +1,216 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+@use 'styles/form-controls' as fc;
+
+:host {
+  @include fc.form-field-host;
+}
+
+.field {
+  @include fc.form-field-stack;
+  overflow: visible;
+}
+
+label {
+  @include fc.form-field-label;
+  display: block;
+}
+
+.required {
+  @include fc.form-field-required;
+}
+
+.select-row {
+  display: flex;
+  gap: $spacing-2;
+  align-items: stretch;
+  position: relative;
+  overflow: visible;
+}
+
+.select-control {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  overflow: visible;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.trigger {
+  @include fc.form-control-surface;
+  @include fc.form-control-hover;
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 1;
+  /* Reserve space for affixes on the inline-end side (left in RTL). */
+  padding-inline-end: 2.75rem;
+  text-align: start;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  min-height: 42px;
+  width: 100%;
+}
+
+.select-control:has(.clear-btn) .trigger {
+  padding-inline-end: 4.25rem;
+}
+
+.trigger:focus,
+.trigger:focus-visible,
+.select-control.is-open .trigger {
+  @include fc.form-control-focus;
+}
+
+.trigger:disabled {
+  @include fc.form-control-disabled;
+}
+
+.select-control.is-placeholder .trigger-label {
+  @include fc.form-control-placeholder;
+}
+
+.trigger-label {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Icons sit on inline-end — use physical sides so RTL never overlaps the value text. */
+.select-affixes {
+  grid-area: 1 / 1;
+  justify-self: right;
+  align-self: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+  padding-inline-end: 10px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+:host-context([dir='rtl']) .select-affixes {
+  justify-self: left;
+  padding-inline-end: 0;
+  padding-inline-start: 10px;
+}
+
+.clear-btn {
+  @include fc.form-clear-btn;
+  position: static;
+  inset: auto;
+  transform: none;
+  pointer-events: auto;
+  flex-shrink: 0;
+}
+
+.chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  line-height: 1;
+  color: $gray-500;
+  font-size: 20px;
+  user-select: none;
+  flex-shrink: 0;
+  transition:
+    transform $transition-fast,
+    color $transition-fast;
+
+  &.is-open {
+    transform: rotate(180deg);
+    color: $primary;
+  }
+}
+
+.select-control.is-disabled .chevron {
+  color: $gray-400;
+}
+
+/* Overlay panel — positioned by CDK, not by absolute top under a clipped parent. */
+.dropdown--overlay {
+  @include fc.form-dropdown-overlay-panel(280px);
+}
+
+.dropdown-search {
+  position: relative;
+  padding: 8px;
+  border-bottom: 1px solid $border-color;
+  flex-shrink: 0;
+}
+
+.search-icon {
+  position: absolute;
+  inset-inline-start: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $gray-500;
+  font-size: 18px;
+  pointer-events: none;
+}
+
+.search-input {
+  @include fc.form-control-surface;
+  padding-block: 9px;
+  padding-inline: 38px 12px;
+}
+
+.search-input:focus {
+  @include fc.form-control-focus;
+  box-shadow: 0 0 0 2px rgba($primary, 0.12);
+}
+
+.dropdown-list {
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 220px;
+}
+
+.dropdown-option {
+  @include fc.form-dropdown-option;
+  /* Grow with long labels so the list can scroll horizontally. */
+  width: max-content;
+  min-width: 100%;
+}
+
+.option-label {
+  flex: 0 1 auto;
+  white-space: nowrap;
+}
+
+.check {
+  flex-shrink: 0;
+  font-size: 18px;
+  color: $primary;
+}
+
+.dropdown-empty {
+  @include fc.form-dropdown-empty;
+}
+
+.add-btn {
+  @include fc.form-add-btn;
+}
+
+.hint {
+  @include fc.form-field-hint;
+}
+
+.error {
+  @include fc.form-field-error;
+}
+
+.has-error .trigger {
+  @include fc.form-control-error-state;
+}

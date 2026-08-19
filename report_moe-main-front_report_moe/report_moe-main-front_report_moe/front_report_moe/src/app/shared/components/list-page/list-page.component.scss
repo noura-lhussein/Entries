@@ -1,0 +1,76 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as mixins;
+
+:host {
+  display: block;
+  height: 100%;
+  min-height: 0;
+}
+
+.page-container {
+  @include mixins.list-shell;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.list-chrome {
+  @include mixins.page-chrome;
+}
+
+.list-chrome ::ng-deep .page-header {
+  margin-bottom: 1rem;
+}
+
+.list-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.list-body app-data-table {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.list-body ::ng-deep .table-wrapper {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.list-body ::ng-deep .table-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+}
+
+app-pagination {
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    height: auto;
+    overflow: visible;
+  }
+
+  .list-body {
+    overflow: visible;
+  }
+
+  .list-body app-data-table,
+  .list-body ::ng-deep .table-wrapper,
+  .list-body ::ng-deep .table-scroll {
+    height: auto;
+    max-height: min(60vh, 32rem);
+  }
+}

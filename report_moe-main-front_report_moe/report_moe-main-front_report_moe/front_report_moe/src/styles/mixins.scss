@@ -1,0 +1,333 @@
+@use 'variables' as *;
+@use 'spacing' as *;
+@use 'typography' as *;
+
+@mixin focus-ring {
+  outline: none;
+  box-shadow:
+    0 0 0 2px $bg-primary,
+    0 0 0 calc(#{$focus-ring-offset} + #{$focus-ring-width}) $focus-ring-color;
+}
+
+@mixin spin-keyframes {
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@mixin spin-animation($duration: 1s) {
+  @include spin-keyframes;
+  animation: spin $duration linear infinite;
+}
+
+@mixin empty-state($compact: false) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-3;
+  color: $gray-400;
+
+  @if $compact {
+    padding: $spacing-6;
+    flex-direction: row;
+  } @else {
+    padding: 60px $spacing-5;
+  }
+}
+
+@mixin empty-state-icon($compact: false) {
+  @if $compact {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  } @else {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@mixin empty-state-message {
+  font-size: $font-size-sm;
+  margin: 0;
+}
+
+@mixin empty-block {
+  padding: $spacing-4;
+  text-align: center;
+  color: $gray-400;
+  font-size: $font-size-sm;
+  border: 1px dashed $border-color;
+  border-radius: $radius-lg;
+}
+
+@mixin title-section-header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  margin-bottom: 10px;
+  padding: 6px $spacing-3;
+  background: $section-header-bg;
+  border-radius: $radius-md;
+  border-right: 3px solid $section-header-border;
+}
+
+@mixin sub-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: $spacing-4;
+  padding-bottom: 10px;
+  border-bottom: 2px solid $section-header-border;
+  flex-wrap: wrap;
+}
+
+@mixin bulk-actions-row {
+  margin-inline-start: auto;
+  display: flex;
+  gap: $spacing-2;
+}
+
+@mixin table-scroll-layer {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: var(--table-scroll-max-height, #{$table-scroll-max-height});
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+
+  &.table-scroll--y-off {
+    max-height: none;
+    overflow-x: auto;
+    overflow-y: clip; // avoid visible→auto promotion that creates an inner vertical scroller
+
+    // Outer page (`main.content`) owns vertical scroll — do not stick thead to that
+    // scrollport or rows/headers paint over sticky page chrome (z-index fight).
+    thead th {
+      position: static;
+      top: auto;
+      z-index: auto;
+      box-shadow: none;
+    }
+
+    thead th.actions-col,
+    tbody td.actions-col {
+      position: sticky;
+      top: auto;
+    }
+
+    thead th.actions-col {
+      z-index: 2;
+    }
+  }
+
+  thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: $gray-50;
+    box-shadow: inset 0 -1px 0 $border-color;
+  }
+}
+
+/// Viewport-bounded column: brand/chrome fixed, one inner scroller.
+@mixin app-viewport-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/// List pages: chrome (header/filters/pager) outside the table scroller.
+@mixin list-shell {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
+  --list-table-max-height: #{$list-table-max-height};
+
+  @media (max-width: $breakpoint-md) {
+    gap: $spacing-4;
+    --list-table-max-height: calc(100dvh - 14rem);
+  }
+}
+
+/// Pinned title / search / filter chrome above a scrolling page body.
+@mixin page-chrome {
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: $bg-primary;
+}
+
+/// Feature page that fills the main content area (chrome + scroll body).
+@mixin page-fill-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/// Scrollable body under pinned chrome.
+@mixin page-scroll-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/// Full-height info feature host (user-data / admin-report).
+@mixin info-page-host {
+  display: block;
+  height: 100%;
+  min-height: 0;
+}
+
+/// Flush shell under app topbar (cancels main.content padding).
+@mixin info-page-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  margin-block-start: -$spacing-6;
+  margin-inline: -$spacing-6;
+  padding-inline: $spacing-6;
+  padding-block-end: $spacing-4;
+  box-sizing: border-box;
+
+  @media (max-width: $breakpoint-md) {
+    margin-block-start: -$spacing-4;
+    margin-inline: -$spacing-4;
+    padding-inline: $spacing-4;
+  }
+}
+
+/// Sticky-feel chrome band (title + filters) for info pages.
+@mixin info-page-chrome {
+  flex-shrink: 0;
+  z-index: 10;
+  background: $bg-primary;
+  padding-block-start: $spacing-4;
+  padding-block-end: $spacing-3;
+  border-bottom: 1px solid $border-color;
+  box-shadow: 0 1px 3px rgba($gray-800, 0.05);
+
+  ::ng-deep .page-header {
+    margin-bottom: $spacing-3;
+  }
+
+  ::ng-deep .page-title {
+    font-size: $font-size-2xl;
+  }
+}
+
+/// Bordered content panel under chrome.
+@mixin info-page-panel {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  margin-block-start: $spacing-4;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  background: $bg-primary;
+  overflow: hidden;
+}
+
+/// Scrollport inside info-page-panel.
+@mixin info-page-body {
+  @include page-scroll-body;
+  padding: $spacing-4;
+}
+
+@mixin title-accordion-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+@mixin title-accordion-item {
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  background: $bg-primary;
+  overflow: hidden;
+
+  &.is-open,
+  &.is-expanded {
+    border-color: rgba($primary, 0.35);
+    box-shadow: 0 2px 10px rgba($gray-800, 0.05);
+  }
+}
+
+@mixin title-accordion-header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 0;
+  background: $gray-50;
+  color: $gray-800;
+  cursor: pointer;
+  text-align: start;
+  font: inherit;
+  transition: background-color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: $primary-tint;
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}
+
+@mixin title-accordion-header-open {
+  background: rgba($primary, 0.08);
+  color: $primary;
+}
+
+@mixin title-row-count-badge {
+  flex-shrink: 0;
+  margin-inline-start: auto;
+  font-size: $font-size-sm;
+  font-weight: $fw-semibold;
+  color: $primary;
+  background: rgba($primary, 0.08);
+  border-radius: $radius-full;
+  padding: 0.2rem 0.65rem;
+  white-space: nowrap;
+
+  &.is-loading {
+    color: $gray-400;
+    font-weight: $fw-medium;
+  }
+}
+
+/// Sticky save / action affordance inside a page or form scrollport.
+@mixin sticky-action-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--sticky-action-z, #{$sticky-action-z});
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: $spacing-3;
+  margin-block-start: $spacing-4;
+  padding-block: $spacing-4;
+  padding-inline: 0;
+  padding-bottom: calc(#{$spacing-4} + env(safe-area-inset-bottom, 0px));
+  border-block-start: 1px solid var(--sticky-action-border, #{$sticky-action-border});
+  background: var(--sticky-action-bg, #{$sticky-action-bg});
+  box-shadow: 0 -8px 16px -12px rgba(17, 24, 39, 0.18);
+}

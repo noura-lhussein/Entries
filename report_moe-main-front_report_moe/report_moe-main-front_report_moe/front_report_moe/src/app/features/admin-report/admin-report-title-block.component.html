@@ -1,0 +1,43 @@
+<div class="title-block" [class.is-expanded]="titleTable.isExpanded" [class.is-disabled]="isTitleDisabled"
+  [class.title-block--compact]="hideTitleHeader">
+  <button *ngIf="!hideTitleHeader" type="button" class="title-block-header title-block-toggle"
+    [disabled]="isTitleDisabled" (mousedown)="$event.preventDefault()" (click)="onHeaderClick()">
+    <mat-icon class="expand-icon">{{ titleTable.isExpanded ? 'expand_more' : 'chevron_left' }}</mat-icon>
+    <mat-icon class="title-icon">label</mat-icon>
+    <span class="title-name">{{ titleTable.titleName }}</span>
+    <span class="title-row-count" *ngIf="titleRowCount != null">
+      {{ titleRowCount }} {{ t('user-data.records-count-label') }}
+    </span>
+    <span class="title-row-count is-loading" *ngIf="titleRowCount == null && !titleTable.isLoading">…</span>
+    <span class="title-load-hint" *ngIf="!titleTable.isLoaded && !titleTable.isLoading">{{
+      loadHint
+      }}</span>
+  </button>
+
+  <div class="title-block-body" *ngIf="titleTable.isExpanded">
+    <div class="title-loading" *ngIf="titleTable.isLoading">
+      <mat-icon class="spin">refresh</mat-icon>
+      <span>{{ t('admin-report.loading') }}</span>
+    </div>
+
+    <div class="empty-block" *ngIf="titleTable.isLoaded && !titleTable.isLoading && titleTable.rows.length === 0">
+      {{ emptyMessage }}
+    </div>
+
+    <app-admin-report-table *ngIf="titleTable.isLoaded && !titleTable.isLoading && titleTable.rows.length > 0"
+      [columns]="titleTable.columns" [rows]="titleTable.rows" [canConfirm]="canConfirm"
+      [showBulkConfirm]="showBulkConfirm" [showBulkReject]="showBulkReject"
+      (rowConfirm)="rowConfirm.emit($event)" (rowCommitNote)="rowCommitNote.emit($event)"
+      (bulkConfirm)="bulkConfirm.emit($event)" (bulkCommitNote)="bulkCommitNote.emit()" />
+
+    <div
+      *ngIf="titleTable.isLoaded && !titleTable.isLoading && (hasMoreRows || titleTable.isLoadingMore)"
+      class="infinite-scroll-sentinel"
+      appInfiniteScrollRoot=".page-body"
+      [appInfiniteScrollDisabled]="!hasMoreRows || !!titleTable.isLoadingMore"
+      (appInfiniteScroll)="loadMore.emit()"
+    >
+      <span *ngIf="titleTable.isLoadingMore" class="infinite-scroll-hint">…</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+@use 'styles/mixins' as mixins;
+
+:host {
+  grid-column: 1 / -1;
+  display: block;
+}
+
+.form-actions-bar {
+  @include mixins.sticky-action-bar;
+}

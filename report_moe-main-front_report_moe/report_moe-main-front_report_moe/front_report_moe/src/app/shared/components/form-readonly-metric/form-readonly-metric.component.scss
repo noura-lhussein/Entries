@@ -1,0 +1,31 @@
+@use 'styles/variables' as *;
+
+.readonly-metric {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #4b5563;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.readonly-metric.span-full {
+  grid-column: 1 / -1;
+}
+
+.readonly-metric-label {
+  font-weight: 600;
+}
+
+.readonly-metric-value {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  color: $olive;
+  font-weight: 600;
+}
+
+.readonly-metric-hint {
+  font-size: 0.8rem;
+  color: #6b7280;
+  font-style: italic;
+}

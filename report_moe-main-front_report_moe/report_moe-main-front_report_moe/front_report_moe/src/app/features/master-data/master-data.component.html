@@ -1,0 +1,118 @@
+<div class="md-page" *ngIf="!loadingRegistry(); else loadingTpl">
+  <aside class="md-nav" aria-label="Master data resources">
+    <h2 class="md-nav-title">{{ t('master-data.title') }}</h2>
+
+    <div class="md-nav-search-wrap">
+      <span class="material-icons md-nav-search-icon" aria-hidden="true">search</span>
+      <input type="search" class="md-nav-search" [placeholder]="t('master-data.nav-search')" [value]="navQuery()"
+        (input)="onNavSearch($any($event.target).value)" [attr.aria-label]="t('master-data.nav-search')" />
+    </div>
+
+    <div class="md-nav-scroll">
+      <p class="md-nav-empty" *ngIf="!filteredGroups().length">
+        {{ t('master-data.nav-empty') }}
+      </p>
+
+      <div class="md-group" *ngFor="let group of filteredGroups()">
+        <button type="button" class="md-group-toggle" [class.is-collapsed]="isGroupCollapsed(group.group_en)"
+          [attr.aria-expanded]="!isGroupCollapsed(group.group_en)" (click)="toggleGroup(group.group_en)">
+          <span class="md-group-toggle-text">
+            <span class="md-group-name">{{ group.group_ar || group.group_en }}</span>
+            <span class="md-group-count">{{ group.resources.length }}</span>
+          </span>
+          <span class="material-icons md-group-chevron" aria-hidden="true">expand_more</span>
+        </button>
+
+        <div class="md-group-links" *ngIf="!isGroupCollapsed(group.group_en)">
+          <a *ngFor="let slug of group.resources" class="md-nav-link" [class.active]="slug === currentSlug()"
+            [routerLink]="['/master-data', slug]">
+            {{ resourceLabel(slug) }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <section class="md-main" *ngIf="meta() as resource; else emptyTpl">
+    <div class="md-chrome">
+      <app-page-header [title]="resource.label_ar || resource.label_en" [description]="t('master-data.description')"
+        [action]="
+          canWriteCurrent()
+            ? { label: t('master-data.add'), icon: 'add', click: openCreateBound }
+            : undefined
+        " />
+
+      <div class="md-toolbar">
+        <input type="search" class="md-search" [placeholder]="t('master-data.search')" [value]="fs.searchQuery()"
+          (input)="onSearch($any($event.target).value)" />
+      </div>
+    </div>
+
+    <div class="md-body">
+      <app-page-loader *ngIf="fs.loading()" [message]="t('dashboard.loading')" />
+
+      <app-table *ngIf="!fs.loading()" [data]="mappedRows()" [columns]="columns()" [actions]="actions()"
+        [paginator]="false" [scroll]="{ maxHeight: '100%', vertical: 'auto' }"
+        (sortChange)="onSort($event)" (actionClicked)="onAction($event)" />
+    </div>
+
+    <div class="md-pager" *ngIf="!fs.loading() && fs.totalPages() > 1">
+      <app-button variant="ghost" [label]="t('master-data.prev')" [disabled]="fs.currentPage() <= 1"
+        (clicked)="fs.previousPage()" />
+      <span class="md-pager-info">
+        {{ fs.currentPage() }} / {{ fs.totalPages() }}
+        ({{ fs.totalCount() }})
+      </span>
+      <app-button variant="ghost" [label]="t('master-data.next')" [disabled]="fs.currentPage() >= fs.totalPages()"
+        (clicked)="fs.nextPage()" />
+    </div>
+  </section>
+</div>
+
+<ng-template #loadingTpl>
+  <app-page-loader [message]="t('dashboard.loading')" />
+</ng-template>
+
+<ng-template #emptyTpl>
+  <div class="md-empty">{{ t('master-data.empty') }}</div>
+</ng-template>
+
+<app-modal [visible]="!!formMode()" [title]="modalTitle()" size="large" (close)="closeForm()">
+  <form class="md-form" [formGroup]="form">
+    <app-form-map-picker *ngIf="showMapPicker()" [form]="form" latitudeControl="latitude" longitudeControl="longitude"
+      [readOnly]="formMode() === 'view'" [label]="t('master-data.map')" />
+
+    <div class="md-fields">
+      <ng-container *ngFor="let field of visibleFields()">
+        <div class="md-field" *ngIf="!(showMapPicker() && isLatLonField(field.name))"
+          [class.md-field--full]="field.type === 'textarea'">
+          <app-form-input *ngIf="field.type === 'string' || field.type === 'number'" [formControlName]="field.name"
+            [label]="columnLabelPublic(field.name)" [type]="field.type === 'number' ? 'number' : 'text'"
+            [required]="field.required" [multiline]="false" />
+
+          <app-form-input *ngIf="field.type === 'textarea'" [formControlName]="field.name"
+            [label]="columnLabelPublic(field.name)" type="text" [required]="field.required" [multiline]="true"
+            [rows]="3" />
+
+          <app-form-checkbox *ngIf="field.type === 'boolean'" [formControlName]="field.name"
+            [label]="columnLabelPublic(field.name)" />
+
+          <app-form-date *ngIf="field.type === 'date' || field.type === 'datetime'" [formControlName]="field.name"
+            [label]="columnLabelPublic(field.name)" [required]="field.required" />
+
+          <app-form-select *ngIf="field.type === 'choice'" [formControlName]="field.name"
+            [label]="columnLabelPublic(field.name)" [options]="choiceOptions(field)" [required]="field.required" />
+
+          <app-form-search-select *ngIf="field.type === 'foreign_key'" [formControlName]="field.name"
+            [label]="columnLabelPublic(field.name)" [options]="fkFieldOptions(field)" [required]="field.required" />
+        </div>
+      </ng-container>
+    </div>
+  </form>
+
+  <div footer class="md-form-actions">
+    <app-button variant="ghost" [label]="t('master-data.cancel')" type="button" (clicked)="closeForm()" />
+    <app-button *ngIf="formMode() !== 'view' && canWriteCurrent()" variant="primary" [label]="t('master-data.save')"
+      type="button" [disabled]="saving()" (clicked)="saveForm()" />
+  </div>
+</app-modal>

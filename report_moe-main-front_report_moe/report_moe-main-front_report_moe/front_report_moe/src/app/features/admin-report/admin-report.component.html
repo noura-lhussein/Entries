@@ -1,0 +1,108 @@
+<div class="page-shell">
+  <div class="page-chrome">
+    <app-page-header [title]="headerTitle()" [description]="headerDescription()"
+      [actions]="pageHeaderActions()"></app-page-header>
+
+    <div class="overview-toolbar" *ngIf="isInfosOverview()">
+      <app-form-select class="main-section-select" [label]="mainSectionToolbarLabel()"
+        [placeholder]="t('admin-report.select-main')" [options]="mainSectionOptions()" [ngModel]="selectedMainId()"
+        (ngModelChange)="onMainToolbarModelChange($event)" />
+    </div>
+
+    <app-filter-panel [filterGroups]="filterGroups()" [activeFilters]="activeFilters()"
+      (filterChange)="onFilterChange($event)" (clearFilter)="onClearFilter($event)" (clearFilters)="onClearFilters()"
+      (panelOpened)="onFilterPanelOpened()"></app-filter-panel>
+  </div>
+
+  <div class="page-panel">
+  <div class="page-body">
+  <app-empty-state *ngIf="showSelectPrompt()" icon="filter_list"
+    [message]="t('admin-report.select-to-view')" />
+
+  <app-empty-state *ngIf="showSingleEmpty()" icon="folder_open" [message]="t('admin-report.no-data')" />
+
+  <ng-container *ngIf="showSingleTitleTables()">
+    <div class="title-accordion">
+      <app-admin-report-title-block *ngFor="let tt of singleViewTitleTables(); trackBy: trackByTitleId" [titleTable]="tt"
+        [canConfirm]="canConfirm()" [emptyMessage]="t('admin-report.no-data')"
+        [loadHint]="t('admin-report.click-title-to-load')" (headerToggle)="onTitleToggle(selectedSubId(), tt)"
+        (bulkConfirm)="confirmTitle(tt, $event, selectedSubId(), false)"
+        (bulkCommitNote)="commitTitleNote(tt, selectedSubId())"
+        (rowConfirm)="confirmRow($event.row, $event.approve, selectedSubId(), false, tt.titleId)"
+        (rowCommitNote)="commitRowNote($event, selectedSubId(), tt.titleId)"
+        (loadMore)="tt.titleId != null && loadMoreTitleData(selectedSubId(), tt.titleId)" />
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="showAll()">
+    <app-empty-state *ngIf="filteredSubSections().length === 0" icon="folder_open"
+      [message]="t('admin-report.no-data')" />
+
+    <ng-container *ngFor="let group of displayedTitleGroups(); trackBy: trackByTitleGroupId">
+      <section class="title-group">
+        <header class="title-group-header">
+          <mat-icon class="title-group-icon">label</mat-icon>
+          <h2 class="title-group-name">{{ group.titleName }}</h2>
+        </header>
+
+        <div class="sub-slice" *ngFor="let slice of group.slices; trackBy: trackByAdminTitleSlice"
+          [class.is-open]="slice.titleTable.isExpanded">
+          <div class="sub-slice-header">
+            <button type="button" class="sub-slice-toggle" [disabled]="slice.titleTable.rowCount === 0"
+              (click)="onTitleToggle(slice.subMainId, slice.titleTable)">
+              <mat-icon class="expand-icon">{{ slice.titleTable.isExpanded ? 'expand_more' : 'chevron_left' }}</mat-icon>
+              <mat-icon>folder_open</mat-icon>
+              <span class="sub-slice-path">
+                <span>{{ slice.mainSectionName }}</span>
+                <span class="path-sep">·</span>
+                <span>{{ slice.subMainName }}</span>
+              </span>
+              <span class="title-row-count" *ngIf="slice.titleTable.rowCount != null">
+                {{ slice.titleTable.rowCount }} {{ t('user-data.records-count-label') }}
+              </span>
+              <span class="title-row-count is-loading" *ngIf="slice.titleTable.rowCount == null">…</span>
+            </button>
+            <div class="bulk-actions" *ngIf="canConfirm()" (click)="$event.stopPropagation()">
+              <app-button [iconOnly]="true" size="sm" variant="danger" icon="cancel"
+                [label]="t('info-report.bulk-reject')" [title]="t('info-report.bulk-reject')"
+                (clicked)="bulkRejectBlock(slice.subMainId)" />
+              <app-button [iconOnly]="true" size="sm" variant="warning" icon="comment"
+                [label]="t('admin-report.commit-with-note-tooltip')"
+                [title]="t('admin-report.commit-with-note-tooltip')" (clicked)="commitBlockNote(slice.subMainId)" />
+              <app-button [iconOnly]="true" size="sm" variant="success" icon="check_circle"
+                [label]="t('info-report.bulk-confirm')" [title]="t('info-report.bulk-confirm')"
+                (clicked)="bulkConfirmBlock(slice.subMainId)" />
+            </div>
+          </div>
+
+          <app-admin-report-title-block [hideTitleHeader]="true" [titleTable]="slice.titleTable"
+            [canConfirm]="canConfirm()" [emptyMessage]="t('admin-report.no-data')"
+            [loadHint]="t('admin-report.click-title-to-load')"
+            (headerToggle)="onTitleToggle(slice.subMainId, slice.titleTable)"
+            (bulkConfirm)="confirmTitle(slice.titleTable, $event, slice.subMainId, false)"
+            (bulkCommitNote)="commitTitleNote(slice.titleTable, slice.subMainId)"
+            (rowConfirm)="confirmRow($event.row, $event.approve, slice.subMainId, false, slice.titleTable.titleId)"
+            (rowCommitNote)="commitRowNote($event, slice.subMainId, slice.titleTable.titleId)"
+            (loadMore)="slice.titleTable.titleId != null && loadMoreTitleData(slice.subMainId, slice.titleTable.titleId)" />
+        </div>
+      </section>
+    </ng-container>
+  </ng-container>
+  </div>
+  </div>
+
+  <app-modal [visible]="confirmNoteModalVisible()" [title]="
+      noteModalKind() === 'commit'
+        ? t('admin-report.commit-note-modal-title')
+        : t('admin-report.confirm-note-modal-title')
+    " size="medium" (close)="cancelConfirmNoteModal()">
+    <app-form-input [multiline]="true" [rows]="4" [placeholder]="noteModalPlaceholder()" [ngModel]="confirmNoteDraft()"
+      (ngModelChange)="confirmNoteDraft.set($event)" />
+    <div footer>
+      <app-button variant="secondary" [label]="t('user-data.cancel-button')"
+        (clicked)="cancelConfirmNoteModal()"></app-button>
+      <app-button variant="primary" [label]="t('admin-report.confirm-note-submit')"
+        (clicked)="submitConfirmNoteModal()"></app-button>
+    </div>
+  </app-modal>
+</div>

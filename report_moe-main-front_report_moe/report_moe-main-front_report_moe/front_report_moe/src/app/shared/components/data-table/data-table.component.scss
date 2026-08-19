@@ -1,0 +1,328 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+@use 'styles/mixins' as mixins;
+
+.table-wrapper {
+  background: $bg-primary;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  overflow: hidden;
+}
+
+.bool-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+
+  &.bool-true {
+    color: $success-text;
+  }
+
+  &.bool-false {
+    color: $gray-400;
+  }
+}
+
+.table-scroll {
+  @include mixins.table-scroll-layer;
+}
+
+.table {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: collapse;
+  font-size: $font-size-sm;
+  table-layout: fixed;
+}
+
+.table thead {
+  background: $gray-50;
+  border-bottom: 1px solid $border-color;
+}
+
+.table th {
+  padding: 8px $spacing-2;
+  text-align: center;
+  font-weight: $fw-semibold;
+  color: $gray-500;
+  font-size: $font-size-xs;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-right: 1px solid $border-color;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.table th:last-child {
+  border-right: none;
+}
+
+.table th.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.table th.sortable:hover {
+  background: $gray-100;
+}
+
+.th-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-2;
+}
+
+.sort-icon {
+  font-size: 16px !important;
+  width: 16px !important;
+  height: 16px !important;
+  color: $gray-400;
+  opacity: 0.5;
+}
+
+.table td {
+  padding: 10px $spacing-2;
+  border-bottom: 1px solid $border-color;
+  border-right: 1px solid $border-color;
+  color: $gray-800;
+  text-align: center;
+  word-break: break-word;
+}
+
+.table td:last-child {
+  border-right: none;
+}
+
+.table tbody tr:hover {
+  background: $gray-50;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-1 12px;
+  border-radius: 20px;
+  font-size: $font-size-xs;
+  font-weight: $fw-semibold;
+  white-space: nowrap;
+  background: $gray-200;
+  color: $gray-700;
+}
+
+.badge.badge-true {
+  background: $success-bg;
+  color: $success-text;
+}
+
+.badge.badge-false {
+  background: $error-bg;
+  color: $error-text;
+}
+
+.badge.badge-status-submitted {
+  background: $info-bg;
+  color: $info-text;
+}
+
+.badge.badge-status-draft {
+  background: $gray-100;
+  color: $gray-700;
+}
+
+.badge.badge-status-approved {
+  background: $success-bg;
+  color: $success-text;
+}
+
+.badge.badge-status-rejected {
+  background: $error-bg;
+  color: $error-text;
+}
+
+.table th.align-start,
+.table td.align-start {
+  text-align: start;
+}
+
+.table th.align-start .th-content {
+  justify-content: flex-start;
+}
+
+.cell-stacked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.cell-stacked--start {
+  align-items: flex-start;
+}
+
+.cell-primary {
+  font-weight: $fw-semibold;
+  color: $gray-900;
+  line-height: 1.35;
+}
+
+.cell-code {
+  display: block;
+  max-width: 100%;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: $olive-dark;
+  background: linear-gradient(135deg, $olive-bg 0%, $olive-bg-end 100%);
+  border: 1px solid $olive-border;
+  word-break: break-all;
+  line-height: 1.4;
+  text-align: start;
+}
+
+.code-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: $olive-dark;
+  background: linear-gradient(135deg, $olive-bg 0%, $olive-bg-end 100%);
+  border: 1px solid $olive-border;
+  box-shadow: 0 1px 3px $olive-shadow;
+  white-space: nowrap;
+}
+
+.code-badge--wrap {
+  white-space: normal;
+  word-break: break-all;
+  line-height: 1.35;
+  max-width: 100%;
+}
+
+.project-status-badge.project-status-draft {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.project-status-badge.project-status-active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.project-status-badge.project-status-on_hold {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.project-status-badge.project-status-completed {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.project-status-badge.project-status-cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.cell-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 72px;
+  margin-inline: auto;
+}
+
+.cell-progress-value {
+  font-size: $font-size-xs;
+  font-weight: $fw-semibold;
+  color: $gray-800;
+  font-variant-numeric: tabular-nums;
+}
+
+.cell-progress--over .cell-progress-value {
+  color: #b91c1c;
+}
+
+.cell-progress-track {
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+.cell-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #2563eb 0%, #22c55e 100%);
+}
+
+.cell-progress--over .cell-progress-fill {
+  background: linear-gradient(90deg, #f97316 0%, #dc2626 100%);
+}
+
+.actions {
+  text-align: center;
+}
+
+.action-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  border-radius: $radius-md;
+  color: $gray-700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-fast;
+  padding: 0;
+}
+
+.action-btn:hover {
+  border-color: $primary;
+  color: $primary;
+}
+
+.action-btn mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.action-icon-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: $gray-500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-1;
+  margin: 0 $spacing-1;
+  transition: all $transition-fast;
+  border-radius: $radius-base;
+}
+
+.action-icon-btn:hover {
+  color: $primary;
+  background: $gray-50;
+}
+
+.action-icon-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}

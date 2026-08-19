@@ -1,0 +1,260 @@
+<div class="builder-layout" [class.user-mode]="!isAdmin()">
+  <aside class="panel sidebar">
+    <h2 class="panel-title">{{ translation.t('builder.report-setup') }}</h2>
+
+    <div class="sidebar-scroll">
+      <div class="form-group" *ngIf="!isAdmin()">
+        <div class="label-row">
+          <label>{{ translation.t('builder.mainnSections') }}</label>
+        </div>
+        <select [ngModel]="selectedMain()" (ngModelChange)="onMainChange($event)">
+          <option [ngValue]="null">
+            -- {{ translation.t('builder.select-main-sections') }} --
+          </option>
+          <option *ngFor="let m of mainSections()" [ngValue]="m.id">{{ m.name }}</option>
+        </select>
+      </div>
+
+      <div class="form-group" *ngIf="!isAdmin() && !sectionsMode()">
+        <div class="label-row">
+          <label>{{ translation.t('builder.subSections') }}</label>
+        </div>
+        <select [ngModel]="selectedSub()" (ngModelChange)="onSubChange($event)" [disabled]="!selectedMain()">
+          <option [ngValue]="null">
+            -- {{ translation.t('builder.select-sub-sections') }} --
+          </option>
+          <option *ngFor="let s of subSections()" [ngValue]="s.id">{{ s.name }}</option>
+        </select>
+      </div>
+
+      <div class="form-group" *ngIf="isAdmin()">
+        <div class="label-row">
+          <label>{{ translation.t('builder.title-category') }}</label>
+          <div class="actions">
+            <button type="button" class="icon-btn add" (click)="openCrud('category', 'add')"
+              [title]="translation.t('builder.add')">
+              +
+            </button>
+            <button type="button" class="icon-btn edit" (click)="openCrud('category', 'edit')"
+              [disabled]="!selectedCategory()" [title]="translation.t('builder.edit')">
+              ✎
+            </button>
+            <button type="button" class="icon-btn del" (click)="openDelete('category')"
+              [disabled]="!selectedCategory()" [title]="translation.t('builder.delete')">
+              🗑
+            </button>
+          </div>
+        </div>
+        <select [ngModel]="selectedCategory()" (ngModelChange)="selectedCategory.set($event)">
+          <option [ngValue]="null">-- {{ translation.t('builder.select-category') }} --</option>
+          <option *ngFor="let c of titleCategories()" [ngValue]="c.id">{{ c.name }}</option>
+        </select>
+      </div>
+
+      <div class="form-group" *ngIf="isAdmin() || !canWrite()">
+        <div class="label-row">
+          <label>{{ translation.t('builder.title') }}</label>
+          <div class="actions" *ngIf="isAdmin()">
+            <button type="button" class="icon-btn add" (click)="openCrud('title', 'add')"
+              [title]="translation.t('builder.add')">
+              +
+            </button>
+            <button type="button" class="icon-btn edit" (click)="openCrud('title', 'edit')" [disabled]="!selectedTitle()"
+              [title]="translation.t('builder.edit')">
+              ✎
+            </button>
+            <button
+              type="button"
+              class="icon-btn users"
+              (click)="openTitleAssignedUsers()"
+              [disabled]="!selectedTitle()"
+              [title]="translation.t('builder.title-assigned-users')"
+            >
+              <mat-icon>group</mat-icon>
+            </button>
+            <button type="button" class="icon-btn del" (click)="openDelete('title')" [disabled]="!selectedTitle()"
+              [title]="translation.t('builder.delete')">
+              🗑
+            </button>
+          </div>
+        </div>
+        <select [ngModel]="selectedTitle()" (ngModelChange)="onTitleChange($event)">
+          <option [ngValue]="null">-- {{ translation.t('builder.select-title-item') }} --</option>
+          <optgroup *ngFor="let g of titleSelectGroups()" [label]="g.label">
+            <option *ngFor="let t of g.titles" [ngValue]="t.id">{{ t.name }}</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="mode-note" *ngIf="sectionsMode()">
+        {{ translation.t('builder.sections-manage-note') }}
+      </div>
+    </div>
+  </aside>
+
+  <section class="panel builder-area" *ngIf="isAdmin() && !sectionsMode()">
+    <div class="panel-header">
+      <h2 class="panel-title">{{ translation.t('builder.field-setup') }}</h2>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+        <span style="font-size: 0.75rem; color: #6b7280; align-self: center;">🔐 {{
+          translation.t('builder.management-mode') }}</span>
+        @if (selectedTitle()) {
+        <app-title-excel-actions [titleId]="selectedTitle()!"
+          [titleName]="selectedTitleName()"></app-title-excel-actions>
+        }
+        <app-button [label]="translation.t('builder.add-new-field')" variant="primary" icon="add"
+          [disabled]="!selectedTitle()" (clicked)="openAttribute(null)"></app-button>
+      </div>
+    </div>
+
+    <div *ngIf="loading()" class="empty">{{ translation.t('dashboard.loading') }}</div>
+    <div *ngIf="!loading() && !selectedTitle()" class="empty">
+      {{ translation.t('builder.select-title') }}
+    </div>
+    <div *ngIf="!loading() && selectedTitle() && attributes().length === 0" class="empty">
+      {{ translation.t('builder.no-options') }}
+    </div>
+
+    <div class="attr-table-scroll" *ngIf="!loading() && attributes().length > 0">
+      <table class="attr-table">
+        <thead>
+          <tr>
+            <th>{{ translation.t('builder.field-name') }}</th>
+            <th>{{ translation.t('builder.data-type') }}</th>
+            <th>{{ translation.t('builder.required-field') }}</th>
+            <th>{{ translation.t('builder.edit') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let attr of attributes()">
+            <td>{{ attr.label }}</td>
+            <td>{{ typeLabel(attr.type) }}</td>
+            <td>
+              <span class="required-badge" [class.required]="attr.required" [class.optional]="!attr.required">
+                {{
+                attr.required
+                ? translation.t('builder.required-yes')
+                : translation.t('builder.required-no')
+                }}
+              </span>
+            </td>
+            <td class="row-actions">
+              <button type="button" class="icon-btn edit" (click)="openAttribute(attr)"
+                [title]="translation.t('builder.edit')">
+                ✎
+              </button>
+              <button type="button" class="icon-btn del" (click)="openDeleteAttribute(attr.id)"
+                [title]="translation.t('builder.delete')">
+                🗑
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel entry-area entry-area--workspace" *ngIf="!isAdmin() && canWrite() && !sectionsMode()">
+    <div *ngIf="!selectedSub()" class="empty">
+      {{ translation.t('builder.select-sub-main') }}
+    </div>
+    <app-data-entry-workspace
+      *ngIf="selectedSub()"
+      [titles]="titles()"
+      [subMainId]="selectedSub()"
+    ></app-data-entry-workspace>
+  </section>
+
+  <section class="panel entry-area" *ngIf="!isAdmin() && !canWrite() && !sectionsMode()">
+    <div class="no-permission-entry">
+      <mat-icon>lock</mat-icon>
+      <p>{{ translation.t('builder.no-entry-permission') }}</p>
+    </div>
+  </section>
+</div>
+
+<app-modal [title]="crudTitle()" [visible]="crudModalVisible()" size="medium" (close)="closeCrud()">
+  <div class="builder-modal-form">
+    <app-form-input name="crudName" [(ngModel)]="crudName" [label]="translation.t('builder.name')"
+      [placeholder]="translation.t('builder.enter-name')" type="text"></app-form-input>
+    <app-form-input *ngIf="crudLevel === 'title' || crudLevel === 'category'" name="crudOrder" [(ngModel)]="crudOrder"
+      [label]="translation.t('builder.title-order')" [placeholder]="translation.t('builder.title-order-placeholder')"
+      type="number" [hint]="translation.t('builder.title-order-placeholder')"></app-form-input>
+    <app-form-select *ngIf="crudLevel === 'title'" name="crudCategoryId" [ngModel]="crudCategoryId"
+      (ngModelChange)="onCrudCategoryChange($event)" [label]="translation.t('builder.title-category')"
+      [options]="categorySelectOptions()" [clearable]="true"></app-form-select>
+  </div>
+  <div footer class="modal-footer">
+    <app-button [label]="translation.t('user-data.cancel-button')" variant="ghost" (clicked)="closeCrud()"></app-button>
+    <app-button [label]="translation.t('user-data.save-button')" variant="primary" (clicked)="saveCrud()"></app-button>
+  </div>
+</app-modal>
+
+<app-modal [title]="translation.t('builder.confirm-delete')" [visible]="deleteModalVisible()" size="small"
+  (close)="closeDelete()">
+  <p class="delete-modal-text">{{ translation.t('builder.delete-confirmation') }}</p>
+  <div footer class="modal-footer">
+    <app-button [label]="translation.t('user-data.cancel-button')" variant="ghost"
+      (clicked)="closeDelete()"></app-button>
+    <app-button [label]="translation.t('builder.delete')" variant="danger" (clicked)="confirmDelete()"></app-button>
+  </div>
+</app-modal>
+
+<app-modal [title]="attributeModalTitle()" [visible]="attributeModalVisible()" size="large" (close)="closeAttribute()">
+  <div class="builder-modal-form">
+    <app-form-input name="attrFieldLabel" [(ngModel)]="attrForm.label" [label]="translation.t('builder.field-name')"
+      [placeholder]="translation.t('builder.field-name-example')" type="text"></app-form-input>
+
+    <app-form-select name="attrFieldType" [(ngModel)]="attrForm.type" [label]="translation.t('builder.data-type')"
+      [placeholder]="translation.t('builder.select-data-type')" [options]="attributeTypeSelectOptions()"
+      (ngModelChange)="onAttributeTypeChange()"></app-form-select>
+
+    <app-form-checkbox name="attrFieldRequired" [(ngModel)]="attrForm.required"
+      [label]="translation.t('builder.required-field')"></app-form-checkbox>
+
+    <div *ngIf="attrForm.type === 'select'" class="options-section">
+      <div class="section-header">
+        <h4>{{ translation.t('builder.options') }}</h4>
+        <app-button [label]="translation.t('builder.add-option')" variant="primary" size="sm" icon="add"
+          [disabled]="attributeOptionsLoading()" (clicked)="openOptionsDialog()"></app-button>
+      </div>
+
+      <div *ngIf="attributeOptionsLoading()" class="empty-state">
+        {{ translation.t('dashboard.loading') }}
+      </div>
+
+      <div *ngIf="!attributeOptionsLoading() && attributeOptions.length === 0" class="empty-state">
+        {{ translation.t('builder.no-options') }}
+      </div>
+
+      <div *ngIf="!attributeOptionsLoading() && attributeOptions.length > 0" class="options-list">
+        <div *ngFor="let opt of attributeOptions; let i = index" class="option-item">
+          <span>{{ opt.label }}</span>
+          <button type="button" class="icon-btn del" (click)="removeOption(i)"
+            [title]="translation.t('builder.delete')">
+            🗑
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div footer class="modal-footer">
+    <app-button [label]="translation.t('user-data.cancel-button')" variant="ghost"
+      (clicked)="closeAttribute()"></app-button>
+    <app-button [label]="translation.t('user-data.save-button')" variant="primary"
+      [disabled]="attributeOptionsLoading()" (clicked)="saveAttribute()"></app-button>
+  </div>
+</app-modal>
+
+<app-modal [title]="translation.t('builder.add-option')" [visible]="optionsModalVisible()" size="small"
+  (close)="closeOptionsDialog()">
+  <div class="builder-modal-form">
+    <app-form-input name="builderNewOptionLabel" [(ngModel)]="newOption.label"
+      [label]="translation.t('builder.option-name')" [placeholder]="translation.t('builder.option-example')"
+      type="text"></app-form-input>
+  </div>
+  <div footer class="modal-footer">
+    <app-button [label]="translation.t('user-data.cancel-button')" variant="ghost"
+      (clicked)="closeOptionsDialog()"></app-button>
+    <app-button [label]="translation.t('builder.add')" variant="primary" (clicked)="saveOption()"></app-button>
+  </div>
+</app-modal>

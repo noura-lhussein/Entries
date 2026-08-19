@@ -1,0 +1,154 @@
+.page-container {
+  max-width: 1040px;
+}
+
+.hero {
+  margin-top: 12px;
+  padding: 16px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 12px;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.project {
+  margin: 0;
+  color: #64748b;
+  font-size: 12px;
+}
+
+h2 {
+  margin: 4px 0;
+  font-size: 22px;
+  color: #0f172a;
+}
+
+.name-en {
+  margin: 0;
+  color: #475569;
+}
+
+.status-badge {
+  align-self: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.status-draft {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.status-active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-on_hold {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-completed {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.status-cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.cards {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.card {
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 12px;
+  background: #fff;
+  padding: 14px;
+}
+
+.card p {
+  margin: 0;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.card strong {
+  display: block;
+  margin-top: 6px;
+  color: #0f172a;
+  font-size: 22px;
+}
+
+.details {
+  margin-top: 12px;
+}
+
+.panel {
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 12px;
+  background: #fff;
+  padding: 16px;
+}
+
+.panel h3 {
+  margin: 0 0 10px;
+}
+
+.kv {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.kv:last-child {
+  border-bottom: none;
+}
+
+.kv span {
+  color: #64748b;
+}
+
+.kv strong {
+  color: #0f172a;
+}
+
+.map-panel {
+  margin-top: 12px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 12px;
+  background: #fff;
+  padding: 16px;
+}
+
+.map-panel h3 {
+  margin: 0 0 12px;
+}
+
+@media (max-width: 800px) {
+  .hero {
+    flex-direction: column;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .kv {
+    flex-direction: column;
+    gap: 4px;
+  }
+}

@@ -1,0 +1,279 @@
+// MOE Energy Design System Imports
+@use './styles/variables' as *;
+@use './styles/typography' as *;
+@use './styles/spacing' as *;
+
+// Angular Material Theming
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+// Syrian Zone deep-green primary palette for Material
+$moe-primary-palette: (
+  0: $primary-tint,
+  10: #e8f2ef,
+  25: #c5ddd6,
+  50: #9ec4b8,
+  100: #6fa597,
+  200: #3f8574,
+  300: #1f6b5c,
+  400: $primary,
+  500: $secondary,
+  600: $primary-hover,
+  700: #04352e,
+  800: #032820,
+  900: #021a15,
+);
+
+@font-face {
+  font-family: 'HayyakumAllah';
+  src: url('/assets/fonts/hayyakum/HayyakumAllah-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HayyakumAllah';
+  src: url('/assets/fonts/hayyakum/HayyakumAllah-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HayyakumAllah';
+  src: url('/assets/fonts/hayyakum/HayyakumAllah-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HayyakumAllah';
+  src: url('/assets/fonts/hayyakum/HayyakumAllah-Medium.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HayyakumAllah';
+  src: url('/assets/fonts/hayyakum/HayyakumAllah-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --app-shell-height: #{$app-shell-height};
+  --list-table-max-height: #{$list-table-max-height};
+  --sticky-action-z: #{$sticky-action-z};
+  --sticky-action-bg: #{$sticky-action-bg};
+  --sticky-action-border: #{$sticky-action-border};
+  --background: #{$bg-page};
+  --foreground: #{$text-primary};
+  --primary: #{$primary};
+  --primary-hover: #{$primary-hover};
+  --accent: #{$accent};
+  --border: #{$border-color};
+}
+
+html {
+  height: 100%;
+  overflow: hidden;
+  font-size: $base-font-size;
+  @include mat.theme(
+    (
+      color: (
+        primary: $moe-primary-palette,
+      ),
+      typography: (
+        font-family: $font-family-base,
+      ),
+      density: 0,
+    )
+  );
+}
+
+body {
+  color-scheme: light;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: $base-line-height;
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  padding: 0;
+}
+
+// Global Reset
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+}
+
+app-root {
+  display: block;
+  height: 100%;
+  min-height: 100%;
+}
+
+.app-boot-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: $font-family-base;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+#boot-error {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 100000;
+  max-width: 640px;
+  margin: 0 auto;
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-family: $font-family-base;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+// Scrollbar Styling (RTL compatible)
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: $gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $gray-400;
+  border-radius: $radius-md;
+  &:hover {
+    background: $gray-500;
+  }
+}
+
+body.table-col-resizing {
+  cursor: col-resize !important;
+  user-select: none;
+}
+
+// Export format dialog — blurred backdrop + bordered panel
+.export-dialog-backdrop {
+  background: rgba(28, 24, 14, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.export-dialog-panel {
+  .mat-mdc-dialog-container,
+  .mat-mdc-dialog-surface {
+    border: 1px solid rgba(146, 118, 46, 0.45);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+  }
+}
+
+// User-data row edit — full viewport width
+.user-data-row-expand-panel {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  left: 0 !important;
+  margin: 0 !important;
+}
+
+.user-data-row-expand-panel .mat-mdc-dialog-container {
+  width: 100vw;
+  max-width: 100vw;
+  height: 100%;
+  max-height: inherit;
+  box-sizing: border-box;
+}
+
+.user-data-row-expand-panel .mat-mdc-dialog-surface {
+  width: 100%;
+  max-width: 100vw;
+  height: 100%;
+  max-height: inherit;
+  border-radius: 0;
+  box-sizing: border-box;
+  transform-origin: var(--expand-origin-x, 50%) var(--expand-origin-y, 50%);
+  transform: scale(var(--expand-from-scale, 0.06));
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.user-data-row-expand-panel.user-data-row-expand-ready .mat-mdc-dialog-surface {
+  transform: scale(1);
+  opacity: 1;
+  transition:
+    transform 0.58s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.48s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cdk-overlay-backdrop.user-data-row-expand-backdrop {
+  transition: opacity 0.52s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .user-data-row-expand-panel .mat-mdc-dialog-surface {
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+
+  .cdk-overlay-backdrop.user-data-row-expand-backdrop {
+    transition: none !important;
+  }
+}
+
+// Leaflet maps must stay LTR — RTL on html/body breaks tile positioning.
+.leaflet-container,
+.leaflet-container .leaflet-pane,
+.leaflet-container .leaflet-map-pane,
+.leaflet-container .leaflet-tile-pane,
+.leaflet-container .leaflet-overlay-pane,
+.leaflet-container .leaflet-shadow-pane,
+.leaflet-container .leaflet-marker-pane {
+  direction: ltr !important;
+}
+
+.leaflet-container {
+  font-family: inherit;
+  text-align: left;
+}
+
+.leaflet-container img {
+  max-width: none !important;
+  max-height: none !important;
+}
+
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+  position: absolute;
+}
+
+/* Filter dialog uses app-modal (z ~100000); raise CDK select overlays above it. */
+body.filter-dialog-open .cdk-overlay-container {
+  z-index: 100050;
+}

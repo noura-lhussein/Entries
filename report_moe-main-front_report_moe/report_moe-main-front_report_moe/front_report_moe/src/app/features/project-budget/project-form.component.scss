@@ -1,0 +1,80 @@
+.page-container {
+  max-width: 1040px;
+}
+
+.project-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 20px;
+  margin-top: 8px;
+}
+
+.project-form app-form-section-title {
+  margin-top: 8px;
+}
+
+.project-form app-form-section-title:first-child {
+  margin-top: 0;
+}
+
+.project-form .span-full {
+  grid-column: 1 / -1;
+}
+
+.project-form .field-hint {
+  margin: -8px 0 0;
+  color: var(--text-muted, #6b7280);
+  font-size: 0.875rem;
+}
+
+.project-form .category-trail {
+  margin-top: -8px;
+}
+
+.project-assignments {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.assignment-add-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.assignment-user-select {
+  flex: 1;
+  min-width: 220px;
+}
+
+.assignment-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.assignment-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 8px;
+}
+
+.assignment-empty {
+  margin: 0;
+  color: var(--text-muted, #6b7280);
+}
+
+@media (max-width: 720px) {
+  .project-form {
+    grid-template-columns: 1fr;
+  }
+}

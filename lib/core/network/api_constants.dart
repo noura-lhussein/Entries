@@ -118,6 +118,27 @@ class ApiConstants {
   static const String electricityAdminRegistry =
       '$electricityAdminBase/registry/';
 
+  // ── Dynamic builder / reports (report_moe) ───────────────────────────────
+  static const String builderMainSections = 'v1/main-sections/';
+  static const String builderSubSections = 'v1/sub-sections/';
+  static const String builderTitles = 'v1/titles/';
+  static const String builderTitleCategories = 'v1/title-categories/';
+  static const String builderAttributes = 'v1/attributes/';
+  static const String builderPermissions = 'v1/auth/permissions/';
+  static const String builderFormSchema = 'v1/reports/form-schema/';
+  static const String builderReportSubmit = 'v1/reports/submit/';
+  static const String builderCheckDate = 'v1/reports/check-date/';
+  static const String builderInfoRows = 'v1/info-rows/';
+  static const String builderGovernorates = 'v1/locations/governorates/options/';
+  static const String builderDistricts = 'v1/locations/districts/options/';
+  static const String builderSubdistricts =
+      'v1/locations/subdistricts/options/';
+  static const String builderCommunities = 'v1/locations/communities/options/';
+  static const String builderFormFileUpload = 'v1/uploads/form-file/';
+
+  static String builderEntityOptions(String entityType) =>
+      'v1/entity-options/$entityType/';
+
   // ── Geology / Mining ─────────────────────────────────────────────────────
   static const String geologyBase = 'v1/geology';
   static const String geologyAdminBase = '$geologyBase/admin';

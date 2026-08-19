@@ -1,0 +1,68 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+
+:host {
+  display: block;
+}
+
+.hierarchy-trail {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: $radius-md;
+  border: 1px solid rgba($olive-border, 0.35);
+  background: linear-gradient(90deg, rgba($olive-bg, 0.75) 0%, rgba($primary-tint, 0.45) 100%);
+}
+
+.hierarchy-label {
+  font-size: $font-size-xs;
+  font-weight: $fw-semibold;
+  color: $gray-500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.hierarchy-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hierarchy-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hierarchy-segment {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: $radius-full;
+  font-size: $font-size-sm;
+  font-weight: $fw-medium;
+  color: $olive-dark;
+  background: rgba($bg-primary, 0.92);
+  border: 1px solid rgba($olive-border, 0.28);
+}
+
+.hierarchy-item.is-leaf .hierarchy-segment {
+  font-weight: $fw-bold;
+  color: $olive-dark;
+  border-color: rgba($olive, 0.45);
+  background: rgba($bg-primary, 1);
+  box-shadow: 0 1px 2px rgba($olive-shadow, 0.12);
+}
+
+.hierarchy-separator {
+  color: $olive-mid;
+  font-size: $font-size-sm;
+  font-weight: $fw-bold;
+  line-height: 1;
+}

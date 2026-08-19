@@ -1,0 +1,107 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+@use 'styles/mixins' as mixins;
+
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+}
+
+.plain {
+  color: $gray-800;
+  font-size: inherit;
+}
+
+.media-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  background: $bg-primary;
+  cursor: pointer;
+  transition:
+    box-shadow $transition-fast,
+    border-color $transition-fast;
+}
+
+.media-trigger:hover {
+  border-color: $primary;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.media-trigger:focus-visible {
+  @include mixins.focus-ring;
+}
+
+.variant-table .thumb {
+  display: block;
+  width: 56px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: $radius-md;
+}
+
+.variant-form .thumb {
+  display: block;
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: $radius-lg;
+}
+
+.file-icon {
+  color: $section-header-accent;
+  width: 28px;
+  height: 28px;
+  font-size: 28px;
+}
+
+.variant-form .file-icon {
+  width: 36px;
+  height: 36px;
+  font-size: 36px;
+  margin: 10px 14px;
+}
+
+.variant-table .file-icon {
+  margin: 6px $spacing-2;
+}
+
+.preview-img {
+  display: block;
+  max-width: 100%;
+  max-height: 72vh;
+  margin: 0 auto;
+  object-fit: contain;
+  border-radius: $radius-lg;
+}
+
+.preview-frame {
+  width: 100%;
+  min-height: 70vh;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+}
+
+.preview-file-fallback {
+  text-align: center;
+  padding: $spacing-6 $spacing-4;
+}
+
+.preview-big-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: $section-header-accent;
+}
+
+.preview-hint {
+  margin: $spacing-4 0 0;
+  font-size: $font-size-sm;
+  color: $gray-500;
+}

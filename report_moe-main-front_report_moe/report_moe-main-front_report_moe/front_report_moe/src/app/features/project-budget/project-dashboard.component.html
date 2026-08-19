@@ -1,0 +1,374 @@
+<div class="page-container">
+  <div class="page-chrome">
+  <div class="page-header">
+    <h1 class="page-title">{{ t('budget.dashboard.title') }}</h1>
+    <p class="page-subtitle">{{ t('budget.dashboard.subtitle') }}</p>
+  </div>
+
+  <section class="filters-card">
+    <div class="filters-grid">
+      <label class="filter-field" [class.filter-field--active]="isFilterActive('status')">
+        <span>{{ t('budget.projects.status') }}</span>
+        <select [value]="fs.filters()['status'] || ''" (change)="onFilterChange('status', $any($event.target).value)">
+          <option value="">{{ t('budget.dashboard.all') }}</option>
+          <option *ngFor="let status of PROJECT_STATUSES" [value]="status">
+            {{ statusLabel(status) }}
+          </option>
+        </select>
+      </label>
+
+      <label class="filter-field" [class.filter-field--active]="isFilterActive('project_type')">
+        <span>{{ t('budget.annual-budget.project-type') }}</span>
+        <select [value]="fs.filters()['project_type'] || ''"
+          (change)="onFilterChange('project_type', $any($event.target).value)">
+          <option value="">{{ t('budget.dashboard.all') }}</option>
+          <option *ngFor="let item of projectTypes()" [value]="item.id">
+            {{ item.name }}
+          </option>
+        </select>
+      </label>
+
+      <label class="filter-field" [class.filter-field--active]="isFilterActive('year')">
+        <span>{{ t('budget.projects.filter-year') }}</span>
+        <select [value]="fs.filters()['year'] || ''" (change)="onFilterChange('year', $any($event.target).value)">
+          <option value="">{{ t('budget.dashboard.all') }}</option>
+          <option *ngFor="let item of budgetYears()" [value]="item.value">
+            {{ item.label }}
+          </option>
+        </select>
+      </label>
+
+      <label class="filter-field" *ngIf="showFoundationFilter()"
+        [class.filter-field--active]="isFilterActive('foundation')">
+        <span>{{ t('budget.fields.foundation') }}</span>
+        <select [value]="fs.filters()['foundation'] || ''"
+          (change)="onFilterChange('foundation', $any($event.target).value)">
+          <option value="">{{ t('budget.dashboard.all') }}</option>
+          <option *ngFor="let item of foundations()" [value]="item.id">
+            {{ item.name }}
+          </option>
+        </select>
+      </label>
+
+      <label class="filter-field" [class.filter-field--active]="isFilterActive('governorate')">
+        <span>{{ t('locations.governorate') }}</span>
+        <select [value]="fs.filters()['governorate'] || ''"
+          (change)="onFilterChange('governorate', $any($event.target).value)">
+          <option value="">{{ t('budget.dashboard.all') }}</option>
+          <option *ngFor="let item of governorates()" [value]="item.id">
+            {{ item.name }}
+          </option>
+        </select>
+      </label>
+
+      <label class="filter-field" [class.filter-field--active]="isFilterActive('community')">
+        <span>{{ t('locations.community') }}</span>
+        <select [value]="fs.filters()['community'] || ''"
+          (change)="onFilterChange('community', $any($event.target).value)">
+          <option value="">{{ t('budget.dashboard.all') }}</option>
+          <option *ngFor="let item of communities()" [value]="item.id">
+            {{ item.name }}
+          </option>
+        </select>
+      </label>
+    </div>
+
+    <div class="active-filters" *ngIf="hasActiveFilters()">
+      <div class="active-filters-head">
+        <mat-icon class="active-filters-icon">filter_alt</mat-icon>
+        <span class="active-filters-title">{{ t('budget.dashboard.active-filters') }}</span>
+        <span class="active-filters-hint">{{ t('budget.dashboard.filtered-by-hint') }}</span>
+      </div>
+      <div class="active-filters-chips">
+        <button *ngFor="let chip of activeFilterChips()" type="button" class="filter-chip"
+          (click)="clearFilter(chip.key)" [title]="t('filter.clear')">
+          <span class="filter-chip-label">{{ chip.label }}:</span>
+          <span class="filter-chip-value">{{ chip.value }}</span>
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <button type="button" class="clear-filters-btn" (click)="clearFilters()" *ngIf="hasActiveFilters()">
+      {{ t('budget.dashboard.clear-filters') }}
+    </button>
+  </section>
+  </div>
+
+  <div class="page-body">
+  <app-page-loader *ngIf="fs.loading()" [message]="t('dashboard.loading')" />
+
+  <div *ngIf="!fs.loading() && data()" class="dashboard-grid">
+    <div class="stats-grid">
+      <div *ngFor="let stat of statCards()" class="stat-card-flip" tabindex="0" [attr.aria-label]="stat.label">
+        <div class="stat-card-inner">
+          <div class="stat-card-face stat-card-front">
+            <div class="stat-icon" [ngClass]="'stat-icon--' + stat.color">
+              <mat-icon>{{ stat.icon }}</mat-icon>
+            </div>
+            <div class="stat-content">
+              <span class="stat-label">{{ stat.label }}</span>
+              <span class="stat-value">{{ stat.value }}</span>
+            </div>
+          </div>
+          <div class="stat-card-face stat-card-back" [ngClass]="'stat-card-back--' + stat.color">
+            <p class="stat-back-text">{{ t(stat.hintKey) }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="map-section">
+      <div class="map-section-head">
+        <div>
+          <h2 class="card-title">{{ t('budget.dashboard.map-title') }}</h2>
+          <p class="map-section-hint">{{ t('budget.dashboard.map-hint') }}</p>
+        </div>
+        <div class="map-section-meta" *ngIf="mapMeta() as meta">
+          <span>{{ t('budget.dashboard.map-shown') }}: {{ meta.count }}</span>
+          <span *ngIf="meta.without_coordinates > 0">
+            {{ t('budget.dashboard.map-without-coords') }}: {{ meta.without_coordinates }}
+          </span>
+          <span *ngIf="meta.truncated">{{ t('budget.dashboard.map-truncated') }}</span>
+        </div>
+      </div>
+      <div class="map-legend">
+        <span *ngFor="let status of PROJECT_STATUSES" class="legend-item">
+          <i class="legend-dot" [ngClass]="'legend-dot--' + status"></i>
+          {{ statusLabel(status) }}
+        </span>
+      </div>
+      <app-projects-map
+        [points]="mapPoints()"
+        [mapHeight]="440"
+        [lockZoomUntilMapClick]="true"
+        [statusLabelFn]="statusLabelFn"
+        [openProjectLabel]="t('budget.dashboard.open-project')"
+        [fitAllLabel]="t('budget.dashboard.map-fit-all')"
+        [fullscreenLabel]="t('budget.projects.map-fullscreen')"
+        [exitFullscreenLabel]="t('budget.projects.map-exit-fullscreen')"
+        [zoomLockHintLabel]="t('budget.projects.map-enable-zoom')"
+        [unlockZoomLabel]="t('budget.projects.map-unlock-zoom')"
+        [relockZoomLabel]="t('budget.projects.map-relock-zoom')"
+        [emptyLabel]="t('budget.dashboard.map-empty')"
+        (projectOpen)="viewProject($event)"
+      />
+    </section>
+
+    <section class="stats-section stats-section--categories">
+      <h2 class="stats-section-title">{{ t('budget.dashboard.category-cards-title') }}</h2>
+      <div class="stats-grid">
+        <div *ngFor="let stat of categoryStatCards()" class="stat-card-flip" tabindex="0"
+          [attr.aria-label]="stat.label">
+          <div class="stat-card-inner">
+            <div class="stat-card-face stat-card-front">
+              <div class="stat-icon" [ngClass]="'stat-icon--' + stat.color">
+                <mat-icon>{{ stat.icon }}</mat-icon>
+              </div>
+              <div class="stat-content">
+                <span class="stat-label">{{ stat.label }}</span>
+                <span class="stat-value">{{ stat.value }}</span>
+                <span class="stat-subvalue" *ngIf="stat.subValue">{{ stat.subValue }}</span>
+              </div>
+            </div>
+            <div class="stat-card-face stat-card-back" [ngClass]="'stat-card-back--' + stat.color">
+              <p class="stat-back-text">{{ t(stat.hintKey) }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="card chart-card">
+      <h2 class="card-title">{{ t('budget.dashboard.by-status') }}</h2>
+      <div *ngIf="statusChart().length === 0" class="empty">{{ t('budget.dashboard.no-data') }}</div>
+      <div class="bar-list" *ngIf="statusChart().length">
+        <div class="bar-row" *ngFor="let item of statusChart()">
+          <span class="bar-label">{{ item.label }}</span>
+          <div class="bar-track">
+            <div class="bar-fill bar-fill--status" [style.width.%]="item.width"></div>
+          </div>
+          <span class="bar-count">{{ item.count }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card chart-card">
+      <h2 class="card-title">{{ t('budget.dashboard.by-governorate') }}</h2>
+      <div *ngIf="governorateChart().length === 0" class="empty">{{ t('budget.dashboard.no-data') }}</div>
+      <div class="bar-list" *ngIf="governorateChart().length">
+        <div class="bar-row" *ngFor="let item of governorateChart()">
+          <span class="bar-label">{{ item.label }}</span>
+          <div class="bar-track">
+            <div class="bar-fill bar-fill--gov" [style.width.%]="item.width"></div>
+          </div>
+          <span class="bar-count">{{ item.count }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card chart-card chart-card--wide">
+      <h2 class="card-title">{{ t('budget.dashboard.by-project-type') }}</h2>
+      <div *ngIf="projectTypeChart().length === 0" class="empty">{{ t('budget.dashboard.no-data') }}</div>
+      <div class="bar-list" *ngIf="projectTypeChart().length">
+        <div class="bar-row" *ngFor="let item of projectTypeChart()">
+          <span class="bar-label">{{ item.label }}</span>
+          <div class="bar-track">
+            <div class="bar-fill bar-fill--type" [style.width.%]="item.width"></div>
+          </div>
+          <span class="bar-count">{{ item.count }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card categories-card chart-card--wide">
+      <div class="categories-head">
+        <div>
+          <h2 class="card-title">{{ t('budget.dashboard.by-category') }}</h2>
+          <p class="page-subtitle">{{ t('budget.dashboard.by-category-hint') }}</p>
+        </div>
+        <div class="categories-head-actions">
+          <span class="categories-total">
+            {{ data()!.summary.total_projects }} {{ t('budget.dashboard.category-projects-count') }}
+          </span>
+          <button type="button" class="toggle-empty-btn" [class.active]="showEmptyCategories()"
+            (click)="toggleEmptyCategories()">
+            {{
+            showEmptyCategories()
+            ? t('budget.projects.categories-hide-empty')
+            : t('budget.projects.categories-show-empty')
+            }}
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="!hasCategoryPanelContent()" class="empty">
+        {{ t('budget.dashboard.no-data') }}
+      </div>
+
+      <ng-container *ngIf="hasCategoryPanelContent()">
+        <div class="category-section" *ngFor="let section of categorySections()">
+          <div class="category-section-head">
+            <h4 class="category-section-title">{{ section.label }}</h4>
+            <div class="category-section-stats">
+              <span class="branch-expenditure" [title]="t('budget.dashboard.category-section-expenditure')">
+                {{ formatMoney(section.totalExpenditure) }}
+              </span>
+              <span class="branch-count">{{ section.projectCount }}</span>
+            </div>
+          </div>
+          <div class="category-tree">
+            <details class="category-branch" *ngFor="let root of section.roots"
+              [open]="root.projectCount > 0 || Number(root.totalExpenditure) > 0">
+              <summary class="category-branch-summary">
+                <span class="code-badge">{{ root.code || '—' }}</span>
+                <span class="branch-name">{{ root.name }}</span>
+                <span class="branch-expenditure branch-expenditure-sm">{{
+                  formatMoney(root.totalExpenditure)
+                  }}</span>
+                <span class="branch-count">{{ root.projectCount }}</span>
+              </summary>
+              <div class="category-branch-body">
+                <ng-container *ngTemplateOutlet="catNode; context: { $implicit: root }"></ng-container>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="category-section" *ngIf="uncategorizedProjectsCount() > 0">
+          <div class="category-section-head">
+            <h4 class="category-section-title">{{ t('budget.dashboard.uncategorized-projects') }}</h4>
+            <div class="category-section-stats">
+              <span class="branch-expenditure">{{ formatMoney(uncategorizedExpenditure()) }}</span>
+              <span class="branch-count">{{ uncategorizedProjectsCount() }}</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="card table-card">
+      <h2 class="card-title">{{ t('budget.dashboard.low-completion') }}</h2>
+      <div *ngIf="!data()?.low_completion_projects?.length" class="empty">
+        {{ t('budget.dashboard.no-data') }}
+      </div>
+      <table *ngIf="data()?.low_completion_projects?.length" class="mini-table">
+        <thead>
+          <tr>
+            <th>{{ t('budget.fields.name-ar') }}</th>
+            <th>{{ t('budget.milestones.percentage') }}</th>
+            <th>{{ t('budget.projects.status') }}</th>
+            <th class="actions-col">{{ t('table.actions') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of data()!.low_completion_projects">
+            <td>
+              <strong>{{ row.name_ar }}</strong>
+              <small>{{ row.code }}</small>
+            </td>
+            <td>{{ row.percentage_completion }}%</td>
+            <td>{{ statusLabel(row.status) }}</td>
+            <td class="actions-col">
+              <button type="button" class="view-project-btn" (click)="viewProject(row.id)">
+                <mat-icon>visibility</mat-icon>
+                <span>{{ t('budget.dashboard.open-project') }}</span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card table-card">
+      <h2 class="card-title">{{ t('budget.dashboard.overdue-projects') }}</h2>
+      <div *ngIf="!data()?.overdue_projects?.length" class="empty">
+        {{ t('budget.dashboard.no-data') }}
+      </div>
+      <table *ngIf="data()?.overdue_projects?.length" class="mini-table">
+        <thead>
+          <tr>
+            <th>{{ t('budget.fields.name-ar') }}</th>
+            <th>{{ t('budget.projects.end-date') }}</th>
+            <th>{{ t('budget.milestones.percentage') }}</th>
+            <th class="actions-col">{{ t('table.actions') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of data()!.overdue_projects">
+            <td>
+              <strong>{{ row.name_ar }}</strong>
+              <small>{{ row.code }}</small>
+            </td>
+            <td>{{ formatDate(row.end_date) }}</td>
+            <td>{{ row.percentage_completion }}%</td>
+            <td class="actions-col">
+              <button type="button" class="view-project-btn" (click)="viewProject(row.id)">
+                <mat-icon>visibility</mat-icon>
+                <span>{{ t('budget.dashboard.open-project') }}</span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+
+  <ng-template #catNode let-node>
+    <details class="category-subbranch" *ngFor="let child of node.children"
+      [open]="child.projectCount > 0 || Number(child.totalExpenditure) > 0">
+      <summary class="category-subbranch-summary">
+        <span class="code-badge code-badge-sm">{{ child.code || '—' }}</span>
+        <span class="branch-name">{{ child.name }}</span>
+        <span class="branch-expenditure branch-expenditure-sm">{{
+          formatMoney(child.totalExpenditure)
+          }}</span>
+        <span class="branch-count branch-count-muted">{{ child.projectCount }}</span>
+      </summary>
+      <div class="category-subbranch-body">
+        <ng-container *ngTemplateOutlet="catNode; context: { $implicit: child }"></ng-container>
+      </div>
+    </details>
+  </ng-template>
+</div>

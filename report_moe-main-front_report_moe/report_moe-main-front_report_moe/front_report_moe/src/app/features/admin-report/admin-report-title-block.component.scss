@@ -1,0 +1,137 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+@use 'styles/mixins' as mixins;
+
+.title-block {
+  @include mixins.title-accordion-item;
+  margin-bottom: 0;
+}
+
+.title-block--compact {
+  margin-bottom: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+
+  &.is-expanded {
+    border: none;
+    box-shadow: none;
+  }
+}
+
+.title-block--compact .title-block-body {
+  margin-top: 0;
+  border-top: 1px solid $border-color;
+  padding: $spacing-3 $spacing-4 $spacing-4;
+}
+
+.title-block-header {
+  @include mixins.title-accordion-header;
+}
+
+.title-block.is-expanded .title-block-header {
+  @include mixins.title-accordion-header-open;
+}
+
+.title-block-toggle {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+}
+
+.expand-icon {
+  color: $primary;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.title-icon {
+  color: $section-header-accent;
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.title-name {
+  font-size: 0.9rem;
+  font-weight: $fw-semibold;
+  color: $gray-700;
+}
+
+.title-row-count {
+  @include mixins.title-row-count-badge;
+}
+
+.title-block.is-disabled {
+  .title-block-header {
+    cursor: not-allowed;
+    opacity: 0.55;
+
+    &:hover {
+      background: $gray-50;
+    }
+  }
+
+  .title-row-count {
+    color: $gray-400;
+  }
+
+  .expand-icon,
+  .title-icon {
+    color: $gray-400;
+  }
+}
+
+.title-load-hint {
+  margin-inline-start: auto;
+  font-size: $font-size-xs;
+  color: $gray-500;
+  font-weight: $fw-regular;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.title-block-body {
+  margin-top: $spacing-3;
+}
+
+.infinite-scroll-sentinel {
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-3 0;
+  color: $gray-400;
+}
+
+.infinite-scroll-hint {
+  font-size: $font-size-sm;
+}
+
+.title-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  padding: $spacing-4;
+  color: $gray-500;
+  font-size: $font-size-sm;
+}
+
+.title-loading .spin {
+  @include mixins.spin-animation;
+}
+
+.title-block-header span {
+  font-size: 0.9rem;
+  font-weight: $fw-semibold;
+  color: $gray-700;
+}
+
+.empty-block {
+  @include mixins.empty-block;
+}

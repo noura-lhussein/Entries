@@ -1,0 +1,145 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+
+:host {
+  display: block;
+  font-family: $font-family-base;
+}
+
+.dialog-wrapper {
+  background: $bg-primary;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: $shadow-xl;
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog-info {
+  --accent-bg: #{$info-bg};
+  --accent-fg: #{$info-text};
+}
+
+.dialog-warning {
+  --accent-bg: #{$warning-bg};
+  --accent-fg: #{$warning-text};
+}
+
+.dialog-error {
+  --accent-bg: #{$error-bg};
+  --accent-fg: #{$error-text};
+}
+
+.dialog-success {
+  --accent-bg: #{$success-bg};
+  --accent-fg: #{$success-text};
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-4 $spacing-5;
+  border-bottom: 1px solid $border-color;
+  background: $bg-primary;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.icon-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: $radius-full;
+  background-color: var(--accent-bg, $gray-100);
+  color: var(--accent-fg, $gray-700);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon-circle mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.header-content h2 {
+  margin: 0;
+  font-size: $font-size-lg;
+  font-weight: $fw-semibold;
+  color: $gray-800;
+  line-height: 1.4;
+}
+
+.close-button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  border-radius: $radius-md;
+  color: $gray-500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-fast;
+  flex-shrink: 0;
+}
+
+.close-button:hover {
+  background-color: $gray-100;
+  color: $gray-800;
+}
+
+.close-button mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.dialog-body {
+  padding: $spacing-5;
+  color: $gray-700;
+  font-size: $font-size-sm;
+  line-height: 1.6;
+  background: $bg-primary;
+}
+
+.dialog-body p {
+  margin: 0;
+}
+
+.dialog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $spacing-2;
+  padding: 12px $spacing-5;
+  border-top: 1px solid $border-color;
+  background: $gray-50;
+}
+
+::ng-deep .cdk-overlay-pane:has(app-dialog) {
+  max-width: 90vw !important;
+}
+
+::ng-deep .mat-mdc-dialog-surface {
+  padding: 0 !important;
+  border-radius: $radius-lg !important;
+  overflow: hidden !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .mat-mdc-dialog-container {
+  padding: 0 !important;
+}

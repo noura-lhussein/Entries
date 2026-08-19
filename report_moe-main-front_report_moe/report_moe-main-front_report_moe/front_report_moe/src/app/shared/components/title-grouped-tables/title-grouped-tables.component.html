@@ -1,0 +1,50 @@
+@if (groups.length === 0) {
+<div class="empty-all">{{ emptyMessage }}</div>
+} @else {
+@for (group of groups; track trackByTitleId($index, group)) {
+<section class="title-group" [class.title-group--bare]="hideTitleHeaders">
+  @if (!hideTitleHeaders) {
+  <header class="title-group-header">
+    <mat-icon class="title-group-icon">label</mat-icon>
+    <h2 class="title-group-name">{{ group.titleName }}</h2>
+    <span class="title-group-count">({{ sliceRowCount(group) }})</span>
+  </header>
+  }
+
+  @for (slice of group.subMainSlices; track trackBySubMainId($index, slice)) {
+  <div class="sub-slice">
+    <header class="sub-slice-header">
+      <mat-icon>folder_open</mat-icon>
+      <span class="sub-slice-path">
+        <span class="main-name">{{ slice.mainSectionName }}</span>
+        <span class="path-sep">·</span>
+        <span class="sub-name">{{ slice.subMainName }}</span>
+      </span>
+      <span class="sub-slice-count">({{ slice.rows.length }})</span>
+    </header>
+
+    @if (slice.rows.length === 0) {
+    <p class="slice-empty">{{ emptyMessage }}</p>
+    } @else {
+    <app-table [data]="slice.rows" [columns]="slice.columns" [actions]="actions" [paginator]="false"
+      [scroll]="tableScroll"
+      (actionClicked)="onAction($event)" />
+    }
+  </div>
+  }
+</section>
+}
+
+@if (hasMore || loadingMore) {
+  <div
+    class="infinite-scroll-sentinel"
+    [appInfiniteScrollRoot]="scrollRoot"
+    [appInfiniteScrollDisabled]="!hasMore || loadingMore"
+    (appInfiniteScroll)="loadMore.emit()"
+  >
+    @if (loadingMore) {
+      <span class="infinite-scroll-hint">…</span>
+    }
+  </div>
+}
+}

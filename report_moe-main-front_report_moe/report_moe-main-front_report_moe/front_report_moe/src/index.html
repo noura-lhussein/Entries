@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8" />
+  <title>MOE Energy Report</title>
+  <base href="/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="MOE Energy reporting system" />
+  <link rel="icon" type="image/svg+xml" href="assets/brand/logo-icon-gold.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+</head>
+
+<body class="mat-typography">
+  <app-root>
+    <div class="app-boot-fallback" role="status" aria-live="polite">
+      جاري تحميل التطبيق...
+    </div>
+  </app-root>
+  <div id="boot-error" hidden></div>
+  <script>
+    (function () {
+      function showBootError(message) {
+        var el = document.getElementById('boot-error');
+        if (!el) return;
+        el.hidden = false;
+        el.textContent = message;
+      }
+
+      window.addEventListener('error', function (event) {
+        showBootError('JS error: ' + (event.message || 'unknown'));
+      });
+
+      window.addEventListener('unhandledrejection', function (event) {
+        var reason = event.reason;
+        var text =
+          reason && reason.message ? reason.message : reason ? String(reason) : 'unknown promise error';
+        showBootError('Promise error: ' + text);
+      });
+    })();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,571 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+
+:host {
+  display: block;
+  height: 100%;
+  min-height: 0;
+}
+
+.builder-layout {
+  display: grid;
+  grid-template-columns: minmax(16rem, 20rem) 1fr;
+  gap: $spacing-6;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: stretch;
+  height: 100%;
+  min-height: 0;
+}
+
+.builder-layout.user-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  align-items: stretch;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+/*
+ * Setup chrome must NEVER flex-shrink when the workspace fills the viewport.
+ * Shrinking was clipping the title/labels against the app topbar.
+ */
+.builder-layout.user-mode .sidebar.panel {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: minmax(14rem, 26rem) minmax(12rem, 22rem);
+  align-items: end;
+  column-gap: $spacing-5;
+  row-gap: $spacing-3;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  margin: 0;
+  padding: $spacing-4 $spacing-5;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  background: $bg-primary;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.builder-layout.user-mode .sidebar .panel-title {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 0;
+  align-self: start;
+  white-space: nowrap;
+  font-size: $font-size-lg;
+  font-weight: $fw-bold;
+  font-family: $font-family-brand;
+  color: $primary;
+  line-height: 1.3;
+}
+
+.builder-layout.user-mode .sidebar-scroll {
+  display: contents;
+}
+
+.builder-layout.user-mode .sidebar .form-group {
+  min-width: 0;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  gap: 6px;
+}
+
+.builder-layout.user-mode .sidebar .label-row label {
+  font-size: $font-size-xs;
+  font-weight: $fw-semibold;
+  color: $gray-600;
+}
+
+.builder-layout.user-mode .sidebar .form-group select {
+  background-color: $bg-primary;
+  border-color: $border-color;
+  min-height: 42px;
+  padding-block: 9px;
+}
+
+.builder-layout.user-mode .sidebar .mode-note {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.builder-layout.user-mode .entry-area {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin-top: $spacing-3;
+  padding: 0;
+  border: none;
+  background: transparent;
+  gap: 0;
+}
+
+.builder-layout.user-mode .entry-area--workspace {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.builder-layout.user-mode .entry-area--workspace > app-data-entry-workspace {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+}
+
+.builder-layout:not(.user-mode) > .sidebar {
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.builder-layout:not(.user-mode) > .sidebar .panel-title {
+  flex-shrink: 0;
+}
+
+.sidebar-scroll {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.builder-layout:not(.user-mode) > .builder-area {
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.attr-table-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+@media (max-width: 899px) {
+  .builder-layout.user-mode .sidebar.panel {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+}
+
+.builder-area {
+  width: 100%;
+  min-width: 0;
+}
+
+.panel {
+  background: $bg-primary;
+  border: 1px solid $border-color;
+  border-radius: $radius-xl;
+  padding: $spacing-6;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+  min-height: 0;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-3;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  padding-bottom: $spacing-4;
+  border-bottom: 1px solid $border-color;
+  background: $bg-primary;
+}
+
+.panel-title {
+  margin: 0;
+  font-size: $font-size-base;
+  font-weight: $fw-semibold;
+  color: $gray-800;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+.mode-note {
+  font-size: 0.8125rem;
+  color: $gray-500;
+  padding-top: $spacing-1;
+}
+
+.label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.label-row label {
+  font-size: $font-size-sm;
+  font-weight: $fw-semibold;
+  color: $gray-700;
+}
+
+.actions {
+  display: flex;
+  gap: $spacing-1;
+}
+
+.icon-btn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  border-radius: $radius-base;
+  cursor: pointer;
+  font-size: $font-size-base;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color $transition-fast;
+}
+
+.icon-btn:hover:not(:disabled) {
+  background-color: $primary-tint;
+}
+
+.icon-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.icon-btn.add {
+  color: $button-success-hover;
+}
+
+.icon-btn.edit {
+  color: $gray-500;
+}
+
+.icon-btn.users {
+  color: $primary;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.icon-btn.del {
+  color: $button-danger-hover;
+}
+
+.sidebar .form-group select {
+  width: 100%;
+  padding: 10px 32px 10px 14px;
+  font-size: $font-size-sm;
+  font-family: inherit;
+  color: $gray-800;
+  background-color: $gray-50;
+  border: 1px solid $gray-200;
+  border-radius: $radius-md;
+  box-sizing: border-box;
+  transition:
+    border-color $transition-fast,
+    background-color $transition-fast,
+    box-shadow $transition-fast;
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236b7280' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-inline-end: 36px;
+}
+
+:host-context([dir='rtl']) .sidebar .form-group select,
+:host-context([dir='rtl']) .form-group select {
+  background-position: left 12px center;
+  text-align: start;
+}
+
+.sidebar .form-group select:focus {
+  outline: none;
+  border-color: $primary;
+  background-color: $bg-primary;
+  box-shadow: 0 0 0 3px rgba($primary, 0.15);
+}
+
+.sidebar .form-group select:disabled {
+  background-color: $gray-100;
+  color: $gray-400;
+  cursor: not-allowed;
+}
+
+.empty {
+  text-align: center;
+  padding: $spacing-8 $spacing-4;
+  color: $gray-400;
+  font-size: $font-size-sm;
+}
+
+.empty.small {
+  padding: 12px $spacing-4;
+  font-size: 0.8125rem;
+  background: #fef9e7;
+  border: 1px solid #fcd34d;
+  border-radius: $radius-lg;
+  color: $warning-text;
+  margin-top: $spacing-2;
+}
+
+.no-permission-entry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: $spacing-12 $spacing-4;
+  color: $warning-text;
+  background: $warning-bg;
+  border-radius: $radius-lg;
+  border: 1px solid #fcd34d;
+  text-align: center;
+
+  mat-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+}
+
+.attr-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.attr-table th,
+.attr-table td {
+  padding: 12px;
+  text-align: start;
+  border-bottom: 1px solid $gray-100;
+  font-size: $font-size-sm;
+}
+
+.attr-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: $gray-50;
+  font-weight: $fw-semibold;
+  color: $gray-700;
+  box-shadow: inset 0 -1px 0 $border-color;
+}
+
+.row-actions {
+  display: flex;
+  gap: $spacing-1;
+  justify-content: flex-end;
+}
+
+.required-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px $spacing-2;
+  border-radius: $radius-base;
+  border: 1px solid;
+  font-size: $font-size-xs;
+  font-weight: $fw-semibold;
+  line-height: 1.2;
+}
+
+.required-badge.required {
+  background: $success-bg;
+  color: $success-text;
+  border-color: $success-border;
+}
+
+.required-badge.optional {
+  background: $gray-100;
+  color: $gray-600;
+  border-color: $border-color;
+}
+
+.delete-modal-text {
+  margin: 0;
+  font-size: $font-size-sm;
+  color: $gray-600;
+  line-height: 1.5;
+}
+
+.builder-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.empty-state {
+  font-size: $font-size-sm;
+  color: $gray-500;
+  padding: $spacing-2 0;
+}
+
+.modal-footer {
+  display: flex;
+  gap: $spacing-2;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.options-section {
+  margin-top: $spacing-5;
+  padding-top: $spacing-5;
+  border-top: 1px solid $border-color;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-4;
+}
+
+.section-header h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: $fw-semibold;
+  color: $gray-700;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: $gray-50;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  color: $gray-700;
+}
+
+.title-entry-list {
+  display: grid;
+  gap: $spacing-4;
+}
+
+.title-entry-card {
+  border: 1px solid $primary;
+  border-radius: 10px;
+  padding: 12px;
+  background: $bg-primary;
+}
+
+.title-entry-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: $spacing-2;
+  flex-wrap: wrap;
+}
+
+.title-entry-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $spacing-2;
+}
+
+.title-entry-name {
+  margin: 0;
+  font-size: $font-size-base;
+  font-weight: $fw-semibold;
+  color: $gray-800;
+}
+
+.title-form-wrap {
+  margin-top: 12px;
+}
+
+.title-form-actions {
+  margin-top: 25px;
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-2;
+}
+
+:host ::ng-deep .title-form-wrap .example-container {
+  min-height: auto;
+  padding: 0;
+  gap: 0;
+  background: transparent;
+}
+
+:host ::ng-deep .title-form-wrap .form-section {
+  border: none;
+  box-shadow: none;
+}
+
+:host ::ng-deep .title-form-wrap .form-body {
+  padding: 12px 0 0;
+}
+
+@media (max-width: 1200px) {
+  .builder-layout:not(.user-mode) {
+    grid-template-columns: 1fr;
+    height: auto;
+    align-items: start;
+  }
+
+  .builder-layout:not(.user-mode) > .sidebar,
+  .builder-layout:not(.user-mode) > .builder-area {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .builder-layout:not(.user-mode) > .sidebar {
+    max-height: min(50dvh, 22rem);
+    overflow: hidden;
+  }
+
+  .attr-table-scroll {
+    flex: none;
+    max-height: min(60vh, 32rem);
+  }
+}

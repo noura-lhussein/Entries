@@ -1,0 +1,135 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+@use 'styles/form-controls' as fc;
+
+:host {
+  @include fc.form-field-host;
+}
+
+.field {
+  @include fc.form-field-stack;
+  overflow: visible;
+}
+
+label {
+  @include fc.form-field-label;
+}
+
+.required {
+  @include fc.form-field-required;
+}
+
+.search-select {
+  position: relative;
+  overflow: visible;
+}
+
+.control-shell {
+  position: relative;
+  overflow: visible;
+}
+
+.search-icon {
+  position: absolute;
+  inset-inline-start: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $gray-500;
+  font-size: 18px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.search-input {
+  @include fc.form-control-surface;
+  @include fc.form-control-hover;
+  padding-inline: 40px 56px;
+}
+
+.search-input::placeholder {
+  @include fc.form-control-placeholder;
+}
+
+.search-input:focus {
+  @include fc.form-control-focus;
+}
+
+.search-select.is-open .search-input {
+  @include fc.form-control-focus;
+}
+
+.search-input:disabled {
+  @include fc.form-control-disabled;
+}
+
+.clear-btn {
+  @include fc.form-clear-btn;
+  right: 36px;
+  left: auto;
+}
+
+.chevron {
+  @include fc.form-chevron;
+
+  &.is-open {
+    @include fc.form-chevron-open;
+  }
+}
+
+:host-context([dir='rtl']) .clear-btn {
+  left: 36px;
+  right: auto;
+}
+
+:host-context([dir='rtl']) .chevron {
+  @include fc.form-chevron-rtl;
+}
+
+.control-shell:has(.clear-btn) .search-input {
+  padding-inline-end: 64px;
+}
+
+.dropdown--overlay {
+  @include fc.form-dropdown-overlay-panel(240px);
+  padding: 4px 0;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.dropdown-option {
+  @include fc.form-dropdown-option;
+  width: max-content;
+  min-width: 100%;
+
+  span {
+    white-space: nowrap;
+  }
+}
+
+.check {
+  flex-shrink: 0;
+  font-size: 18px;
+  color: $primary;
+}
+
+.dropdown-empty {
+  @include fc.form-dropdown-empty;
+}
+
+.hint {
+  @include fc.form-field-hint;
+}
+
+.error {
+  @include fc.form-field-error;
+}
+
+.has-error .search-input {
+  @include fc.form-control-error-state;
+}
+
+.is-disabled .search-icon,
+.is-disabled .chevron {
+  color: $gray-400;
+}

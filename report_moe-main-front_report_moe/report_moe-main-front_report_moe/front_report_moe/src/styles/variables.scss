@@ -1,0 +1,120 @@
+// Syrian Zone / MOE unified design tokens
+// Keep in sync with moeds/moe-portal/src/styles.css :root
+
+// Primary Brand Colors (deep green CTA)
+$primary: #054239;
+$primary-hover: #064a3d;
+$secondary: #0a5c4f;
+$primary-tint: #f5f0e8;
+$accent: #b9a779;
+$accent-soft: #f5f0e8;
+
+// Neutral Scale
+$gray-50: #fbfaf5;
+$gray-100: #f3f1ed;
+$gray-200: #d8d3c9;
+$gray-300: #c4bfb5;
+$gray-400: #9a9590;
+$gray-500: #6d6768;
+$gray-600: #4b5563;
+$gray-700: #353233;
+$gray-800: #211f20;
+$gray-900: #161616;
+
+// Semantic Colors
+$success-bg: #d1fae5;
+$success-text: #065f46;
+$success-border: #6ee7b7;
+
+$error-bg: #fee2e2;
+$error-text: #991b1b;
+$error-border: #fca5a5;
+
+$warning-bg: #fef3c7;
+$warning-text: #92400e;
+
+$info-bg: #dbeafe;
+$info-text: #1e40af;
+
+// Button Variants
+$button-primary-bg: $primary;
+$button-primary-hover: $primary-hover;
+$button-secondary-bg: $gray-100;
+$button-secondary-text: $gray-700;
+$button-danger-bg: #ef4444;
+$button-danger-hover: #dc2626;
+$button-success-bg: #10b981;
+$button-success-hover: #059669;
+$button-ghost-border: $primary;
+$button-ghost-text: $primary;
+
+// Text Colors
+$text-primary: $gray-700;
+$text-secondary: $gray-500;
+$text-tertiary: $gray-500;
+$text-disabled: $gray-400;
+
+// Background Colors
+$bg-primary: #ffffff;
+$bg-secondary: $gray-50;
+$bg-tertiary: $gray-100;
+$bg-page: $gray-50;
+
+// Border Color
+$border-color: $gray-200;
+$border-color-hover: $gray-300;
+
+// Focus & Interaction
+$focus-ring-color: $primary;
+$focus-ring-width: 2px;
+$focus-ring-offset: 2px;
+$hover-bg: rgba($primary, 0.06);
+
+// Action semantics (confirm / reject / note icons)
+$confirm-color: #15803d;
+$confirm-bg-hover: #dcfce7;
+$reject-color: #b91c1c;
+$reject-bg-hover: $error-bg;
+$note-color: $warning-text;
+$note-bg-hover: $warning-bg;
+
+// Report / section chrome
+$section-header-bg: $primary-tint;
+$section-header-border: $accent;
+$section-header-accent: $primary;
+$primary-dark: $primary;
+$secondary-dark: #04352e;
+
+// Olive — legacy code badges (map toward accent)
+$olive: #6d7a45;
+$olive-dark: #4a5530;
+$olive-mid: $accent;
+$olive-border: #7d8f52;
+$olive-bg: #eef1e8;
+$olive-bg-end: #dde4d0;
+$olive-shadow: rgba(74, 85, 48, 0.16);
+
+// Table scroll layer
+$table-scroll-max-height: min(60vh, 32rem);
+
+// Layout contract — scroll ownership & action affordance
+$app-shell-height: 100dvh;
+$list-chrome-offset: 17rem;
+$list-table-max-height: calc(100dvh - #{$list-chrome-offset});
+$master-data-table-max-height: calc(100dvh - 18rem);
+$sticky-action-z: 20;
+$sticky-action-bg: $bg-primary;
+$sticky-action-border: $border-color;
+$modal-max-height: min(90dvh, 90vh);
+
+// Table note cells
+$confirm-note-color: $gray-500;
+$commit-note-color: #0369a1;
+$commit-note-bg: #f0f9ff;
+
+// Gradients
+$primary-gradient: linear-gradient(135deg, $primary 0%, $secondary 100%);
+$primary-gradient-horizontal: linear-gradient(90deg, $primary 0%, $secondary 100%);
+$login-bg-gradient: linear-gradient(135deg, $bg-page 0%, $primary-tint 100%);
+$progress-success-gradient: linear-gradient(90deg, #10b981 0%, #047857 100%);
+$progress-pending-gradient: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);

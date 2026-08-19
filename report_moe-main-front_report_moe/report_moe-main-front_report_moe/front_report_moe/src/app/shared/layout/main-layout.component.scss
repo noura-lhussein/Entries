@@ -1,0 +1,60 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+
+:host {
+  display: block;
+  height: 100%;
+  overflow: hidden;
+  font-family: $font-family-base;
+  color: $gray-700;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background-color: $bg-page;
+}
+
+app-topbar,
+app-footer {
+  flex-shrink: 0;
+}
+
+.body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+app-sidebar {
+  flex-shrink: 0;
+  align-self: stretch;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.content {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  padding: $spacing-6;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: $bg-primary;
+
+  // Fill-height feature pages (user-data / list shells) own their scrollports
+  > :first-child {
+    min-height: 0;
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .content {
+    padding: $spacing-4;
+  }
+}

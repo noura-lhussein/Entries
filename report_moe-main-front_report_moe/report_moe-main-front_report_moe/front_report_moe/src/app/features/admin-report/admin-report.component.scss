@@ -1,0 +1,141 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+@use 'styles/mixins' as mixins;
+
+:host {
+  @include mixins.info-page-host;
+}
+
+.page-shell {
+  @include mixins.info-page-shell;
+}
+
+.page-chrome {
+  @include mixins.info-page-chrome;
+}
+
+.page-panel {
+  @include mixins.info-page-panel;
+}
+
+.page-body {
+  @include mixins.info-page-body;
+}
+
+.overview-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: $spacing-4;
+  margin-bottom: $spacing-3;
+}
+
+.main-section-select {
+  flex: 1;
+  min-width: 220px;
+  max-width: 420px;
+}
+
+.title-accordion {
+  @include mixins.title-accordion-list;
+}
+
+.title-group {
+  margin-bottom: $spacing-6;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.title-group-header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  margin-bottom: $spacing-3;
+  padding-bottom: $spacing-2;
+  border-bottom: 2px solid rgba($primary, 0.25);
+}
+
+.title-group-icon {
+  color: $section-header-accent;
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.title-group-name {
+  margin: 0;
+  font-size: $font-size-lg;
+  font-weight: $fw-bold;
+  color: $gray-800;
+  font-family: $font-family-brand;
+}
+
+.sub-slice {
+  @include mixins.title-accordion-item;
+  margin-bottom: $spacing-2;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.sub-slice-header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  flex-wrap: wrap;
+  background: $gray-50;
+}
+
+.sub-slice.is-open .sub-slice-header {
+  @include mixins.title-accordion-header-open;
+}
+
+.sub-slice-toggle {
+  @include mixins.title-accordion-header;
+  flex: 1 1 auto;
+  min-width: 0;
+  background: transparent;
+}
+
+.sub-slice-toggle .expand-icon {
+  color: $gray-500;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.sub-slice.is-open .sub-slice-toggle .expand-icon,
+.sub-slice.is-open .sub-slice-path {
+  color: $primary;
+}
+
+.sub-slice-path {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-1;
+  flex-wrap: wrap;
+  font-size: $font-size-sm;
+  font-weight: $fw-semibold;
+  color: $gray-700;
+}
+
+.path-sep {
+  color: $gray-400;
+  font-weight: $fw-regular;
+}
+
+.title-row-count {
+  @include mixins.title-row-count-badge;
+}
+
+.bulk-actions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-1;
+  padding-inline: $spacing-3;
+  flex-shrink: 0;
+}

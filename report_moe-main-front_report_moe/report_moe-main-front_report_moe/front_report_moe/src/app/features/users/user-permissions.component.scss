@@ -1,0 +1,212 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.content {
+  background: $bg-primary;
+  border: 1px solid $border-color;
+  border-radius: $radius-xl;
+  padding: $spacing-8;
+  margin-top: $spacing-6;
+}
+
+.header-section {
+  margin-bottom: $spacing-8;
+  padding-bottom: $spacing-6;
+  border-bottom: 1px solid $border-color;
+}
+
+.header-section h2 {
+  margin: 0 0 $spacing-2;
+  font-size: $font-size-2xl;
+  font-weight: $fw-semibold;
+  color: $gray-800;
+}
+
+.header-section p {
+  margin: 0;
+  color: $gray-500;
+  font-size: 0.95rem;
+}
+
+.sections-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-8;
+  margin-bottom: $spacing-8;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: $spacing-4;
+  border-bottom: 1px solid $border-color;
+}
+
+.section-header h3 {
+  margin: 0;
+  font-size: $font-size-base;
+  font-weight: $fw-semibold;
+  color: $gray-700;
+}
+
+.btn-toggle {
+  padding: 6px 12px;
+  border: 1px solid $button-danger-hover;
+  background: transparent;
+  color: $button-danger-hover;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-weight: $fw-semibold;
+  cursor: pointer;
+  transition: all $transition-fast;
+}
+
+.btn-toggle:hover {
+  background: rgba($button-danger-hover, 0.1);
+}
+
+.btn-toggle.active {
+  background: $button-danger-hover;
+  color: $bg-primary;
+}
+
+.items-container {
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  padding: $spacing-4;
+  background: #fafafa;
+  min-height: 60px;
+}
+
+.items-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-2;
+}
+
+.item-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  padding: $spacing-2 12px;
+  background: $commit-note-bg;
+  border: 1px solid #bfdbfe;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  cursor: pointer;
+  transition: all $transition-fast;
+  color: $info-text;
+}
+
+.item-badge:hover {
+  background: #e0f2fe;
+  border-color: #7dd3fc;
+}
+
+.item-badge.selected {
+  background: $info-bg;
+  border-color: #3b82f6;
+  font-weight: $fw-semibold;
+  color: $info-text;
+}
+
+.remove-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  color: $button-danger-hover;
+  cursor: pointer;
+  font-size: $font-size-base;
+  padding: 0;
+  transition: color $transition-fast;
+}
+
+.remove-btn:hover {
+  color: $reject-color;
+}
+
+.empty {
+  text-align: center;
+  padding: $spacing-6;
+  color: $gray-400;
+  font-size: $font-size-sm;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding-top: $spacing-6;
+  border-top: 1px solid $border-color;
+}
+
+.btn {
+  padding: 10px $spacing-5;
+  border: none;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-weight: $fw-semibold;
+  cursor: pointer;
+  transition: all $transition-fast;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: $primary;
+  color: $bg-primary;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: $primary-hover;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: $gray-700;
+  border: 1px solid $border-color;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: $gray-50;
+}
+
+@media (max-width: $breakpoint-md) {
+  .content {
+    padding: $spacing-5;
+  }
+
+  .sections-grid {
+    gap: $spacing-6;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .btn-toggle {
+    align-self: flex-start;
+  }
+}

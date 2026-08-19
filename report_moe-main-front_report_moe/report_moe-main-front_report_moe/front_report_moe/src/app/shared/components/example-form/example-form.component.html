@@ -1,0 +1,103 @@
+<div class="example-container">
+  <!-- Form Section -->
+  <section class="form-section">
+    <header class="section-header">
+      <h2>{{ formConfig.title }}</h2>
+      <p *ngIf="formConfig.subtitle">{{ formConfig.subtitle }}</p>
+    </header>
+
+    <div [formGroup]="userForm" class="form-body">
+      <div class="form-grid">
+        <ng-container *ngFor="let field of formConfig.fields">
+
+          <div class="form-field" *ngIf="field.type === 'input'">
+            <app-form-input [formControlName]="field.key" [label]="field.label" [placeholder]="field.placeholder || ''"
+              [type]="field.inputType || 'text'" [hint]="field.hint || ''" [required]="field.required || false"
+              [errorMessage]="getFieldError(field.key)"></app-form-input>
+          </div>
+
+          <div class="form-field" *ngIf="field.type === 'textarea'">
+            <app-form-input [formControlName]="field.key" [label]="field.label" [placeholder]="field.placeholder || ''"
+              [multiline]="true" [rows]="4" [hint]="field.hint || ''" [required]="field.required || false"
+              [errorMessage]="getFieldError(field.key)"></app-form-input>
+          </div>
+
+          <div class="form-field" *ngIf="field.type === 'select'">
+            <app-form-select [formControlName]="field.key" [label]="field.label" [placeholder]="field.placeholder || ''"
+              [options]="field.options || []" [required]="field.required || false"
+              [errorMessage]="getFieldError(field.key)"></app-form-select>
+          </div>
+
+          <div class="form-field" *ngIf="field.type === 'multi-select'">
+            <app-form-multi-select [formControlName]="field.key" [label]="field.label"
+              [placeholder]="field.placeholder || ''" [options]="field.options || []"
+              [required]="field.required || false" [errorMessage]="getFieldError(field.key)"
+              [filterByParent]="getFilterFunction(field)" [formValues]="userForm.value"></app-form-multi-select>
+          </div>
+
+          <div class="form-field" *ngIf="field.type === 'checkbox'">
+            <app-form-checkbox [formControlName]="field.key" [label]="field.label"
+              [hint]="field.hint || ''"></app-form-checkbox>
+          </div>
+
+          <div class="form-field" *ngIf="field.type === 'date'">
+            <app-form-date [formControlName]="field.key" [label]="field.label" [required]="field.required || false"
+              [errorMessage]="getFieldError(field.key)"></app-form-date>
+          </div>
+
+          <div class="form-field" *ngIf="field.type === 'file'">
+            <label class="file-field-label">
+              {{ field.label }}
+              <span class="req" *ngIf="field.required">*</span>
+            </label>
+            <p class="file-field-hint">{{ t('builder.file-max-hint').replace('{mb}', maxUploadMb()) }}</p>
+            <input type="file" class="file-native-input" [id]="'file-' + field.key" [accept]="field.fileAccept || '*'"
+              [disabled]="fileUploading || field.disabled" (change)="onFileInputChange(field, $event)" />
+            <div class="file-field-preview" *ngIf="userForm.get(field.key)?.value">
+              <app-stored-media-value variant="form" [fileKind]="field.fileKind ?? null"
+                [value]="userForm.get(field.key)?.value"></app-stored-media-value>
+              <button type="button" class="file-clear-btn" (click)="clearUploadedFile(field, 'file-' + field.key)">
+                {{ t('builder.clear-file') }}
+              </button>
+            </div>
+            <p class="file-field-error" *ngIf="getFieldError(field.key)">{{ getFieldError(field.key) }}</p>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="form-actions" *ngIf="!formConfig.hideSubmitButton">
+        <app-button [label]="formConfig.submitLabel || t('form.save')" variant="primary" size="lg"
+          [disabled]="userForm.invalid" (clicked)="submit.emit()"></app-button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Table Section -->
+  <ng-container *ngIf="formConfig.showTable && formConfig.tableColumns && formConfig.tableData">
+    <section class="form-section">
+      <header class="section-header">
+        <h2>Data Table</h2>
+        <p>Manage your data with pagination and sorting</p>
+      </header>
+      <div class="form-body">
+        <app-table [data]="formConfig.tableData || []" [columns]="formConfig.tableColumns || []"
+          [actions]="formConfig.tableActions || []" [paginator]="true" [pageSize]="5" [selectable]="true"
+          [rowClickable]="true" emptyMessage="No data found" (pageChange)="onPageChange($event)"
+          (sortChange)="onSortChange($event)" (rowClicked)="onRowClick($event)" (actionClicked)="onTableAction($event)"
+          (selectionChange)="onSelectionChange($event)"></app-table>
+      </div>
+    </section>
+  </ng-container>
+
+  <!-- Form State Display (Debug) -->
+  <ng-container *ngIf="formConfig.showDebug">
+    <section class="form-section debug-section">
+      <header class="section-header">
+        <h2>Form State (Debug)</h2>
+      </header>
+      <div class="form-body">
+        <pre>{{ userForm.value | json }}</pre>
+      </div>
+    </section>
+  </ng-container>
+</div>

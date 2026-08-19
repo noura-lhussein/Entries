@@ -1,0 +1,122 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+@use 'styles/mixins' as mixins;
+
+:host {
+  @include mixins.info-page-host;
+}
+
+.page-shell {
+  @include mixins.info-page-shell;
+}
+
+.page-chrome {
+  @include mixins.info-page-chrome;
+}
+
+.page-panel {
+  @include mixins.info-page-panel;
+}
+
+.page-body {
+  @include mixins.info-page-body;
+}
+
+.titles-status {
+  margin: 0;
+  padding: $spacing-6 $spacing-2;
+  text-align: center;
+  color: $gray-500;
+  font-size: $font-size-sm;
+}
+
+.title-accordion {
+  @include mixins.title-accordion-list;
+}
+
+.title-acc {
+  @include mixins.title-accordion-item;
+}
+
+.title-acc__header {
+  @include mixins.title-accordion-header;
+}
+
+.title-acc.is-open .title-acc__header {
+  @include mixins.title-accordion-header-open;
+}
+
+.title-acc__chevron {
+  flex-shrink: 0;
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+  color: $gray-500;
+}
+
+.title-acc.is-open .title-acc__chevron {
+  color: $primary;
+}
+
+.title-acc__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: $font-size-base;
+  font-weight: $fw-semibold;
+  font-family: $font-family-brand;
+}
+
+.title-acc__category {
+  flex-shrink: 0;
+  font-size: $font-size-xs;
+  color: $gray-500;
+  background: $bg-primary;
+  border: 1px solid $border-color;
+  border-radius: $radius-full;
+  padding: 0.125rem 0.5rem;
+}
+
+.title-acc__count {
+  @include mixins.title-row-count-badge;
+  min-width: 3.5rem;
+  text-align: center;
+}
+
+.title-acc__body {
+  padding: $spacing-3 $spacing-4 $spacing-4;
+  border-top: 1px solid $border-color;
+  background: $bg-primary;
+}
+
+.no-permission-banner {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  background: $warning-bg;
+  color: $warning-text;
+  border: 1px solid #fcd34d;
+  border-radius: $radius-lg;
+  padding: 12px $spacing-4;
+  margin-bottom: $spacing-3;
+  font-size: $font-size-sm;
+}
+
+:host ::ng-deep tr.user-data-row-expanding {
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 0 2px rgba(5, 66, 57, 0.35);
+  background: $primary-tint;
+  transform: scale(1.006);
+  transition:
+    box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host ::ng-deep tr.user-data-row-expanding {
+    transform: none;
+    transition: none;
+  }
+}
