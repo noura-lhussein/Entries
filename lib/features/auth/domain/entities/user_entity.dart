@@ -7,6 +7,10 @@ class UserEntity extends Equatable {
   final String fullName;
   final String displayName;
   final String dateJoined;
+  final String username;
+  final String firstName;
+  final String lastName;
+  final bool isActive;
 
   final UserDepartment department;
   final String role;
@@ -21,6 +25,10 @@ class UserEntity extends Equatable {
     required this.fullName,
     required this.displayName,
     required this.dateJoined,
+    this.username = '',
+    this.firstName = '',
+    this.lastName = '',
+    this.isActive = true,
     this.department = UserDepartment.admin,
     this.role = 'مدير النظام',
     this.appRole = AppRole.admin,
@@ -58,6 +66,10 @@ class UserEntity extends Equatable {
         fullName,
         displayName,
         dateJoined,
+        username,
+        firstName,
+        lastName,
+        isActive,
         department,
         role,
         appRole,

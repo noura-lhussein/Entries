@@ -44,7 +44,7 @@ class ElectricityHeader extends StatelessWidget {
                 ),
                 SizedBox(height: 3.h),
                 Text(
-                  'النماذج تُحمَّل ديناميكياً حسب القسم والحقول المعرّفة في النظام.',
+                  'اختر القسم والقسم الفرعي ثم عبّئ النماذج الديناميكية كما في النظام، مع حفظ المسودة أو الاعتماد والانتقال، أو استيراد Excel.',
                   style: TextStyle(
                     fontFamily: 'Cairo',
                     fontSize: 11.sp,

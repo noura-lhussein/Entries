@@ -1,0 +1,137 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+
+.excel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.excel-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid $gray-300;
+  border-radius: $radius-lg;
+  background: $bg-primary;
+  color: $section-header-accent;
+  cursor: pointer;
+  font-size: $font-size-sm;
+  font-weight: $fw-semibold;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition:
+    background $transition-fast,
+    border-color $transition-fast;
+}
+
+.excel-btn:hover:not(:disabled) {
+  background: #f9f7f2;
+  border-color: $primary;
+}
+
+.excel-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.excel-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.file-input {
+  display: none;
+}
+
+.import-hint {
+  margin: 0 0 12px;
+  font-size: $font-size-sm;
+  color: $gray-500;
+  line-height: 1.5;
+}
+
+.validation-block {
+  margin-bottom: $spacing-4;
+}
+
+.validation-title {
+  margin: 0 0 $spacing-2;
+  font-size: 0.9rem;
+  font-weight: $fw-semibold;
+  color: $warning-text;
+}
+
+.validation-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+
+.validation-table th,
+.validation-table td {
+  border: 1px solid $border-color;
+  padding: 6px $spacing-2;
+  text-align: start;
+}
+
+.validation-table th {
+  background: $gray-50;
+  font-weight: $fw-semibold;
+}
+
+.validation-table tbody tr.row-blocking {
+  background: #fff7ed;
+}
+
+.row-errors-table {
+  margin-top: $spacing-2;
+  max-height: 180px;
+  display: block;
+  overflow: auto;
+}
+
+.import-summary {
+  font-size: $font-size-sm;
+  color: $gray-700;
+}
+
+.modal-footer {
+  display: flex;
+  gap: $spacing-2;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.modal-btn {
+  padding: $spacing-2 14px;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.modal-btn.ghost {
+  background: transparent;
+  color: $gray-500;
+}
+
+.modal-btn.secondary {
+  background: $gray-100;
+  border-color: $gray-300;
+  color: $gray-700;
+}
+
+.modal-btn.primary {
+  background: $section-header-accent;
+  color: $bg-primary;
+}
+
+.modal-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

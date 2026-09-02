@@ -2,14 +2,18 @@ import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/di/injection.dart';
-import '../../data/datasources/electricity_remote_data_source.dart';
+import '../../../../core/network/api_result.dart';
+import '../../domain/usecases/electricity_report_usecases.dart';
+import '../../domain/utils/parse_electricity_number.dart';
 import 'electricity_event.dart';
 import 'electricity_state.dart';
 
 class ElectricityBloc extends Bloc<ElectricityEvent, ElectricityState> {
-  ElectricityBloc({ElectricityRemoteDataSource? remote})
-      : _remote = remote ?? getIt<ElectricityRemoteDataSource>(),
+  ElectricityBloc({
+    required UpsertElectricityReportUseCase upsertReport,
+    required GetElectricityReportDetailUseCase getReportDetail,
+  })  : _upsertReport = upsertReport,
+        _getReportDetail = getReportDetail,
         super(ElectricityState.initial()) {
     on<ElectricityStarted>((event, emit) => emit(ElectricityState.initial()));
     on<DailyEntryToggled>(
@@ -19,7 +23,10 @@ class ElectricityBloc extends Bloc<ElectricityEvent, ElectricityState> {
       (event, emit) => emit(state.copyWith(reportDate: event.date)),
     );
     on<PeakTimeChanged>(
-      (event, emit) => emit(state.copyWith(peakTime: event.time)),
+      (event, emit) => emit(state.copyWith(
+        peakTime: event.time,
+        clearPeakTime: event.time == null,
+      )),
     );
     on<DynamicRowAdded>(_onRowAdded);
     on<DynamicRowRemoved>(_onRowRemoved);
@@ -27,10 +34,12 @@ class ElectricityBloc extends Bloc<ElectricityEvent, ElectricityState> {
     on<PublishAfterSaveToggled>(
       (event, emit) => emit(state.copyWith(publishAfterSave: event.value)),
     );
+    on<LoadReportRequested>(_onLoadReport);
     on<ReportSaveRequested>(_onSaveRequested);
   }
 
-  final ElectricityRemoteDataSource _remote;
+  final UpsertElectricityReportUseCase _upsertReport;
+  final GetElectricityReportDetailUseCase _getReportDetail;
 
   DynamicRow _newRow([List<String> values = const []]) => DynamicRow(
         '${DateTime.now().microsecondsSinceEpoch}_${Random().nextInt(9999)}',
@@ -100,16 +109,34 @@ class ElectricityBloc extends Bloc<ElectricityEvent, ElectricityState> {
     }
   }
 
+  Future<void> _onLoadReport(
+    LoadReportRequested event,
+    Emitter<ElectricityState> emit,
+  ) async {
+    emit(state.copyWith(loadingReport: true));
+    final result =
+        await _getReportDetail(electricityIsoDate(state.reportDate));
+    if (result is Success<Map<String, dynamic>>) {
+      emit(state.copyWith(
+        loadingReport: false,
+        reportDetail: result.data,
+        reportApplyToken: state.reportApplyToken + 1,
+      ));
+    } else {
+      emit(state.copyWith(loadingReport: false));
+    }
+  }
+
   Future<void> _onSaveRequested(
     ReportSaveRequested event,
     Emitter<ElectricityState> emit,
   ) async {
     emit(state.copyWith(saveStatus: SaveStatus.saving));
-    try {
-      await _remote.upsertDailyReport(event.payload);
-      emit(state.copyWith(saveStatus: SaveStatus.success));
-    } catch (_) {
-      emit(state.copyWith(saveStatus: SaveStatus.failure));
-    }
+    final result = await _upsertReport(event.payload);
+    emit(state.copyWith(
+      saveStatus: result is Success<Map<String, dynamic>>
+          ? SaveStatus.success
+          : SaveStatus.failure,
+    ));
   }
 }

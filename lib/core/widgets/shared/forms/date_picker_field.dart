@@ -48,10 +48,22 @@ class _DatePickerFieldState extends State<DatePickerField> {
                 border: Border.all(color: AppColors.border),
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Expanded(
+                    child: Text(
+                      _fmt(_sel),
+                      textAlign: TextAlign.right,
+                      textDirection: TextDirection.ltr,
+                      style: TextStyle(
+                        fontFamily: 'Cairo',
+                        fontSize: 13.sp,
+                        color: AppColors.textPrimary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
                   Icon(Icons.calendar_today_outlined, size: 15.r, color: AppColors.textHint),
-                  Text(_fmt(_sel), style: TextStyle(fontFamily: 'Cairo', fontSize: 13.sp, color: AppColors.textPrimary, fontWeight: FontWeight.w600)),
                 ],
               ),
             ),

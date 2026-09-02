@@ -1,43 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../../domain/services/geology_ore_math.dart';
 import 'geology_ore_form_models.dart';
-
-double? parseNum(String text) {
-  final t = text.trim().replaceAll(',', '.');
-  if (t.isEmpty) return null;
-  return double.tryParse(t);
-}
 
 void setNum(TextEditingController c, dynamic v) {
   c.text = v == null ? '' : '$v';
-}
-
-({String productionType, String unit}) parseLegacyUnit(String raw) {
-  final text = raw.trim();
-  if (text.isEmpty) return (productionType: '', unit: '');
-  var productionType = '';
-  var unit = text;
-  if (text.contains('ذاتي')) {
-    productionType = 'ذاتي';
-  } else if (text.contains('معهّد') || text.contains('معهد')) {
-    productionType = 'معهّد';
-  }
-  if (text.contains('/')) {
-    final parts = text.split('/').map((p) => p.trim()).where((p) => p.isNotEmpty);
-    final list = parts.toList();
-    if (list.length >= 2) {
-      if (productionType.isEmpty) productionType = list.first;
-      unit = list.last;
-    }
-  }
-  unit = unit.replaceAll('م³', 'م3').replaceAll('م^3', 'م3').trim();
-  if (unit == 'طن/' || unit == 'طن') unit = 'طن';
-  return (productionType: productionType, unit: unit);
-}
-
-double? executionPct(double? plan, double? executed) {
-  if (plan == null || executed == null || plan == 0) return null;
-  return ((executed * 10000) / plan).round() / 100;
 }
 
 List<OreProductGroup> groupOreRows(List rawRows) {
@@ -97,22 +64,22 @@ List<Map<String, dynamic>> flattenOreGroups(List<OreProductGroup> groups) {
   for (final group in groups) {
     final nameAr = group.productNameAr.trim();
     if (nameAr.isEmpty) continue;
-    final contracts = parseNum(group.contractsCtrl.text)?.round();
+    final contracts = parseGeologyNum(group.contractsCtrl.text)?.round();
     final reserve = group.reserveCtrl.text.trim();
     final lines = group.lines.isEmpty ? [OreTypeLine()] : group.lines;
     for (final line in lines) {
-      final plan = parseNum(line.h1PlanCtrl.text);
-      final executed = parseNum(line.h1ExecCtrl.text);
+      final plan = parseGeologyNum(line.h1PlanCtrl.text);
+      final executed = parseGeologyNum(line.h1ExecCtrl.text);
       rows.add({
         'product_name_ar': nameAr,
         'product_name_en': group.productNameEn.trim(),
         'production_type': line.productionType.trim(),
         'unit': line.unit.trim(),
-        'annual_plan_tons': parseNum(line.annualCtrl.text),
+        'annual_plan_tons': parseGeologyNum(line.annualCtrl.text),
         'h1_plan_tons': plan,
         'h1_executed_tons': executed,
         'execution_pct':
-            parseNum(line.pctCtrl.text) ?? executionPct(plan, executed),
+            parseGeologyNum(line.pctCtrl.text) ?? executionPct(plan, executed),
         'contract_count': contracts,
         'reserve_text': reserve,
         'sort_order': sortOrder++,

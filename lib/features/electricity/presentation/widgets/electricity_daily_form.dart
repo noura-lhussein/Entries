@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/widgets/metric_entry_table.dart';
 import '../../../../core/widgets/shared_widgets.dart';
 import '../bloc/electricity_bloc.dart';
 import '../bloc/electricity_event.dart';
 import '../bloc/electricity_state.dart';
 import 'dynamic_rows_section.dart';
+import 'electricity_metric_sections.dart';
 import 'electricity_report_meta_card.dart';
 import 'fuel_tanks_table.dart';
 import 'governorates_consumption_table.dart';
 import 'hydraulic_energy_section.dart';
-import 'models/electricity_fields_data.dart';
 import 'notes_section.dart';
 
 class ElectricityDailyForm extends StatelessWidget {
@@ -54,22 +53,7 @@ class ElectricityDailyForm extends StatelessWidget {
       children: [
         ElectricityReportMetaCard(onDateChanged: onDateChanged),
         SizedBox(height: 14.h),
-        ...kElectricityMetricSections.map(
-          (section) => Padding(
-            padding: EdgeInsets.only(bottom: 14.h),
-            child: MetricEntryTable(
-              title: section.titleAr,
-              rows: [
-                for (final f in section.fields)
-                  MetricEntryRow(
-                    label: f.label,
-                    unit: f.unit,
-                    controller: fieldCtrls[f.key]!,
-                  ),
-              ],
-            ),
-          ),
-        ),
+        ElectricityMetricSections(fieldCtrls: fieldCtrls),
         GovernoratesConsumptionTable(
           consumedControllers: consumedCtrls,
           allocatedControllers: allocatedCtrls,

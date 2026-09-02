@@ -1,23 +1,17 @@
 import 'package:flutter/material.dart';
 
+import '../../domain/utils/parse_electricity_number.dart';
 import '../bloc/electricity_event.dart';
 import '../bloc/electricity_state.dart';
 import '../widgets/models/electricity_fields_data.dart';
 
-double? parseNum(String text) {
-  final t = text.trim().replaceAll(',', '.');
-  if (t.isEmpty) return null;
-  return double.tryParse(t);
-}
+double? parseNum(String text) => parseElectricityNumber(text);
 
-String fmtDate(DateTime d) =>
-    '${d.year.toString().padLeft(4, '0')}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
+String fmtDate(DateTime d) => electricityIsoDate(d);
 
 String? fmtPeak(TimeOfDay? t) {
   if (t == null) return null;
-  final h = t.hour.toString().padLeft(2, '0');
-  final m = t.minute.toString().padLeft(2, '0');
-  return '$h:$m';
+  return electricityPeakTime(t.hour, t.minute);
 }
 
 class ElectricityAppliedReport {

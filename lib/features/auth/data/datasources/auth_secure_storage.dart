@@ -7,6 +7,7 @@ class AuthSecureStorage {
 
   static const String _accessTokenKey = 'access_token';
   static const String _refreshTokenKey = 'refresh_token';
+  static const String _sessionFlagKey = 'has_server_session';
 
   Future<void> saveAccessToken(String token) async {
     await _storage.write(key: _accessTokenKey, value: token);
@@ -24,8 +25,21 @@ class AuthSecureStorage {
     return await _storage.read(key: _refreshTokenKey);
   }
 
+  Future<void> setHasServerSession(bool value) async {
+    if (value) {
+      await _storage.write(key: _sessionFlagKey, value: '1');
+    } else {
+      await _storage.delete(key: _sessionFlagKey);
+    }
+  }
+
+  Future<bool> hasServerSession() async {
+    return await _storage.read(key: _sessionFlagKey) == '1';
+  }
+
   Future<void> clearAll() async {
     await _storage.delete(key: _accessTokenKey);
     await _storage.delete(key: _refreshTokenKey);
+    await _storage.delete(key: _sessionFlagKey);
   }
 }

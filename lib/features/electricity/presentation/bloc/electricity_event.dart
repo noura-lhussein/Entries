@@ -37,7 +37,7 @@ class ReportDateChanged extends ElectricityEvent {
 }
 
 class PeakTimeChanged extends ElectricityEvent {
-  final TimeOfDay time;
+  final TimeOfDay? time;
   const PeakTimeChanged(this.time);
   @override
   List<Object?> get props => [time];
@@ -64,6 +64,10 @@ class DynamicRowsReplaced extends ElectricityEvent {
   const DynamicRowsReplaced(this.section, this.rows);
   @override
   List<Object?> get props => [section, rows];
+}
+
+class LoadReportRequested extends ElectricityEvent {
+  const LoadReportRequested();
 }
 
 class PublishAfterSaveToggled extends ElectricityEvent {

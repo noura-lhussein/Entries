@@ -7,8 +7,12 @@ import '../utils/sector_registry.dart';
 class AppDrawer extends StatelessWidget {
   final UserModel user;
   final UserDepartment? activeSector;
+  final String? activePage;
   final ValueChanged<UserDepartment> onSelectSector;
   final VoidCallback onHome;
+  final VoidCallback? onMyData;
+  final VoidCallback? onEnteredData;
+  final VoidCallback? onProfile;
   final VoidCallback onLogout;
 
   const AppDrawer({
@@ -18,6 +22,10 @@ class AppDrawer extends StatelessWidget {
     required this.onSelectSector,
     required this.onHome,
     required this.onLogout,
+    this.activePage,
+    this.onMyData,
+    this.onEnteredData,
+    this.onProfile,
   });
 
   @override
@@ -96,10 +104,33 @@ class AppDrawer extends StatelessWidget {
                   _DrawerTile(
                     icon: Icons.home_rounded,
                     label: 'الرئيسية',
-                    isActive: activeSector == null,
+                    isActive: activePage == 'home' ||
+                        (activePage == null && activeSector == null),
                     accent: modeAccent,
                     onTap: () { Navigator.pop(context); onHome(); },
                   ),
+                  if (user.isAdmin || user.canEnterData)
+                    _DrawerTile(
+                      icon: Icons.storage_outlined,
+                      label: 'بياناتي',
+                      isActive: activePage == 'myData',
+                      accent: modeAccent,
+                      onTap: () {
+                        Navigator.pop(context);
+                        onMyData?.call();
+                      },
+                    ),
+                  if (user.isAdmin || user.canViewData || user.canEnterData)
+                    _DrawerTile(
+                      icon: Icons.table_rows_outlined,
+                      label: 'البيانات المدخلة',
+                      isActive: activePage == 'entered',
+                      accent: modeAccent,
+                      onTap: () {
+                        Navigator.pop(context);
+                        onEnteredData?.call();
+                      },
+                    ),
 
                   SizedBox(height: 10.h),
                   _DrawerSectionLabel(
@@ -125,6 +156,17 @@ class AppDrawer extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Divider(height: 1, color: AppColors.divider),
+                  _DrawerSectionLabel(label: 'الحساب'),
+                  _DrawerTile(
+                    icon: Icons.person_outline_rounded,
+                    label: 'الملف الشخصي',
+                    isActive: activePage == 'profile',
+                    accent: modeAccent,
+                    onTap: () {
+                      Navigator.pop(context);
+                      onProfile?.call();
+                    },
+                  ),
                   _DrawerTile(
                     icon: Icons.logout_rounded,
                     label: 'تسجيل الخروج',

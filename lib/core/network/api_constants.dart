@@ -2,8 +2,8 @@ class ApiConstants {
   static const String version = '1.0.0';
   static const url = String.fromEnvironment(
     'API_ORIGIN',
-  //   defaultValue: 'http://192.168.88.19:8000',
-   defaultValue: 'https://admin-moed.moenergy.gov.sy',
+    defaultValue: 'http://192.168.150.51:4201',
+  // defaultValue: 'https://admin-moed.moenergy.gov.sy',
   );
 
   /// Angular moe-portal origin (3D Cesium UI). Not the Django API host.
@@ -16,6 +16,30 @@ class ApiConstants {
     'API_BASE_URL',
     defaultValue: '$url/api/',
   );
+
+  /// report_moe origin for dynamic data-entry (`/api/v1/main-sections/`, …).
+  ///
+  /// Empty = same host as [url] (after the builder API is deployed there).
+  /// Separate host example:
+  /// `--dart-define=REPORT_ORIGIN=http://192.168.88.19:8001`
+  static String get reportApiBaseUrl {
+    const override = String.fromEnvironment('REPORT_API_BASE_URL');
+    if (override.isNotEmpty) return _ensureTrailingSlash(override);
+    const origin = String.fromEnvironment('REPORT_ORIGIN');
+    if (origin.isNotEmpty) {
+      return '${_stripTrailingSlash(origin)}/api/';
+    }
+    return apiBaseUrl;
+  }
+
+  static bool get usesSeparateReportApi => reportApiBaseUrl != apiBaseUrl;
+
+  static String _stripTrailingSlash(String value) =>
+      value.endsWith('/') ? value.substring(0, value.length - 1) : value;
+
+  static String _ensureTrailingSlash(String value) =>
+      value.endsWith('/') ? value : '$value/';
+
   static const String imageBaseUrl = '$url/storage/app/public/';
   static const String imageBaseUrlAlt = '$url/storage/';
 
@@ -30,6 +54,8 @@ class ApiConstants {
   static const String refresh = 'v1/auth/refresh/';
   static const String logout = 'v1/auth/logout/';
   static const String me = 'v1/auth/me/';
+  static const String csrf = 'v1/auth/csrf/';
+  static String userById(int id) => 'v1/users/$id/';
 
   // ── Water — Admin (data entry / imports) ─────────────────────────────────
   static const String waterAdminBase = 'v1/water/admin';
@@ -129,6 +155,7 @@ class ApiConstants {
   static const String builderReportSubmit = 'v1/reports/submit/';
   static const String builderCheckDate = 'v1/reports/check-date/';
   static const String builderInfoRows = 'v1/info-rows/';
+  static const String builderInfoRowCount = 'v1/infos/row-count/';
   static const String builderGovernorates = 'v1/locations/governorates/options/';
   static const String builderDistricts = 'v1/locations/districts/options/';
   static const String builderSubdistricts =
@@ -138,6 +165,12 @@ class ApiConstants {
 
   static String builderEntityOptions(String entityType) =>
       'v1/entity-options/$entityType/';
+
+  static String builderExcelTemplate(int titleId) =>
+      'v1/titles/$titleId/excel-template/';
+
+  static String builderExcelImport(int titleId) =>
+      'v1/titles/$titleId/excel-import/';
 
   // ── Geology / Mining ─────────────────────────────────────────────────────
   static const String geologyBase = 'v1/geology';

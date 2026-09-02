@@ -14,6 +14,9 @@ class ElectricityState extends Equatable {
   final List<DynamicRow> lineIncidentRows;
   final bool publishAfterSave;
   final SaveStatus saveStatus;
+  final bool loadingReport;
+  final Map<String, dynamic>? reportDetail;
+  final int reportApplyToken;
 
   const ElectricityState({
     this.isDailyEntry = true,
@@ -24,6 +27,9 @@ class ElectricityState extends Equatable {
     this.lineIncidentRows = const [],
     this.publishAfterSave = true,
     this.saveStatus = SaveStatus.idle,
+    this.loadingReport = false,
+    this.reportDetail,
+    this.reportApplyToken = 0,
   });
 
   factory ElectricityState.initial() =>
@@ -44,22 +50,31 @@ class ElectricityState extends Equatable {
     bool? isDailyEntry,
     DateTime? reportDate,
     TimeOfDay? peakTime,
+    bool clearPeakTime = false,
     List<DynamicRow>? maintenanceRows,
     List<DynamicRow>? generationIncidentRows,
     List<DynamicRow>? lineIncidentRows,
     bool? publishAfterSave,
     SaveStatus? saveStatus,
+    bool? loadingReport,
+    Map<String, dynamic>? reportDetail,
+    bool clearReportDetail = false,
+    int? reportApplyToken,
   }) {
     return ElectricityState(
       isDailyEntry: isDailyEntry ?? this.isDailyEntry,
       reportDate: reportDate ?? this.reportDate,
-      peakTime: peakTime ?? this.peakTime,
+      peakTime: clearPeakTime ? peakTime : (peakTime ?? this.peakTime),
       maintenanceRows: maintenanceRows ?? this.maintenanceRows,
       generationIncidentRows:
           generationIncidentRows ?? this.generationIncidentRows,
       lineIncidentRows: lineIncidentRows ?? this.lineIncidentRows,
       publishAfterSave: publishAfterSave ?? this.publishAfterSave,
       saveStatus: saveStatus ?? this.saveStatus,
+      loadingReport: loadingReport ?? this.loadingReport,
+      reportDetail:
+          clearReportDetail ? reportDetail : (reportDetail ?? this.reportDetail),
+      reportApplyToken: reportApplyToken ?? this.reportApplyToken,
     );
   }
 
@@ -73,5 +88,8 @@ class ElectricityState extends Equatable {
         lineIncidentRows,
         publishAfterSave,
         saveStatus,
+        loadingReport,
+        reportDetail,
+        reportApplyToken,
       ];
 }

@@ -27,6 +27,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LogoutRequested>(_onLogout);
     on<SessionExpired>(_onSessionExpired);
     on<CheckAuthStatus>(_onCheck);
+    on<UserUpdated>(_onUserUpdated);
 
     // Automatically check status on creation
     add(const CheckAuthStatus());
@@ -105,5 +106,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
       emit(const AuthUnauthenticated());
     }
+  }
+
+  void _onUserUpdated(UserUpdated event, Emitter<AuthState> emit) {
+    emit(AuthAuthenticated(user: event.user));
   }
 }

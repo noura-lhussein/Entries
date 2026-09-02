@@ -20,20 +20,34 @@ class SchemaDateField extends StatelessWidget {
   });
 
   DateTime? get _parsed {
-    final v = value;
-    if (v == null || v.length < 10) return null;
-    return DateTime.tryParse(v.substring(0, 10));
+    final v = value?.trim();
+    if (v == null || v.isEmpty) return null;
+    if (v.length >= 10 && v[4] == '-' && v[7] == '-') {
+      return DateTime.tryParse(v.substring(0, 10));
+    }
+    final slash = RegExp(r'^(\d{1,2})[/.](\d{1,2})[/.](\d{4})$').firstMatch(v);
+    if (slash != null) {
+      return DateTime(
+        int.parse(slash.group(3)!),
+        int.parse(slash.group(2)!),
+        int.parse(slash.group(1)!),
+      );
+    }
+    return DateTime.tryParse(v);
   }
 
-  String _fmt(DateTime d) =>
+  String _iso(DateTime d) =>
       '${d.year.toString().padLeft(4, '0')}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
+
+  String _ar(DateTime d) =>
+      '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year}';
 
   @override
   Widget build(BuildContext context) {
     final parsed = _parsed;
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (label.isNotEmpty)
           Text.rich(
@@ -53,6 +67,7 @@ class SchemaDateField extends StatelessWidget {
                   ),
               ],
             ),
+            textAlign: TextAlign.right,
           ),
         if (label.isNotEmpty) SizedBox(height: 5.h),
         Material(
@@ -77,7 +92,7 @@ class SchemaDateField extends StatelessWidget {
                         child: child!,
                       ),
                     );
-                    if (picked != null) onChanged(_fmt(picked));
+                    if (picked != null) onChanged(_iso(picked));
                   },
             borderRadius: BorderRadius.circular(8.r),
             child: Container(
@@ -88,23 +103,29 @@ class SchemaDateField extends StatelessWidget {
                 border: Border.all(color: AppColors.border),
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Expanded(
+                    child: Text(
+                      parsed == null ? 'اختر التاريخ' : _ar(parsed),
+                      textAlign: TextAlign.right,
+                      textDirection: parsed == null
+                          ? TextDirection.rtl
+                          : TextDirection.ltr,
+                      style: TextStyle(
+                        fontFamily: 'Cairo',
+                        fontSize: 13.sp,
+                        color: parsed == null
+                            ? AppColors.textHint
+                            : AppColors.textPrimary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
                   Icon(
                     Icons.calendar_today_outlined,
                     size: 15.r,
                     color: AppColors.textHint,
-                  ),
-                  Text(
-                    parsed == null ? 'اختر التاريخ' : _fmt(parsed),
-                    style: TextStyle(
-                      fontFamily: 'Cairo',
-                      fontSize: 13.sp,
-                      color: parsed == null
-                          ? AppColors.textHint
-                          : AppColors.textPrimary,
-                      fontWeight: FontWeight.w600,
-                    ),
                   ),
                 ],
               ),

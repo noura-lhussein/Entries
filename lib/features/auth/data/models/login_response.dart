@@ -12,8 +12,15 @@ class LoginResponse {
 
   LoginResponse({this.refresh, this.access, this.user});
 
-  factory LoginResponse.fromJson(Map<String, dynamic> json) =>
-      _$LoginResponseFromJson(json);
+  factory LoginResponse.fromJson(Map<String, dynamic> json) {
+    if (json['user'] is Map || json.containsKey('access')) {
+      return _$LoginResponseFromJson(json);
+    }
+    if (json['id'] != null || json['username'] != null) {
+      return LoginResponse(user: UserResponse.fromJson(json));
+    }
+    return _$LoginResponseFromJson(json);
+  }
 
   Map<String, dynamic> toJson() => _$LoginResponseToJson(this);
 }
@@ -22,14 +29,31 @@ class LoginResponse {
 class UserResponse {
   final int? id;
   final String? email;
+  final String? username;
   @JsonKey(name: 'full_name')
   final String? fullName;
+  @JsonKey(name: 'first_name')
+  final String? firstName;
+  @JsonKey(name: 'last_name')
+  final String? lastName;
   @JsonKey(name: 'display_name')
   final String? displayName;
   @JsonKey(name: 'date_joined')
   final String? dateJoined;
   @JsonKey(name: 'is_admin')
   final bool? isAdmin;
+  @JsonKey(name: 'is_staff')
+  final bool? isStaff;
+  @JsonKey(name: 'is_superuser')
+  final bool? isSuperuser;
+  @JsonKey(name: 'is_active')
+  final bool? isActive;
+  @JsonKey(name: 'can_write_info')
+  final bool? canWriteInfo;
+  @JsonKey(name: 'can_view_info')
+  final bool? canViewInfo;
+  @JsonKey(name: 'can_confirm_info')
+  final bool? canConfirmInfo;
   @JsonKey(name: 'can_view_oil_gas')
   final bool? canViewOilGas;
   @JsonKey(name: 'can_write_oil_gas')
@@ -56,10 +80,19 @@ class UserResponse {
   UserResponse({
     this.id,
     this.email,
+    this.username,
     this.fullName,
+    this.firstName,
+    this.lastName,
     this.displayName,
     this.dateJoined,
     this.isAdmin,
+    this.isStaff,
+    this.isSuperuser,
+    this.isActive,
+    this.canWriteInfo,
+    this.canViewInfo,
+    this.canConfirmInfo,
     this.canViewOilGas,
     this.canWriteOilGas,
     this.canViewElectricity,
@@ -78,10 +111,19 @@ class UserResponse {
 
   Map<String, dynamic> toJson() => _$UserResponseToJson(this);
 
-  bool get _admin => isAdmin == true;
+  static const _allSectors = [
+    UserDepartment.water,
+    UserDepartment.petroleum,
+    UserDepartment.electricity,
+    UserDepartment.mineral,
+  ];
+
+  bool get _admin =>
+      isAdmin == true || isStaff == true || isSuperuser == true;
 
   bool get _canWrite =>
       _admin ||
+      canWriteInfo == true ||
       canWriteOilGas == true ||
       canWriteElectricity == true ||
       canWriteWater == true ||
@@ -92,21 +134,16 @@ class UserResponse {
 
   bool get _canView =>
       _admin ||
+      canViewInfo == true ||
+      canConfirmInfo == true ||
       canViewOilGas == true ||
       canViewElectricity == true ||
       canViewWater == true ||
       canViewMineral == true ||
-      _canWrite; // write implies portal access on mobile shell
+      _canWrite;
 
   List<UserDepartment> get _sectors {
-    if (_admin) {
-      return const [
-        UserDepartment.water,
-        UserDepartment.petroleum,
-        UserDepartment.electricity,
-        UserDepartment.mineral,
-      ];
-    }
+    if (_admin) return _allSectors;
     final out = <UserDepartment>[];
     if (canViewWater == true || canWriteWater == true) {
       out.add(UserDepartment.water);
@@ -120,12 +157,13 @@ class UserResponse {
     if (canViewMineral == true || canWriteMineral == true) {
       out.add(UserDepartment.mineral);
     }
+    // report_moe users are gated by title/sub-section ids, not sector flags.
+    if (out.isEmpty && (_canWrite || _canView)) return _allSectors;
     return out;
   }
 
   AppRole get _appRole {
     if (_admin) return AppRole.admin;
-    // Both capabilities → dataEntry default; shell allows switching to viewer.
     if (_canWrite) return AppRole.dataEntry;
     if (_canView) return AppRole.viewer;
     return AppRole.viewer;
@@ -150,13 +188,38 @@ class UserResponse {
     }
   }
 
+  String get _resolvedEmail {
+    final mail = email?.trim() ?? '';
+    if (mail.isNotEmpty) return mail;
+    return username?.trim() ?? '';
+  }
+
+  String get _resolvedName {
+    final full = fullName?.trim() ?? '';
+    if (full.isNotEmpty) return full;
+    final parts = [
+      firstName?.trim() ?? '',
+      lastName?.trim() ?? '',
+    ].where((e) => e.isNotEmpty).join(' ');
+    if (parts.isNotEmpty) return parts;
+    final display = displayName?.trim() ?? '';
+    if (display.isNotEmpty) return display;
+    return _resolvedEmail;
+  }
+
   UserEntity toEntity() {
     return UserEntity(
       id: id ?? 0,
-      email: email ?? '',
-      fullName: fullName ?? '',
-      displayName: displayName ?? '',
+      email: _resolvedEmail,
+      fullName: _resolvedName,
+      displayName: displayName?.trim().isNotEmpty == true
+          ? displayName!.trim()
+          : _resolvedName,
       dateJoined: dateJoined ?? '',
+      username: username?.trim() ?? '',
+      firstName: firstName?.trim() ?? '',
+      lastName: lastName?.trim() ?? '',
+      isActive: isActive ?? true,
       department: _department,
       role: _roleLabel,
       appRole: _appRole,

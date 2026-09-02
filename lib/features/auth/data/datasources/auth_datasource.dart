@@ -5,7 +5,7 @@ import '../models/login_response.dart';
 
 part 'auth_datasource.g.dart';
 
-@RestApi(baseUrl: ApiConstants.apiBaseUrl)
+@RestApi()
 abstract class AuthRemoteDataSource {
   factory AuthRemoteDataSource(Dio dio, {String baseUrl}) = _AuthRemoteDataSource;
 

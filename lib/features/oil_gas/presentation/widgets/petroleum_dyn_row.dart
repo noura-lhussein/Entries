@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-double? parsePetroleumNum(String text) {
-  final t = text.trim().replaceAll(',', '.');
-  if (t.isEmpty) return null;
-  return double.tryParse(t);
-}
+import '../../domain/utils/parse_oil_gas_number.dart';
+
+double? parsePetroleumNum(String text) => parseOilGasNumber(text);
 
 class PetroleumDynRow {
   final String id;

@@ -4,6 +4,16 @@ import '../entities/user_entity.dart';
 abstract class AuthRepository {
   Future<ApiResult<UserEntity>> login(String email, String password);
   Future<ApiResult<UserEntity>> fetchMe();
+  Future<ApiResult<UserEntity>> updateProfile({
+    required int userId,
+    required String firstName,
+    required String lastName,
+    required String email,
+  });
+  Future<ApiResult<void>> changePassword({
+    required int userId,
+    required String newPassword,
+  });
   Future<void> logout();
   /// Clears tokens and cached user without calling the API.
   Future<void> clearLocalSession();

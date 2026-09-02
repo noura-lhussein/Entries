@@ -12,7 +12,7 @@ class AuthUnauthenticated extends AuthState { const AuthUnauthenticated(); }
 class AuthAuthenticated extends AuthState {
   final UserEntity user;
   const AuthAuthenticated({required this.user});
-  @override List<Object?> get props => [user.id];
+  @override List<Object?> get props => [user];
 }
 
 class AuthError extends AuthState {

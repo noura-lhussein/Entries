@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/widgets/shared_widgets.dart';
 import '../../utils/drinking_water_options.dart';
+import 'drinking_value_dropdown.dart';
 
 class DrinkingOperationStatusSection extends StatelessWidget {
   const DrinkingOperationStatusSection({
@@ -21,54 +22,61 @@ class DrinkingOperationStatusSection extends StatelessWidget {
       title: 'التشغيل والحالة',
       child: FieldsWrap(
         fields: [
-          _dropdown('هل المحطة تعمل؟', 'isWorking', DrinkingWaterOptions.yesNo),
+          DrinkingValueDropdown(
+            label: 'هل المحطة تعمل؟',
+            fieldKey: 'isWorking',
+            items: DrinkingWaterOptions.yesNo,
+            values: values,
+            onChanged: onChanged,
+          ),
           AppTextField(
             label: 'سبب عدم التشغيل',
             controller: notOperatingReasonController,
           ),
-          _dropdown(
-            'حالة مبنى المحطة',
-            'buildingStatus',
-            DrinkingWaterOptions.conditions,
+          DrinkingValueDropdown(
+            label: 'حالة مبنى المحطة',
+            fieldKey: 'buildingStatus',
+            items: DrinkingWaterOptions.conditions,
+            values: values,
+            onChanged: onChanged,
           ),
-          _dropdown(
-            'وجود إجراءات السلامة',
-            'safetyProcedures',
-            DrinkingWaterOptions.yesNo,
+          DrinkingValueDropdown(
+            label: 'وجود إجراءات السلامة',
+            fieldKey: 'safetyProcedures',
+            items: DrinkingWaterOptions.yesNo,
+            values: values,
+            onChanged: onChanged,
           ),
-          _dropdown(
-            'تأهيل سابق؟',
-            'previousRehab',
-            DrinkingWaterOptions.yesNo,
+          DrinkingValueDropdown(
+            label: 'تأهيل سابق؟',
+            fieldKey: 'previousRehab',
+            items: DrinkingWaterOptions.yesNo,
+            values: values,
+            onChanged: onChanged,
           ),
-          _dropdown(
-            'نوع التأهيل',
-            'rehabType',
-            DrinkingWaterOptions.rehabTypes,
+          DrinkingValueDropdown(
+            label: 'نوع التأهيل',
+            fieldKey: 'rehabType',
+            items: DrinkingWaterOptions.rehabTypes,
+            values: values,
+            onChanged: onChanged,
           ),
-          _dropdown(
-            'حماية الضربة المائية',
-            'waterHammerProtection',
-            DrinkingWaterOptions.yesNo,
+          DrinkingValueDropdown(
+            label: 'حماية الضربة المائية',
+            fieldKey: 'waterHammerProtection',
+            items: DrinkingWaterOptions.yesNo,
+            values: values,
+            onChanged: onChanged,
           ),
-          _dropdown(
-            'كفاءة حماية الضربة المائية',
-            'waterHammerEfficiency',
-            DrinkingWaterOptions.efficiencies,
+          DrinkingValueDropdown(
+            label: 'كفاءة حماية الضربة المائية',
+            fieldKey: 'waterHammerEfficiency',
+            items: DrinkingWaterOptions.efficiencies,
+            values: values,
+            onChanged: onChanged,
           ),
         ],
       ),
     );
   }
-
-  Widget _dropdown(String label, String key, List<String> items) =>
-      AppDropdownField(
-        label: label,
-        value: values[key]!,
-        items: items,
-        onChanged: (v) {
-          if (v == null) return;
-          onChanged(key, v);
-        },
-      );
 }

@@ -20,11 +20,23 @@ class BuilderSubSection {
   final int id;
   final String name;
   final int mainSectionId;
+  final int? parentId;
+  final String? parentName;
+  final bool? isLeaf;
   const BuilderSubSection({
     required this.id,
     required this.name,
     required this.mainSectionId,
+    this.parentId,
+    this.parentName,
+    this.isLeaf,
   });
+
+  String get displayLabel {
+    final parent = parentName?.trim();
+    if (parent != null && parent.isNotEmpty) return '$parent / $name';
+    return name;
+  }
 
   factory BuilderSubSection.fromJson(Map<String, dynamic> json) =>
       BuilderSubSection(
@@ -33,6 +45,9 @@ class BuilderSubSection {
         mainSectionId: _asInt(json['main_section_id']) ??
             _asInt(json['main_section']) ??
             0,
+        parentId: _asInt(json['parent']),
+        parentName: json['parent_name']?.toString(),
+        isLeaf: json['is_leaf'] is bool ? json['is_leaf'] as bool : null,
       );
 }
 
@@ -42,34 +57,51 @@ class BuilderTitle {
   final int order;
   final int? categoryId;
   final String? categoryName;
+  final bool supportsExcel;
   const BuilderTitle({
     required this.id,
     required this.name,
     required this.order,
     this.categoryId,
     this.categoryName,
+    this.supportsExcel = true,
   });
 
   factory BuilderTitle.fromJson(Map<String, dynamic> json) => BuilderTitle(
         id: _asInt(json['id']) ?? 0,
         name: json['name']?.toString() ?? '',
         order: _asInt(json['order']) ?? 0,
-        categoryId: _asInt(json['category']),
+        categoryId: _asInt(json['category']) ?? _asInt(json['category_id']),
         categoryName: json['category_name']?.toString(),
+        supportsExcel: json['supports_excel'] != false,
       );
 }
 
 class BuilderSelectOption {
   final int id;
+  final String value;
   final String label;
-  const BuilderSelectOption({required this.id, required this.label});
 
-  factory BuilderSelectOption.fromJson(Map<String, dynamic> json) =>
-      BuilderSelectOption(
-        id: _asInt(json['id']) ?? 0,
-        label: (json['label'] ?? json['name'] ?? json['value'])?.toString() ??
-            '',
-      );
+  const BuilderSelectOption({
+    required this.id,
+    required this.label,
+    String? value,
+  }) : value = value ?? '$id';
+
+  factory BuilderSelectOption.fromJson(Map<String, dynamic> json) {
+    final raw = json['id'] ?? json['value'];
+    final parsedId = _asInt(raw) ?? _asInt(json['id']) ?? 0;
+    final valueStr = (json['value'] ?? json['id'] ?? '').toString().trim();
+    return BuilderSelectOption(
+      id: parsedId,
+      value: valueStr.isNotEmpty
+          ? valueStr
+          : (parsedId != 0 ? '$parsedId' : ''),
+      label: (json['label'] ?? json['name'] ?? json['value'] ?? json['id'])
+              ?.toString() ??
+          '',
+    );
+  }
 }
 
 class FormSchemaGroup {
@@ -260,6 +292,57 @@ class InfoHistoryRow {
   }
 }
 
+class InfoRecord {
+  final String rowId;
+  final int? titleId;
+  final String titleName;
+  final int? subMainId;
+  final String subMainName;
+  final String userName;
+  final String confirmed;
+  final String? createdAt;
+  final Map<String, String> fields;
+
+  const InfoRecord({
+    required this.rowId,
+    required this.fields,
+    this.titleId,
+    this.titleName = '',
+    this.subMainId,
+    this.subMainName = '',
+    this.userName = '',
+    this.confirmed = 'waiting',
+    this.createdAt,
+  });
+
+  factory InfoRecord.fromJson(Map<String, dynamic> json) {
+    final raw = json['fields'];
+    final fields = <String, String>{};
+    if (raw is Map) {
+      for (final e in raw.entries) {
+        fields[e.key.toString()] = e.value?.toString() ?? '';
+      }
+    }
+    return InfoRecord(
+      rowId: json['row_id']?.toString() ?? '',
+      titleId: _asInt(json['title_id']),
+      titleName: json['title_name']?.toString() ?? '',
+      subMainId: _asInt(json['sub_main_id']),
+      subMainName: json['sub_main_name']?.toString() ?? '',
+      userName: json['user_name']?.toString() ?? '',
+      confirmed: json['confirmed']?.toString() ?? 'waiting',
+      createdAt: json['created_at']?.toString(),
+      fields: fields,
+    );
+  }
+}
+
+class PaginatedInfoRecords {
+  final int count;
+  final List<InfoRecord> results;
+  const PaginatedInfoRecords({this.count = 0, this.results = const []});
+}
+
 class DateCheckResult {
   final bool duplicate;
   final String? detail;
@@ -275,16 +358,98 @@ class DateCheckResult {
 class UserBuilderPermissions {
   final List<int> subMainIds;
   final List<int> titleIds;
+  final List<int> titleCategoryIds;
   const UserBuilderPermissions({
     this.subMainIds = const [],
     this.titleIds = const [],
+    this.titleCategoryIds = const [],
   });
 
   factory UserBuilderPermissions.fromJson(Map<String, dynamic> json) =>
       UserBuilderPermissions(
         subMainIds: _asIntList(json['sub_main_ids']),
         titleIds: _asIntList(json['title_ids']),
+        titleCategoryIds: _asIntList(json['title_category_ids']),
       );
+}
+
+class ExcelRowError {
+  final int row;
+  final String message;
+  const ExcelRowError({required this.row, required this.message});
+
+  factory ExcelRowError.fromJson(Map<String, dynamic> json) => ExcelRowError(
+        row: _asInt(json['row']) ?? 0,
+        message: json['message']?.toString() ?? '',
+      );
+}
+
+class ExcelValidationIssue {
+  final String kind;
+  final String column;
+  final String message;
+  const ExcelValidationIssue({
+    required this.kind,
+    required this.column,
+    required this.message,
+  });
+
+  factory ExcelValidationIssue.fromJson(Map<String, dynamic> json) =>
+      ExcelValidationIssue(
+        kind: json['kind']?.toString() ?? '',
+        column: json['column']?.toString() ?? '',
+        message: json['message']?.toString() ?? '',
+      );
+
+  bool get isBlocking => kind == 'missing_column';
+}
+
+class ExcelImportResult {
+  final int importedRows;
+  final int skippedRows;
+  final List<ExcelRowError> errors;
+  final bool dryRun;
+  final bool blocking;
+  final List<ExcelValidationIssue> issues;
+
+  const ExcelImportResult({
+    this.importedRows = 0,
+    this.skippedRows = 0,
+    this.errors = const [],
+    this.dryRun = false,
+    this.blocking = false,
+    this.issues = const [],
+  });
+
+  bool get canConfirm => !blocking && errors.isEmpty;
+
+  factory ExcelImportResult.fromJson(Map<String, dynamic> json) {
+    final validation = json['validation'];
+    final issuesRaw =
+        validation is Map ? validation['issues'] : json['issues'];
+    final errorsRaw = json['errors'];
+    return ExcelImportResult(
+      importedRows: _asInt(json['imported_rows']) ?? 0,
+      skippedRows: _asInt(json['skipped_rows']) ?? 0,
+      errors: errorsRaw is List
+          ? errorsRaw
+              .whereType<Map>()
+              .map((e) => ExcelRowError.fromJson(Map<String, dynamic>.from(e)))
+              .toList()
+          : const [],
+      dryRun: json['dry_run'] == true,
+      blocking: validation is Map
+          ? validation['blocking'] == true
+          : json['blocking'] == true,
+      issues: issuesRaw is List
+          ? issuesRaw
+              .whereType<Map>()
+              .map((e) =>
+                  ExcelValidationIssue.fromJson(Map<String, dynamic>.from(e)))
+              .toList()
+          : const [],
+    );
+  }
 }
 
 class GroupedSchemaFields {
@@ -385,7 +550,28 @@ bool matchesSectorName(String name, DataEntrySectorFilter filter) {
           n.contains('electric') ||
           n.contains('power');
     case DataEntrySectorFilter.water:
-      return n.contains('ماء') || n.contains('مياه') || n.contains('water');
+      return n.contains('ماء') ||
+          n.contains('مياه') ||
+          n.contains('مائي') ||
+          n.contains('water') ||
+          n.contains('هطول') ||
+          n.contains('rainfall') ||
+          n.contains('سد') ||
+          n.contains('dam') ||
+          n.contains('فرات') ||
+          n.contains('euphrates') ||
+          n.contains('شرب') ||
+          n.contains('drinking') ||
+          n.contains('نبع') ||
+          n.contains('spring') ||
+          n.contains('بحير') ||
+          n.contains('lake') ||
+          n.contains('نهر') ||
+          n.contains('river') ||
+          n.contains('سواق') ||
+          n.contains('stream') ||
+          n.contains('حوض') ||
+          n.contains('basin');
     case DataEntrySectorFilter.petroleum:
       return n.contains('نفط') ||
           n.contains('بترول') ||
@@ -396,11 +582,62 @@ bool matchesSectorName(String name, DataEntrySectorFilter filter) {
     case DataEntrySectorFilter.mineral:
       return n.contains('تعدين') ||
           n.contains('جيول') ||
+          n.contains('معدن') ||
+          n.contains('معادن') ||
+          n.contains('مقلع') ||
+          n.contains('مقالع') ||
+          n.contains('فوسفات') ||
+          n.contains('فلز') ||
           n.contains('mineral') ||
-          n.contains('geolog');
+          n.contains('geolog') ||
+          n.contains('mining') ||
+          n.contains('quarry') ||
+          n.contains('phosphate');
     case DataEntrySectorFilter.all:
       return true;
   }
+}
+
+bool titleMatchesSector(BuilderTitle title, DataEntrySectorFilter filter) {
+  if (filter == DataEntrySectorFilter.all) return true;
+  return matchesSectorName(title.name, filter) ||
+      matchesSectorName(title.categoryName ?? '', filter);
+}
+
+List<BuilderNamedItem> filterMainsForSector({
+  required List<BuilderNamedItem> mains,
+  required DataEntrySectorFilter sector,
+  Set<int>? allowedMainIds,
+}) {
+  var list = mains;
+  if (allowedMainIds != null) {
+    list = list.where((m) => allowedMainIds.contains(m.id)).toList();
+  }
+  final sectorList =
+      list.where((m) => matchesSectorName(m.name, sector)).toList();
+  return sectorList.isNotEmpty ? sectorList : list;
+}
+
+List<BuilderTitle> filterTitlesForSector({
+  required List<BuilderTitle> titles,
+  required DataEntrySectorFilter sector,
+  required bool isAdmin,
+  required List<int> allowedTitleIds,
+  List<int> allowedCategoryIds = const [],
+}) {
+  var list = titles;
+  if (!isAdmin) {
+    final allow = allowedTitleIds.toSet();
+    list = list.where((t) => allow.contains(t.id)).toList();
+  }
+  final catAllow = allowedCategoryIds.toSet();
+  final sectorList = list.where((t) {
+    if (titleMatchesSector(t, sector)) return true;
+    if (t.categoryId != null && catAllow.contains(t.categoryId)) return true;
+    return false;
+  }).toList();
+  if (sectorList.isNotEmpty) return sectorList;
+  return isAdmin ? titles : list;
 }
 
 int? _asInt(dynamic value) {
@@ -408,7 +645,8 @@ int? _asInt(dynamic value) {
   if (value is int) return value;
   if (value is num) return value.toInt();
   if (value is Map && value['id'] != null) return _asInt(value['id']);
-  return int.tryParse(value.toString());
+  final text = value.toString().trim();
+  return int.tryParse(text) ?? num.tryParse(text)?.round();
 }
 
 List<int> _asIntList(dynamic value) {

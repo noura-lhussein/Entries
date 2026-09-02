@@ -1,5 +1,8 @@
+import 'package:dio/dio.dart';
 import '../../../../core/network/api_error_handler.dart';
 import '../../../../core/network/api_result.dart';
+import '../../../../core/network/api_constants.dart';
+import '../../../../core/network/cookie_session.dart';
 import '../../../../core/network/dio_client.dart';
 import '../../../../core/network/jwt_util.dart';
 import '../../../../core/network/token_refresher.dart';
@@ -14,12 +17,16 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthLocalDataSource localDataSource;
   final AuthSecureStorage secureStorage;
   final TokenRefresher tokenRefresher;
+  final CookieSession cookieSession;
+  final Dio dio;
 
   AuthRepositoryImpl({
     required this.remoteDataSource,
     required this.localDataSource,
     required this.secureStorage,
     required this.tokenRefresher,
+    required this.cookieSession,
+    required this.dio,
   });
 
   @override
@@ -27,20 +34,17 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response = await remoteDataSource.login({
         'email': email,
+        'username': email,
         'password': password,
       });
 
-      if (response.access != null) {
-        await secureStorage.saveAccessToken(response.access!);
-      }
-      if (response.refresh != null) {
-        await secureStorage.saveRefreshToken(response.refresh!);
-      }
+      await _persistCredentials(response.access, response.refresh);
+      await _warmCsrfCookie();
+
       if (response.user != null) {
         await localDataSource.saveUser(response.user!);
       }
 
-      // Prefer /auth/me/ for full permissions (same as moe-portal).
       final meResult = await fetchMe();
       if (meResult is Success<UserEntity>) {
         return ApiResult.success(meResult.data);
@@ -54,13 +58,81 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
+  Future<void> _persistCredentials(String? access, String? refresh) async {
+    var accessToken = access;
+    var refreshToken = refresh;
+    final fromCookies = await cookieSession.readJwtCookies();
+    accessToken ??= fromCookies.access;
+    refreshToken ??= fromCookies.refresh;
+
+    if (accessToken != null && accessToken.isNotEmpty) {
+      await secureStorage.saveAccessToken(accessToken);
+      DioFactory.updateHeaderWithToken(accessToken);
+    }
+    if (refreshToken != null && refreshToken.isNotEmpty) {
+      await secureStorage.saveRefreshToken(refreshToken);
+    }
+    await secureStorage.setHasServerSession(true);
+  }
+
+  Future<void> _warmCsrfCookie() async {
+    final client = DioFactory.dio;
+    if (client == null) return;
+    try {
+      await client.get<dynamic>(ApiConstants.csrf);
+    } catch (_) {
+      // Optional on session APIs; csrftoken often arrives with login Set-Cookie.
+    }
+  }
+
   @override
   Future<ApiResult<UserEntity>> fetchMe() async {
     try {
       await tokenRefresher.ensureAccessToken();
       final user = await remoteDataSource.getMe();
       await localDataSource.saveUser(user);
+      await secureStorage.setHasServerSession(true);
       return ApiResult.success(user.toEntity());
+    } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<UserEntity>> updateProfile({
+    required int userId,
+    required String firstName,
+    required String lastName,
+    required String email,
+  }) async {
+    try {
+      await tokenRefresher.ensureAccessToken();
+      await dio.patch(
+        ApiConstants.userById(userId),
+        data: {
+          'first_name': firstName,
+          'last_name': lastName,
+          'email': email,
+        },
+      );
+      return await fetchMe();
+    } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<void>> changePassword({
+    required int userId,
+    required String newPassword,
+  }) async {
+    try {
+      await tokenRefresher.ensureAccessToken();
+      await dio.patch(
+        ApiConstants.userById(userId),
+        data: {'password': newPassword},
+      );
+      return const ApiResult.success(null);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));
     }
@@ -81,6 +153,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> clearLocalSession() async {
     await secureStorage.clearAll();
     await localDataSource.clearUser();
+    await cookieSession.clear();
     DioFactory.clearToken();
   }
 
@@ -90,11 +163,10 @@ class AuthRepositoryImpl implements AuthRepository {
     final refresh = await secureStorage.getRefreshToken();
     final hasAccess = access != null && access.isNotEmpty;
     final hasRefresh = refresh != null && refresh.isNotEmpty;
-    if (!hasAccess && !hasRefresh) return false;
-
-    // Valid access, or refresh available to renew it.
     if (hasAccess && !JwtUtil.isExpired(access)) return true;
-    return hasRefresh;
+    if (hasRefresh) return true;
+    if (await cookieSession.hasServerSession()) return true;
+    return secureStorage.hasServerSession();
   }
 
   @override

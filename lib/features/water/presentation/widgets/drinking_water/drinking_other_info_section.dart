@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/widgets/shared_widgets.dart';
 import '../../utils/drinking_water_options.dart';
+import 'drinking_value_dropdown.dart';
 
 class DrinkingOtherInfoSection extends StatelessWidget {
   const DrinkingOtherInfoSection({
@@ -19,34 +20,29 @@ class DrinkingOtherInfoSection extends StatelessWidget {
       title: 'معلومات أخرى',
       child: FieldsWrap(
         fields: [
-          _dropdown(
-            'هل تم تحليل المياه؟',
-            'waterAnalysis',
-            DrinkingWaterOptions.yesNo,
+          DrinkingValueDropdown(
+            label: 'هل تم تحليل المياه؟',
+            fieldKey: 'waterAnalysis',
+            items: DrinkingWaterOptions.yesNo,
+            values: values,
+            onChanged: onChanged,
           ),
-          _dropdown(
-            'خزانات المياه متوفرة؟',
-            'waterTanks',
-            DrinkingWaterOptions.yesNo,
+          DrinkingValueDropdown(
+            label: 'خزانات المياه متوفرة؟',
+            fieldKey: 'waterTanks',
+            items: DrinkingWaterOptions.yesNo,
+            values: values,
+            onChanged: onChanged,
           ),
-          _dropdown(
-            'معدات المختبر مكتملة؟',
-            'labEquipment',
-            DrinkingWaterOptions.efficiencies,
+          DrinkingValueDropdown(
+            label: 'معدات المختبر مكتملة؟',
+            fieldKey: 'labEquipment',
+            items: DrinkingWaterOptions.efficiencies,
+            values: values,
+            onChanged: onChanged,
           ),
         ],
       ),
     );
   }
-
-  Widget _dropdown(String label, String key, List<String> items) =>
-      AppDropdownField(
-        label: label,
-        value: values[key]!,
-        items: items,
-        onChanged: (v) {
-          if (v == null) return;
-          onChanged(key, v);
-        },
-      );
 }

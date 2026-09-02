@@ -10,9 +10,11 @@ class AppTextField extends StatelessWidget {
   final String? suffixText;
   final int maxLines;
   final ValueChanged<String>? onChanged;
+  final bool obscureText;
   const AppTextField({
     super.key, required this.label, this.hint, this.controller,
     this.keyboardType, this.suffixText, this.maxLines = 1, this.onChanged,
+    this.obscureText = false,
   });
 
   @override
@@ -28,7 +30,8 @@ class AppTextField extends StatelessWidget {
         TextField(
           controller: controller,
           keyboardType: keyboardType,
-          maxLines: maxLines,
+          maxLines: obscureText ? 1 : maxLines,
+          obscureText: obscureText,
           onChanged: onChanged,
           textAlign: TextAlign.right,
           textDirection: TextDirection.rtl,

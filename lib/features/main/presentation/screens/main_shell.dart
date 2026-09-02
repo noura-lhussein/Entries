@@ -11,6 +11,8 @@ import '../../../../core/widgets/app_drawer.dart';
 import '../../../../core/utils/sector_registry.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../home/presentation/screens/home_screen.dart';
+import '../../../builder/presentation/screens/info_browse_screen.dart';
+import '../../../profile/presentation/screens/profile_screen.dart';
 
 /// ─── Main Shell ─────────────────────────────────────────────────────────────
 class MainShell extends StatefulWidget {
@@ -24,6 +26,7 @@ class MainShell extends StatefulWidget {
 class _MainShellState extends State<MainShell> {
   late final UserModel _user;
   UserDepartment? _activeSector;
+  String _page = 'home';
   DateTime? _lastBackPress;
 
   @override
@@ -49,74 +52,127 @@ class _MainShellState extends State<MainShell> {
   }
 
   void _openSector(UserDepartment sector) {
-    setState(() => _activeSector = sector);
+    setState(() {
+      _activeSector = sector;
+      _page = 'sector';
+    });
   }
 
-  void _goHome() => setState(() => _activeSector = null);
+  void _goHome() => setState(() {
+        _activeSector = null;
+        _page = 'home';
+      });
+
+  void _openMyData() => setState(() {
+        _activeSector = null;
+        _page = 'myData';
+      });
+
+  void _openEnteredData() => setState(() {
+        _activeSector = null;
+        _page = 'entered';
+      });
+
+  void _openProfile() => setState(() {
+        _activeSector = null;
+        _page = 'profile';
+      });
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
+    return BlocConsumer<AuthBloc, AuthState>(
       listener: (ctx, s) {
         if (s is AuthUnauthenticated) ctx.go('/login');
       },
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: PopScope(
-          canPop: false,
-          onPopInvokedWithResult: (didPop, result) {
-            if (didPop) return;
-            _handleBackPress(context);
-          },
-          child: Scaffold(
-            drawer: AppDrawer(
-              user: _user,
-              activeSector: _activeSector,
-              onSelectSector: _openSector,
-              onHome: _goHome,
-              onLogout: () => _confirmLogout(context),
-            ),
-            appBar: MinistryAppBar(
-              user: _user,
-              onLogout: () => _confirmLogout(context),
-              gradient: AppColors.headerGradient,
-            ),
-            body: Stack(
-              children: [
-                Positioned.fill(
-                  child: Image.asset(
-                    'assets/images/bg0_s.jpg',
-                    fit: BoxFit.cover,
-                    scale: 60,
+      builder: (context, authState) {
+        final user = authState is AuthAuthenticated
+            ? authState.user.toUserModel()
+            : _user;
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: PopScope(
+            canPop: false,
+            onPopInvokedWithResult: (didPop, result) {
+              if (didPop) return;
+              _handleBackPress(context);
+            },
+            child: Scaffold(
+              drawer: AppDrawer(
+                user: user,
+                activeSector: _activeSector,
+                activePage: _page,
+                onSelectSector: _openSector,
+                onHome: _goHome,
+                onMyData: _openMyData,
+                onEnteredData: _openEnteredData,
+                onProfile: _openProfile,
+                onLogout: () => _confirmLogout(context),
+              ),
+              appBar: MinistryAppBar(
+                user: user,
+                onLogout: () => _confirmLogout(context),
+                onProfile: _openProfile,
+                gradient: AppColors.headerGradient,
+              ),
+              body: Stack(
+                children: [
+                  Positioned.fill(
+                    child: Image.asset(
+                      'assets/images/bg0_s.jpg',
+                      fit: BoxFit.cover,
+                      scale: 60,
+                    ),
                   ),
-                ),
-                Positioned.fill(
-                  child: Container(
-                    color: Colors.white.withValues(alpha: 0.9),
+                  Positioned.fill(
+                    child: Container(
+                      color: Colors.white.withValues(alpha: 0.9),
+                    ),
                   ),
-                ),
-                SafeArea(
-                  top: false,
-                  child: _activeSector == null
-                      ? HomeScreen(
-                          user: _user,
-                          onOpenSector: _openSector,
-                        )
-                      : KeyedSubtree(
-                          key: ValueKey(_activeSector),
-                          child: buildSectorEntryBody(_activeSector!),
-                        ),
-                ),
-              ],
+                  SafeArea(
+                    top: false,
+                    child: _buildBody(user),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
+  Widget _buildBody(UserModel user) {
+    switch (_page) {
+      case 'myData':
+        return KeyedSubtree(
+          key: const ValueKey('myData'),
+          child: MyDataScreen(currentUserId: int.tryParse(user.id)),
+        );
+      case 'entered':
+        return const KeyedSubtree(
+          key: ValueKey('entered'),
+          child: EnteredDataScreen(),
+        );
+      case 'profile':
+        return const KeyedSubtree(
+          key: ValueKey('profile'),
+          child: ProfileScreen(),
+        );
+      case 'sector':
+        if (_activeSector == null) {
+          return HomeScreen(user: user, onOpenSector: _openSector);
+        }
+        return KeyedSubtree(
+          key: ValueKey(_activeSector),
+          child: buildSectorEntryBody(_activeSector!),
+        );
+      default:
+        return HomeScreen(user: user, onOpenSector: _openSector);
+    }
+  }
+
   void _handleBackPress(BuildContext context) {
-    if (_activeSector != null) {
+    if (_page != 'home') {
       _goHome();
       return;
     }

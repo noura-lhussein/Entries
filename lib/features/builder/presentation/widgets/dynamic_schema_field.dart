@@ -39,16 +39,17 @@ class DynamicSchemaField extends StatelessWidget {
         final hasWarn = !hasError && warning != null && warning.isNotEmpty;
 
         return Container(
-          padding: EdgeInsets.all(10.r),
+          padding: EdgeInsets.symmetric(vertical: 2.h),
           decoration: BoxDecoration(
-            color: field.readonly ? AppColors.cream : AppColors.surface,
-            borderRadius: BorderRadius.circular(10.r),
-            border: Border.all(
-              color: hasError
-                  ? AppColors.errorRed.withValues(alpha: 0.45)
-                  : hasWarn
-                      ? AppColors.goldMid
-                      : AppColors.border,
+            border: Border(
+              right: BorderSide(
+                width: 2.5,
+                color: hasError
+                    ? AppColors.errorRed
+                    : hasWarn
+                        ? AppColors.goldMid
+                        : Colors.transparent,
+              ),
             ),
           ),
           child: Column(
@@ -59,6 +60,7 @@ class DynamicSchemaField extends StatelessWidget {
                 SizedBox(height: 4.h),
                 Text(
                   field.helpAr!,
+                  textAlign: TextAlign.right,
                   style: TextStyle(
                     fontFamily: 'Cairo',
                     fontSize: 10.sp,
@@ -70,6 +72,7 @@ class DynamicSchemaField extends StatelessWidget {
                 SizedBox(height: 4.h),
                 Text(
                   error,
+                  textAlign: TextAlign.right,
                   style: TextStyle(
                     fontFamily: 'Cairo',
                     fontSize: 11.sp,
@@ -81,6 +84,7 @@ class DynamicSchemaField extends StatelessWidget {
                 SizedBox(height: 4.h),
                 Text(
                   warning,
+                  textAlign: TextAlign.right,
                   style: TextStyle(
                     fontFamily: 'Cairo',
                     fontSize: 11.sp,
@@ -110,8 +114,10 @@ class DynamicSchemaField extends StatelessWidget {
       return SwitchListTile.adaptive(
         contentPadding: EdgeInsets.zero,
         dense: true,
+        controlAffinity: ListTileControlAffinity.trailing,
         title: Text(
           field.labelAr,
+          textAlign: TextAlign.right,
           style: TextStyle(
             fontFamily: 'Cairo',
             fontSize: 13.sp,
@@ -267,7 +273,7 @@ class _BoundTextFieldState extends State<_BoundTextField> {
   @override
   void didUpdateWidget(covariant _BoundTextField oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.value != _ctrl.text) {
+    if (widget.value != _ctrl.text && !_focus.hasFocus) {
       _ctrl.value = TextEditingValue(
         text: widget.value,
         selection: TextSelection.collapsed(offset: widget.value.length),
@@ -286,7 +292,7 @@ class _BoundTextFieldState extends State<_BoundTextField> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text.rich(
           TextSpan(
@@ -305,6 +311,7 @@ class _BoundTextFieldState extends State<_BoundTextField> {
                 ),
             ],
           ),
+          textAlign: TextAlign.right,
         ),
         SizedBox(height: 5.h),
         TextField(
@@ -315,8 +322,9 @@ class _BoundTextFieldState extends State<_BoundTextField> {
           keyboardType: widget.number
               ? const TextInputType.numberWithOptions(decimal: true)
               : TextInputType.text,
-          textAlign: widget.number ? TextAlign.left : TextAlign.right,
-          textDirection: widget.number ? TextDirection.ltr : TextDirection.rtl,
+          textAlign: TextAlign.right,
+          textDirection:
+              widget.number ? TextDirection.ltr : TextDirection.rtl,
           onChanged: widget.onChanged,
           style: TextStyle(
             fontFamily: 'Cairo',
@@ -400,10 +408,11 @@ class _FileFieldState extends State<_FileField> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
           widget.field.labelAr,
+          textAlign: TextAlign.right,
           style: TextStyle(
             fontFamily: 'Cairo',
             fontSize: 11.sp,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/widgets/shared_widgets.dart';
 import '../../utils/drinking_water_options.dart';
+import 'drinking_value_dropdown.dart';
 
 class DrinkingEnergySupplySection extends StatelessWidget {
   const DrinkingEnergySupplySection({
@@ -19,89 +20,99 @@ class DrinkingEnergySupplySection extends StatelessWidget {
       title: 'إمداد الطاقة',
       child: FieldsWrap(
         fields: [
-          _dropdown(
-            'إمداد الشبكة العامة؟',
-            'publicGrid',
-            DrinkingWaterOptions.yesNo,
+          DrinkingValueDropdown(
+            label: 'إمداد الشبكة العامة؟',
+            fieldKey: 'publicGrid',
+            items: DrinkingWaterOptions.yesNo,
+            values: values,
+            onChanged: onChanged,
           ),
-          _dropdown(
-            'هل يعمل توصيل الشبكة؟',
-            'gridConnectionWorks',
-            DrinkingWaterOptions.yesNo,
+          DrinkingValueDropdown(
+            label: 'هل يعمل توصيل الشبكة؟',
+            fieldKey: 'gridConnectionWorks',
+            items: DrinkingWaterOptions.yesNo,
+            values: values,
+            onChanged: onChanged,
           ),
-          _dropdown(
-            'كفاءة التوصيل الكهربائي',
-            'electricalConnectionEfficiency',
-            DrinkingWaterOptions.conditions,
+          DrinkingValueDropdown(
+            label: 'كفاءة التوصيل الكهربائي',
+            fieldKey: 'electricalConnectionEfficiency',
+            items: DrinkingWaterOptions.conditions,
+            values: values,
+            onChanged: onChanged,
           ),
-          _dropdown(
-            'كفاءة المحول',
-            'transformerEfficiency',
-            DrinkingWaterOptions.conditions,
+          DrinkingValueDropdown(
+            label: 'كفاءة المحول',
+            fieldKey: 'transformerEfficiency',
+            items: DrinkingWaterOptions.conditions,
+            values: values,
+            onChanged: onChanged,
           ),
-          _dropdown(
-            'كفاءة اللوحة الكهربائية',
-            'panelEfficiency',
-            DrinkingWaterOptions.conditions,
+          DrinkingValueDropdown(
+            label: 'كفاءة اللوحة الكهربائية',
+            fieldKey: 'panelEfficiency',
+            items: DrinkingWaterOptions.conditions,
+            values: values,
+            onChanged: onChanged,
           ),
-          _dropdown('إنتاجية طاقة الشبكة', 'gridEnergyProductivity', const [
-            '0%',
-            '25%',
-            '50%',
-            '75%',
-            '100%',
-          ]),
-          _dropdown(
-            'طاقة شمسية متوفرة؟',
-            'solarAvailable',
-            DrinkingWaterOptions.yesNo,
+          DrinkingValueDropdown(
+            label: 'إنتاجية طاقة الشبكة',
+            fieldKey: 'gridEnergyProductivity',
+            items: const ['0%', '25%', '50%', '75%', '100%'],
+            values: values,
+            onChanged: onChanged,
           ),
-          _dropdown('إنتاجية الطاقة الشمسية', 'solarProductivity', const [
-            'غير محدد',
-            '0%',
-            '25%',
-            '50%',
-            '75%',
-            '100%',
-          ]),
-          _dropdown(
-            'كفاءة النظام الشمسي',
-            'solarSystemEfficiency',
-            DrinkingWaterOptions.efficiencies,
+          DrinkingValueDropdown(
+            label: 'طاقة شمسية متوفرة؟',
+            fieldKey: 'solarAvailable',
+            items: DrinkingWaterOptions.yesNo,
+            values: values,
+            onChanged: onChanged,
           ),
-          _dropdown(
-            'مولد متوفر؟',
-            'generatorAvailable',
-            DrinkingWaterOptions.yesNo,
+          DrinkingValueDropdown(
+            label: 'إنتاجية الطاقة الشمسية',
+            fieldKey: 'solarProductivity',
+            items: const ['غير محدد', '0%', '25%', '50%', '75%', '100%'],
+            values: values,
+            onChanged: onChanged,
           ),
-          _dropdown(
-            'الحاجة لتركيب طاقة شمسية؟',
-            'needsSolarInstallation',
-            DrinkingWaterOptions.yesNo,
+          DrinkingValueDropdown(
+            label: 'كفاءة النظام الشمسي',
+            fieldKey: 'solarSystemEfficiency',
+            items: DrinkingWaterOptions.efficiencies,
+            values: values,
+            onChanged: onChanged,
           ),
-          _dropdown(
-            'مساحة متوفرة للطاقة الشمسية؟',
-            'solarSpaceAvailable',
-            DrinkingWaterOptions.yesNo,
+          DrinkingValueDropdown(
+            label: 'مولد متوفر؟',
+            fieldKey: 'generatorAvailable',
+            items: DrinkingWaterOptions.yesNo,
+            values: values,
+            onChanged: onChanged,
           ),
-          _dropdown(
-            'مصدر طاقة بديل؟',
-            'alternativeEnergy',
-            DrinkingWaterOptions.yesNo,
+          DrinkingValueDropdown(
+            label: 'الحاجة لتركيب طاقة شمسية؟',
+            fieldKey: 'needsSolarInstallation',
+            items: DrinkingWaterOptions.yesNo,
+            values: values,
+            onChanged: onChanged,
+          ),
+          DrinkingValueDropdown(
+            label: 'مساحة متوفرة للطاقة الشمسية؟',
+            fieldKey: 'solarSpaceAvailable',
+            items: DrinkingWaterOptions.yesNo,
+            values: values,
+            onChanged: onChanged,
+          ),
+          DrinkingValueDropdown(
+            label: 'مصدر طاقة بديل؟',
+            fieldKey: 'alternativeEnergy',
+            items: DrinkingWaterOptions.yesNo,
+            values: values,
+            onChanged: onChanged,
           ),
         ],
       ),
     );
   }
-
-  Widget _dropdown(String label, String key, List<String> items) =>
-      AppDropdownField(
-        label: label,
-        value: values[key]!,
-        items: items,
-        onChanged: (v) {
-          if (v == null) return;
-          onChanged(key, v);
-        },
-      );
 }

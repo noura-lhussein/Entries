@@ -10,12 +10,14 @@ import 'profile_avatar.dart';
 class MinistryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final UserModel user;
   final VoidCallback onLogout;
+  final VoidCallback? onProfile;
   final PreferredSizeWidget? bottom;
   final Gradient gradient;
   const MinistryAppBar({
     super.key,
     required this.user,
     required this.onLogout,
+    this.onProfile,
     this.bottom,
     this.gradient = AppColors.headerGradient,
   });
@@ -33,7 +35,11 @@ class MinistryAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         Padding(
           padding: EdgeInsets.only(right: 12.w, left: 12.w),
-          child: ProfileAvatar(user: user, onLogout: onLogout),
+          child: ProfileAvatar(
+            user: user,
+            onLogout: onLogout,
+            onProfile: onProfile,
+          ),
         ),
       ],
       bottom: bottom,

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/theme/app_theme.dart';
 import '../../../../../core/widgets/shared_widgets.dart';
-import '../../../data/ore_product_catalog.dart';
+import '../../../domain/entities/ore_product_option.dart';
 import 'geology_ore_card.dart';
 import 'geology_ore_form_models.dart';
 

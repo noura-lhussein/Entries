@@ -13,7 +13,8 @@ class AuthInterceptor extends Interceptor {
 
   bool _isAuthEndpoint(String path) {
     return path.contains(ApiConstants.login) ||
-        path.contains(ApiConstants.refresh);
+        path.contains(ApiConstants.refresh) ||
+        path.contains(ApiConstants.csrf);
   }
 
   @override
@@ -52,8 +53,6 @@ class AuthInterceptor extends Interceptor {
       return;
     }
 
-    // Force refresh then retry once. Session invalidation (→ login) is handled
-    // by TokenRefresher when refresh is rejected with 401/403.
     tokenRefresher.ensureAccessToken(forceRefresh: true).then((token) async {
       if (token == null || token.isEmpty) {
         handler.next(err);

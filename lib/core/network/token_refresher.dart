@@ -4,14 +4,19 @@ import 'package:dio/dio.dart';
 
 import '../../features/auth/data/datasources/auth_secure_storage.dart';
 import 'api_constants.dart';
+import 'cookie_session.dart';
 import 'dio_client.dart';
 import 'jwt_util.dart';
 
 /// Single-flight access-token refresh (matches portal `refreshInFlight`).
+///
+/// report_moe uses Django session cookies; moe-portal-style APIs return JWT.
+/// Both are kept: Bearer is attached only when an access token exists.
 class TokenRefresher {
-  final AuthSecureStorage secureStorage;
+  TokenRefresher(this.secureStorage, this.cookieSession);
 
-  TokenRefresher(this.secureStorage);
+  final AuthSecureStorage secureStorage;
+  final CookieSession cookieSession;
 
   Future<String?>? _inFlight;
 
@@ -20,8 +25,8 @@ class TokenRefresher {
 
   var _invalidating = false;
 
-  /// Returns a valid access token, refreshing when missing/expired.
-  /// On auth failure, clears the session and invokes [onSessionInvalidated].
+  /// Returns a valid JWT access token when the API uses JWT.
+  /// Cookie-session APIs return null; cookies are sent by [CookieManager].
   Future<String?> ensureAccessToken({bool forceRefresh = false}) async {
     if (!forceRefresh) {
       final access = await secureStorage.getAccessToken();
@@ -30,8 +35,16 @@ class TokenRefresher {
           !JwtUtil.isExpired(access)) {
         return access;
       }
+      final refreshToken = await secureStorage.getRefreshToken();
+      if (refreshToken == null || refreshToken.isEmpty) {
+        return null;
+      }
     }
 
+    final refreshToken = await secureStorage.getRefreshToken();
+    if (refreshToken == null || refreshToken.isEmpty) {
+      return null;
+    }
     return refresh();
   }
 
@@ -43,11 +56,6 @@ class TokenRefresher {
   Future<String?> _doRefresh() async {
     final usedRefresh = await secureStorage.getRefreshToken();
     if (usedRefresh == null || usedRefresh.isEmpty) {
-      final access = await secureStorage.getAccessToken();
-      // Only treat as logged-out when we had a session that can no longer renew.
-      if (access != null && access.isNotEmpty) {
-        await _invalidateSession();
-      }
       return null;
     }
 
@@ -69,11 +77,9 @@ class TokenRefresher {
         }
       }
 
-      // Prefer HTTP auth status over Dio type (e.g. unknown + 401 body).
       if (_isAuthFailure(e)) {
         await _invalidateSession();
       }
-      // Network / transient: keep tokens so the session can retry later.
       return null;
     } catch (_) {
       return null;
@@ -85,6 +91,7 @@ class TokenRefresher {
     _invalidating = true;
     try {
       await secureStorage.clearAll();
+      await cookieSession.clear();
       DioFactory.clearToken();
       onSessionInvalidated?.call();
     } finally {

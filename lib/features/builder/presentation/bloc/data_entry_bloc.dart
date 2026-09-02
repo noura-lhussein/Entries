@@ -1,11 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/network/user_facing_error.dart';
 import '../../data/datasources/builder_remote_data_source.dart';
 import '../../data/models/builder_models.dart';
 import '../utils/data_entry_logic.dart';
 import 'data_entry_event.dart';
 import 'data_entry_state.dart';
+
+const kBuilderUnavailableMessage =
+    'خدمة الإدخال غير متاحة على السيرفر حالياً. التطبيق يعمل، وأعد المحاولة بعد رفع الواجهة.';
 
 class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
   DataEntryBloc(this._remote) : super(const DataEntryState()) {
@@ -18,12 +22,14 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
     on<GroupToggled>(_onGroupToggled);
     on<HistoryToggled>(_onHistoryToggled);
     on<HistoryRowToggled>(_onHistoryRowToggled);
+    on<HistoryReloadRequested>(_onHistoryReload);
     on<SaveDraftRequested>(_onSaveDraft);
     on<CommitAndNextRequested>(_onCommitAndNext);
   }
 
   final BuilderRemoteDataSource _remote;
   int _schemaToken = 0;
+  List<int> _allowedSubMainIds = const [];
 
   Future<void> _onStarted(
     DataEntryStarted event,
@@ -34,40 +40,55 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
       isAdmin: event.isAdmin,
       bootstrapping: true,
     ));
+    _allowedSubMainIds = const [];
     try {
-      final mainsFuture = _remote.getMainSections();
-      final titlesFuture = _remote.getTitles();
-      final govFuture = _remote.getGovernorates();
-      UserBuilderPermissions perms = const UserBuilderPermissions();
-      if (!event.isAdmin) {
-        try {
-          perms = await _remote.getPermissions();
-        } catch (_) {}
+      final fetched = await Future.wait<Object>([
+        _remote.getMainSections(),
+        _remote.getTitles(),
+        _remote.getGovernorates(),
+        event.isAdmin
+            ? Future.value(const UserBuilderPermissions())
+            : _remote.getPermissions(),
+        event.isAdmin
+            ? Future.value(const <BuilderSubSection>[])
+            : _remote.getSubSections(),
+      ], eagerError: false);
+      var mains = fetched[0] as List<BuilderNamedItem>;
+      var titles = fetched[1] as List<BuilderTitle>;
+      final governorates = fetched[2] as List<BuilderSelectOption>;
+      final perms = fetched[3] as UserBuilderPermissions;
+      final allSubs = fetched[4] as List<BuilderSubSection>;
+
+      if (mains.isEmpty && titles.isEmpty) {
+        emit(state.copyWith(
+          bootstrapping: false,
+          loadError: kBuilderUnavailableMessage,
+        ));
+        return;
       }
 
-      var mains = await mainsFuture;
-      var titles = await titlesFuture;
-      final governorates = await govFuture;
-
-      final sectorMains =
-          mains.where((m) => matchesSectorName(m.name, event.sector)).toList();
-      if (sectorMains.isNotEmpty) mains = sectorMains;
-
+      Set<int>? allowedMainIds;
       if (!event.isAdmin) {
-        if (perms.titleIds.isNotEmpty) {
-          final allow = perms.titleIds.toSet();
-          titles = titles.where((t) => allow.contains(t.id)).toList();
-        }
-      } else {
-        final sectorTitles = titles
-            .where(
-              (t) =>
-                  matchesSectorName(t.name, event.sector) ||
-                  matchesSectorName(t.categoryName ?? '', event.sector),
-            )
-            .toList();
-        if (sectorTitles.isNotEmpty) titles = sectorTitles;
+        _allowedSubMainIds = perms.subMainIds;
+        final allowSubs = perms.subMainIds.toSet();
+        allowedMainIds = allSubs
+            .where((s) => allowSubs.contains(s.id))
+            .map((s) => s.mainSectionId)
+            .toSet();
       }
+
+      mains = filterMainsForSector(
+        mains: mains,
+        sector: event.sector,
+        allowedMainIds: allowedMainIds,
+      );
+      titles = filterTitlesForSector(
+        titles: titles,
+        sector: event.sector,
+        isAdmin: event.isAdmin,
+        allowedTitleIds: perms.titleIds,
+        allowedCategoryIds: perms.titleCategoryIds,
+      );
 
       emit(state.copyWith(
         bootstrapping: false,
@@ -79,7 +100,10 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
     } catch (e) {
       emit(state.copyWith(
         bootstrapping: false,
-        loadError: 'تعذّر تحميل أقسام الإدخال',
+        loadError: userFacingErrorMessage(
+          e,
+          fallback: kBuilderUnavailableMessage,
+        ),
       ));
     }
   }
@@ -100,13 +124,8 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
     try {
       var subs = await _remote.getSubSections(mainSectionId: event.mainId);
       if (!state.isAdmin) {
-        try {
-          final perms = await _remote.getPermissions();
-          if (perms.subMainIds.isNotEmpty) {
-            final allow = perms.subMainIds.toSet();
-            subs = subs.where((s) => allow.contains(s.id)).toList();
-          }
-        } catch (_) {}
+        final allow = _allowedSubMainIds.toSet();
+        subs = subs.where((s) => allow.contains(s.id)).toList();
       }
       emit(state.copyWith(subSections: subs, loadingSubs: false));
     } catch (_) {
@@ -154,6 +173,13 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
     try {
       final schema = await _remote.getFormSchema(event.titleId);
       if (token != _schemaToken) return;
+      if (schema == null) {
+        emit(state.copyWith(
+          loadingSchema: false,
+          loadError: kBuilderUnavailableMessage,
+        ));
+        return;
+      }
       final collapsed = <String, bool>{
         for (final g in schema.section.groups) g.id: g.collapsedByDefault,
       };
@@ -391,6 +417,16 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
     emit(state.copyWith(expandedHistoryIds: next));
   }
 
+  Future<void> _onHistoryReload(
+    HistoryReloadRequested event,
+    Emitter<DataEntryState> emit,
+  ) async {
+    if (event.openHistory) {
+      emit(state.copyWith(historyOpen: true));
+    }
+    await _loadHistory(emit);
+  }
+
   Future<void> _onSaveDraft(
     SaveDraftRequested event,
     Emitter<DataEntryState> emit,
@@ -452,11 +488,18 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
       clearSaveMessage: true,
     ));
     try {
-      await _remote.submitReport(
+      final ok = await _remote.submitReport(
         titleId: titleId,
         subMainId: subId,
         attributeValues: attributeValues,
       );
+      if (!ok) {
+        emit(state.copyWith(
+          savePhase: DataEntrySavePhase.failed,
+          saveMessage: kBuilderUnavailableMessage,
+        ));
+        return false;
+      }
       final stamp = DateFormat.Hm('en').format(DateTime.now());
       _markSection(
         emit,
@@ -483,7 +526,10 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
       }
       emit(state.copyWith(
         savePhase: DataEntrySavePhase.failed,
-        saveMessage: 'فشل الحفظ — القيم ما زالت في النموذج',
+        saveMessage: userFacingErrorMessage(
+          e,
+          fallback: 'فشل الحفظ — القيم ما زالت في النموذج',
+        ),
       ));
       return false;
     }

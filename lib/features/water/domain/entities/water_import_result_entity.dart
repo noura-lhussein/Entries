@@ -32,5 +32,13 @@ class WaterImportResultEntity {
       created: json['created'] as bool?,
     );
   }
+
+  String resolveMessage({
+    required String successFallback,
+    required String failureFallback,
+  }) {
+    if (ok) return messageAr ?? successFallback;
+    return errorAr ?? errorEn ?? messageAr ?? failureFallback;
+  }
 }
 

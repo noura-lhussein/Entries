@@ -26,7 +26,7 @@ class SaveButton extends StatelessWidget {
           ),
           child: isLoading
             ? SizedBox(height: 20.r, width: 20.r, child: CircularProgressIndicator(color: AppColors.goldWarm, strokeWidth: 2))
-            : Text(label, style: TextStyle(fontFamily: 'Cairo', fontSize: 14.sp, fontWeight: FontWeight.w700, color: AppColors.goldWarm)),
+            : Text(label, textAlign: TextAlign.center, style: TextStyle(fontFamily: 'Cairo', fontSize: 13.sp, fontWeight: FontWeight.w700, color: AppColors.goldWarm)),
         ),
       ),
     );

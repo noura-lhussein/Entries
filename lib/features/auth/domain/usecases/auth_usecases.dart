@@ -61,3 +61,34 @@ class FetchMeUseCase {
     return repository.fetchMe();
   }
 }
+
+class UpdateProfileUseCase {
+  final AuthRepository repository;
+  UpdateProfileUseCase(this.repository);
+
+  Future<ApiResult<UserEntity>> call({
+    required int userId,
+    required String firstName,
+    required String lastName,
+    required String email,
+  }) {
+    return repository.updateProfile(
+      userId: userId,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+    );
+  }
+}
+
+class ChangePasswordUseCase {
+  final AuthRepository repository;
+  ChangePasswordUseCase(this.repository);
+
+  Future<ApiResult<void>> call({
+    required int userId,
+    required String newPassword,
+  }) {
+    return repository.changePassword(userId: userId, newPassword: newPassword);
+  }
+}

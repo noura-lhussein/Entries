@@ -1,9 +1,4 @@
-// ── Oil fields production ─────────────────────────────────────────────────────
-class OilField {
-  final String nameAr;
-  final String code;
-  const OilField(this.nameAr, this.code);
-}
+export '../../../domain/entities/oil_field_entity.dart';
 
 // ── Fuel depots ───────────────────────────────────────────────────────────────
 const List<String> kFuelDepots = [

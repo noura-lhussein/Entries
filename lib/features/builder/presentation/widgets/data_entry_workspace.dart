@@ -9,6 +9,8 @@ import '../bloc/data_entry_bloc.dart';
 import '../bloc/data_entry_event.dart';
 import '../bloc/data_entry_state.dart';
 import 'dynamic_schema_field.dart';
+import 'labeled_select_field.dart';
+import 'title_excel_actions.dart';
 
 class DataEntryWorkspace extends StatelessWidget {
   const DataEntryWorkspace({super.key});
@@ -24,18 +26,18 @@ class DataEntryWorkspace extends StatelessWidget {
           );
         }
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _TitlePicker(state: state),
-            Expanded(
-              child: state.loadingSchema
-                  ? const _SchemaLoading()
-                  : state.schema == null
-                      ? _EmptyHint(
-                          icon: Icons.edit_note_outlined,
-                          text: 'اختر نموذجاً للبدء بالإدخال.',
-                        )
-                      : _SchemaForm(state: state),
-            ),
+            if (state.loadingSchema)
+              const _SchemaLoading()
+            else if (state.schema == null)
+              _EmptyHint(
+                icon: Icons.edit_note_outlined,
+                text: 'اختر نموذجاً للبدء بالإدخال.',
+              )
+            else
+              _SchemaForm(state: state),
             _Footer(state: state),
           ],
         );
@@ -53,8 +55,8 @@ class _TitlePicker extends StatelessWidget {
     final total = state.titles.length;
     final done = state.progressDone;
     return Container(
-      margin: EdgeInsets.only(bottom: 10.h),
-      padding: EdgeInsets.all(12.r),
+      margin: EdgeInsets.only(bottom: 8.h),
+      padding: EdgeInsets.fromLTRB(12.r, 10.r, 12.r, 10.r),
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(12.r),
@@ -63,19 +65,39 @@ class _TitlePicker extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          LabeledSelectField(
+            label: 'النموذج',
+            hint: 'اختر نموذجاً',
+            value: state.selectedTitleId?.toString(),
+            options: [
+              for (var i = 0; i < state.titles.length; i++)
+                BuilderSelectOption(
+                  id: state.titles[i].id,
+                  label: _titleLabel(state.titles[i], i),
+                ),
+            ],
+            onChanged: (v) {
+              final id = int.tryParse(v ?? '');
+              if (id != null) {
+                context.read<DataEntryBloc>().add(TitleSelected(id));
+              }
+            },
+          ),
+          SizedBox(height: 8.h),
           Row(
             children: [
               Expanded(
-                child: Text(
-                  'النماذج',
-                  style: TextStyle(
-                    fontFamily: 'Cairo',
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.textPrimary,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(99),
+                  child: LinearProgressIndicator(
+                    value: total == 0 ? 0 : done / total,
+                    minHeight: 6.h,
+                    backgroundColor: AppColors.goldWash,
+                    color: AppColors.successGreen,
                   ),
                 ),
               ),
+              SizedBox(width: 10.w),
               Text(
                 '$done / $total',
                 style: TextStyle(
@@ -87,59 +109,23 @@ class _TitlePicker extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 8.h),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(99),
-            child: LinearProgressIndicator(
-              value: total == 0 ? 0 : done / total,
-              minHeight: 6.h,
-              backgroundColor: AppColors.goldWash,
-              color: AppColors.successGreen,
-            ),
-          ),
-          SizedBox(height: 10.h),
-          SizedBox(
-            height: 40.h,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: state.titles.length,
-              separatorBuilder: (_, __) => SizedBox(width: 8.w),
-              itemBuilder: (context, i) {
-                final t = state.titles[i];
-                final current = t.id == state.selectedTitleId;
-                final status =
-                    state.sectionStatus[t.id] ?? SectionEntryStatus.empty;
-                return ChoiceChip(
-                  showCheckmark: false,
-                  selected: current,
-                  label: Text(
-                    '${i + 1} — ${t.name}',
-                    style: TextStyle(
-                      fontFamily: 'Cairo',
-                      fontSize: 11.sp,
-                      fontWeight: FontWeight.w700,
-                      color: current ? Colors.white : AppColors.textPrimary,
-                    ),
-                  ),
-                  avatar: Icon(
-                    _statusIcon(status),
-                    size: 14.r,
-                    color: current ? Colors.white : _statusColor(status),
-                  ),
-                  selectedColor: AppColors.inkDeep,
-                  backgroundColor: AppColors.goldWash,
-                  side: BorderSide(
-                    color: current ? AppColors.inkDeep : AppColors.border,
-                  ),
-                  onSelected: (_) =>
-                      context.read<DataEntryBloc>().add(TitleSelected(t.id)),
-                );
-              },
-            ),
-          ),
         ],
       ),
     );
+  }
+
+  String _titleLabel(BuilderTitle t, int i) {
+    final status = state.sectionStatus[t.id] ?? SectionEntryStatus.empty;
+    final mark = switch (status) {
+      SectionEntryStatus.complete => '✓ ',
+      SectionEntryStatus.draft => '✎ ',
+      SectionEntryStatus.error => '! ',
+      SectionEntryStatus.empty => '',
+    };
+    final cat = t.categoryName != null && t.categoryName!.trim().isNotEmpty
+        ? ' — ${t.categoryName}'
+        : '';
+    return '$mark${i + 1}. ${t.name}$cat';
   }
 }
 
@@ -151,49 +137,92 @@ class _SchemaForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final s = state.schema!;
     final groups = state.groupedFields;
-    return ListView(
-      padding: EdgeInsets.only(bottom: 12.h),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         FormCard(
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      s.section.titleAr,
-                      style: TextStyle(
-                        fontFamily: 'Cairo',
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    if (s.section.subtitleAr != null &&
-                        s.section.subtitleAr!.trim().isNotEmpty) ...[
-                      SizedBox(height: 4.h),
-                      Text(
-                        s.section.subtitleAr!,
-                        style: TextStyle(
-                          fontFamily: 'Cairo',
-                          fontSize: 11.sp,
-                          color: AppColors.textHint,
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          s.section.titleAr,
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            fontFamily: 'Cairo',
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.textPrimary,
+                          ),
                         ),
-                      ),
-                    ],
-                  ],
-                ),
+                        if (s.section.subtitleAr != null &&
+                            s.section.subtitleAr!.trim().isNotEmpty) ...[
+                          SizedBox(height: 4.h),
+                          Text(
+                            s.section.subtitleAr!,
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontFamily: 'Cairo',
+                              fontSize: 11.sp,
+                              color: AppColors.textHint,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  if (state.selectedTitleId != null)
+                    _StatusBadge(
+                      status: state.sectionStatus[state.selectedTitleId] ??
+                          SectionEntryStatus.empty,
+                    ),
+                ],
               ),
-              if (state.selectedTitleId != null)
-                _StatusBadge(
-                  status: state.sectionStatus[state.selectedTitleId] ??
-                      SectionEntryStatus.empty,
+              if (state.selectedTitleId != null &&
+                  state.selectedSubId != null) ...[
+                SizedBox(height: 10.h),
+                TitleExcelActions(
+                  titleId: state.selectedTitleId!,
+                  titleName: state.activeTitle?.name ?? s.section.titleAr,
+                  subMainId: state.selectedSubId,
+                  onImported: () => context
+                      .read<DataEntryBloc>()
+                      .add(const HistoryReloadRequested()),
                 ),
+              ],
             ],
           ),
         ),
         SizedBox(height: 12.h),
+        if (state.dateDuplicateWarning != null &&
+            state.dateDuplicateWarning!.trim().isNotEmpty) ...[
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.all(10.r),
+            decoration: BoxDecoration(
+              color: AppColors.errorBg,
+              borderRadius: BorderRadius.circular(10.r),
+              border: Border.all(
+                color: AppColors.errorRed.withValues(alpha: 0.3),
+              ),
+            ),
+            child: Text(
+              state.dateDuplicateWarning!,
+              style: TextStyle(
+                fontFamily: 'Cairo',
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w700,
+                color: AppColors.errorRed,
+              ),
+            ),
+          ),
+          SizedBox(height: 12.h),
+        ],
         for (final g in groups) ...[
           _GroupCard(group: g, collapsed: state.collapsedGroups[g.group.id] ?? false),
           SizedBox(height: 12.h),
@@ -230,6 +259,7 @@ class _GroupCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     group.group.titleAr,
+                    textAlign: TextAlign.right,
                     style: TextStyle(
                       fontFamily: 'Cairo',
                       fontSize: 13.sp,
@@ -251,13 +281,58 @@ class _GroupCard extends StatelessWidget {
           ),
           if (!collapsed) ...[
             SizedBox(height: 12.h),
-            for (var i = 0; i < group.fields.length; i++) ...[
-              DynamicSchemaField(field: group.fields[i]),
-              if (i != group.fields.length - 1) SizedBox(height: 10.h),
-            ],
+            _FieldsGrid(fields: group.fields),
           ],
         ],
       ),
+    );
+  }
+}
+
+class _FieldsGrid extends StatelessWidget {
+  final List<FormSchemaField> fields;
+  const _FieldsGrid({required this.fields});
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final twoCol = constraints.maxWidth >= 420;
+        final rows = <Widget>[];
+        var i = 0;
+        while (i < fields.length) {
+          final field = fields[i];
+          final takePair = twoCol &&
+              !field.isFullWidth &&
+              i + 1 < fields.length &&
+              !fields[i + 1].isFullWidth;
+          if (takePair) {
+            rows.add(
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(child: DynamicSchemaField(field: field)),
+                  SizedBox(width: 10.w),
+                  Expanded(child: DynamicSchemaField(field: fields[i + 1])),
+                ],
+              ),
+            );
+            i += 2;
+          } else {
+            rows.add(DynamicSchemaField(field: field));
+            i += 1;
+          }
+        }
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (var r = 0; r < rows.length; r++) ...[
+              rows[r],
+              if (r != rows.length - 1) SizedBox(height: 10.h),
+            ],
+          ],
+        );
+      },
     );
   }
 }
@@ -280,6 +355,7 @@ class _HistoryCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     'آخر ${state.historyRows.isEmpty ? 5 : state.historyRows.length} سجلات لهذا القسم',
+                    textAlign: TextAlign.right,
                     style: TextStyle(
                       fontFamily: 'Cairo',
                       fontSize: 13.sp,
@@ -291,7 +367,7 @@ class _HistoryCard extends StatelessWidget {
                 Icon(
                   state.historyOpen
                       ? Icons.expand_more_rounded
-                      : Icons.chevron_left_rounded,
+                      : Icons.chevron_right_rounded,
                   color: AppColors.inkSoft,
                 ),
               ],
@@ -460,48 +536,54 @@ class _Footer extends StatelessWidget {
     final saving = state.savePhase == DataEntrySavePhase.saving;
     final canSave = state.selectedSubId != null && state.schema != null;
     return Container(
-      padding: EdgeInsets.fromLTRB(0, 8.h, 0, 4.h),
-      decoration: BoxDecoration(
-        color: AppColors.background,
-        border: Border(top: BorderSide(color: AppColors.divider)),
-      ),
+      padding: EdgeInsets.fromLTRB(0, 10.h, 0, 8.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SaveButton(
-            isLoading: saving,
-            label: 'اعتماد والانتقال للتالي',
-            onPressed: canSave && !saving
-                ? () => context
-                    .read<DataEntryBloc>()
-                    .add(const CommitAndNextRequested())
-                : null,
-          ),
-          SizedBox(height: 8.h),
-          SizedBox(
-            height: 44.h,
-            child: OutlinedButton(
-              onPressed: canSave && !saving
-                  ? () => context
-                      .read<DataEntryBloc>()
-                      .add(const SaveDraftRequested())
-                  : null,
-              style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: AppColors.borderMid),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.r),
+          Row(
+            children: [
+              Expanded(
+                child: SizedBox(
+                  height: 48.h,
+                  child: OutlinedButton(
+                    onPressed: canSave && !saving
+                        ? () => context
+                            .read<DataEntryBloc>()
+                            .add(const SaveDraftRequested())
+                        : null,
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: Size(double.infinity, 48.h),
+                      side: const BorderSide(color: AppColors.borderMid),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                    ),
+                    child: Text(
+                      'حفظ مسودة',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Cairo',
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.inkMid,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-              child: Text(
-                'حفظ مسودة',
-                style: TextStyle(
-                  fontFamily: 'Cairo',
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.inkMid,
+              SizedBox(width: 8.w),
+              Expanded(
+                child: SaveButton(
+                  isLoading: saving,
+                  label: 'اعتماد والتالي',
+                  onPressed: canSave && !saving
+                      ? () => context
+                          .read<DataEntryBloc>()
+                          .add(const CommitAndNextRequested())
+                      : null,
                 ),
               ),
-            ),
+            ],
           ),
           SizedBox(height: 6.h),
           Text(
@@ -572,7 +654,7 @@ class _SchemaLoading extends StatelessWidget {
   const _SchemaLoading();
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
       children: const [
         FieldShimmer(label: 'تحميل النموذج'),
         SizedBox(height: 12),
@@ -591,8 +673,7 @@ class _EmptyHint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
+    return Padding(
         padding: EdgeInsets.all(24.r),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -610,7 +691,6 @@ class _EmptyHint extends StatelessWidget {
             ),
           ],
         ),
-      ),
     );
   }
 }

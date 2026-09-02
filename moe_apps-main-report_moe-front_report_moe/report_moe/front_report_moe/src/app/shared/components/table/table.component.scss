@@ -1,0 +1,726 @@
+@use 'styles/variables' as *;
+@use 'styles/spacing' as *;
+@use 'styles/typography' as *;
+@use 'styles/mixins' as mixins;
+
+:host {
+  display: block;
+  font-family: $font-family-base;
+  font-size: $font-size-sm;
+  color: $gray-700;
+}
+
+.table-wrapper {
+  position: relative;
+  background: $bg-primary;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+  overflow: hidden;
+  --actions-sticky-width: 0px;
+}
+
+.h-scroll-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 36px;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.h-scroll-fade--left {
+  left: 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.h-scroll-fade--right {
+  right: 0;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.table-wrapper.has-more-left .h-scroll-fade--left,
+.table-wrapper.has-more-right .h-scroll-fade--right {
+  opacity: 1;
+}
+
+.h-scroll-cue {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 6;
+  pointer-events: none;
+  width: 22px;
+  height: 22px;
+  border-radius: $radius-full;
+  background: rgba($gray-800, 0.72);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.18);
+  animation: h-scroll-cue-pulse 1.8s ease-in-out infinite;
+}
+
+.h-scroll-cue mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.h-scroll-cue--left {
+  left: 6px;
+}
+
+.h-scroll-cue--right {
+  right: 6px;
+}
+
+/* Keep cues/fades off the sticky actions column */
+:host-context([dir='rtl']) .table-wrapper.with-actions-col {
+  .h-scroll-fade--left {
+    left: var(--actions-sticky-width, 0px);
+  }
+
+  .h-scroll-cue--left {
+    left: calc(var(--actions-sticky-width, 0px) + 6px);
+  }
+}
+
+:host-context([dir='ltr']) .table-wrapper.with-actions-col {
+  .h-scroll-fade--right {
+    right: var(--actions-sticky-width, 0px);
+  }
+
+  .h-scroll-cue--right {
+    right: calc(var(--actions-sticky-width, 0px) + 6px);
+  }
+}
+
+@keyframes h-scroll-cue-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .h-scroll-cue {
+    animation: none;
+    opacity: 0.85;
+  }
+}
+
+.table-scroll {
+  @include mixins.table-scroll-layer;
+  isolation: isolate;
+
+  /* Sticky layers: body side < header cells < sticky corner (actions header)
+     Keep all below page-chrome (z-index: 10) when outer page owns vertical scroll. */
+  thead th {
+    z-index: 2;
+  }
+
+  tbody td.actions-col {
+    z-index: 1;
+  }
+
+  thead th.actions-col {
+    z-index: 3;
+  }
+
+  &.table-scroll--y-off {
+    thead th {
+      z-index: auto;
+    }
+
+    thead th.actions-col {
+      z-index: 2;
+    }
+  }
+}
+
+.data-table {
+  width: 100%;
+  min-width: max-content;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+thead tr {
+  border-bottom: 1px solid $border-color;
+}
+
+th {
+  position: relative;
+  padding: 12px $spacing-4;
+  text-align: center;
+  font-size: $font-size-xs;
+  font-weight: $fw-semibold;
+  color: $gray-500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.35;
+  user-select: none;
+}
+
+.th-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: $spacing-1;
+  max-width: 100%;
+}
+
+.data-table.resizable-columns th.data-col-header,
+.data-table.resizable-columns th.actions-col {
+  padding-inline-end: calc(#{$spacing-4} + 6px);
+}
+
+.col-resizer {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  width: 10px;
+  height: 100%;
+  cursor: col-resize;
+  touch-action: none;
+  z-index: 2;
+}
+
+.col-resizer::after {
+  content: '';
+  position: absolute;
+  top: 12%;
+  bottom: 12%;
+  inset-inline-end: 4px;
+  width: 2px;
+  border-radius: 1px;
+  background: rgba($primary, 0.45);
+  transition:
+    background-color $transition-fast,
+    width $transition-fast,
+    box-shadow $transition-fast;
+}
+
+.col-resizer:hover::after,
+:host-context(body.table-col-resizing) .col-resizer::after {
+  background: $primary;
+  width: 3px;
+  inset-inline-end: 3px;
+  box-shadow: 0 0 0 1px rgba($primary, 0.25);
+}
+
+th.sortable {
+  cursor: pointer;
+}
+
+th.sortable:hover {
+  color: $gray-800;
+}
+
+.sort-icon {
+  display: inline-flex;
+  flex-direction: column;
+  line-height: 0;
+}
+
+.sort-icon mat-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 10px;
+  color: $gray-300;
+  transition: color $transition-fast;
+}
+
+.sort-icon mat-icon.active {
+  color: $primary;
+}
+
+tbody td {
+  padding: 14px $spacing-4;
+  border-top: 1px solid $gray-100;
+  color: $gray-700;
+  vertical-align: top;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.45;
+}
+
+tbody td app-stored-media-value {
+  display: block;
+  white-space: normal;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+tbody tr {
+  transition: background-color $transition-fast;
+}
+
+tbody tr:hover {
+  background-color: $gray-50;
+}
+
+tbody tr.clickable {
+  cursor: pointer;
+}
+
+tbody tr.selected {
+  background-color: $primary-tint;
+}
+
+.select-col {
+  width: 48px;
+  padding-left: $spacing-4;
+  padding-right: $spacing-2;
+}
+
+.actions-col {
+  position: sticky;
+  inset-inline-end: 0;
+  top: auto;
+  white-space: nowrap;
+  text-align: center;
+  background-color: $bg-primary;
+  box-shadow: -4px 0 8px -6px rgba(15, 23, 42, 0.18);
+
+  /* Solid divider toward data columns (survives border-collapse + sticky) */
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: 2px;
+    background-color: $gray-300;
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
+:host-context([dir='rtl']) .actions-col {
+  box-shadow: 4px 0 8px -6px rgba(15, 23, 42, 0.18);
+}
+
+thead th.actions-col {
+  top: 0;
+  background-color: $gray-50;
+}
+
+.table-scroll.table-scroll--y-off thead th.actions-col {
+  top: auto;
+}
+
+tbody tr:hover td.actions-col {
+  background-color: $gray-50;
+}
+
+tbody tr.selected td.actions-col {
+  background-color: $primary-tint;
+}
+
+input[type='checkbox'] {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  accent-color: $primary;
+}
+
+.avatar-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: $radius-full;
+  background-color: $gray-200;
+  color: $gray-500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: $fw-semibold;
+  font-size: $font-size-sm;
+  flex-shrink: 0;
+}
+
+.avatar-name {
+  font-weight: $fw-semibold;
+  color: $gray-800;
+  line-height: 1.25;
+}
+
+.avatar-sub {
+  font-size: $font-size-xs;
+  color: $gray-500;
+  margin-top: 2px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-1 12px;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: $fw-medium;
+  line-height: 1.25;
+  white-space: nowrap;
+  background: $gray-200;
+  color: $gray-700;
+}
+
+.badge.badge-true {
+  background: $success-bg;
+  color: $success-text;
+}
+
+.badge.badge-false {
+  background: $error-bg;
+  color: $error-text;
+}
+
+.actions-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 100%;
+}
+
+.actions-header-label {
+  display: block;
+  line-height: 1.2;
+}
+
+.actions-group {
+  display: inline-flex;
+  gap: $spacing-2;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.actions-group--bulk {
+  gap: $spacing-1;
+}
+
+.actions-group .confirm-status-group {
+  margin-inline-end: 2px;
+}
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  border-radius: $radius-md;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color $transition-fast;
+  padding: 0;
+}
+
+.action-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.action-btn:focus-visible {
+  outline: 2px solid $primary;
+  outline-offset: 2px;
+}
+
+.action-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.action-btn:disabled:hover {
+  background-color: transparent !important;
+}
+
+.action-view {
+  color: #2563eb;
+}
+
+.action-view:hover:not(:disabled) {
+  background-color: $info-bg;
+}
+
+.action-edit {
+  color: #16a34a;
+}
+
+.action-edit:hover:not(:disabled) {
+  background-color: $confirm-bg-hover;
+}
+
+.action-delete {
+  color: $button-danger-hover;
+}
+
+.action-delete:hover:not(:disabled) {
+  background-color: $error-bg;
+}
+
+.action-primary {
+  color: $primary;
+}
+
+.action-primary:hover:not(:disabled) {
+  background-color: rgba($primary, 0.15);
+}
+
+.action-default {
+  color: $gray-500;
+}
+
+.action-default:hover:not(:disabled) {
+  background-color: $gray-100;
+}
+
+.action-warning {
+  color: $warning-text;
+}
+
+.action-warning:hover:not(:disabled) {
+  background-color: $warning-bg;
+}
+
+.confirm-status-group {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-1;
+}
+
+.confirm-status-icon {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  border-radius: $radius-md;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  opacity: 0.35;
+  transition:
+    opacity $transition-fast,
+    background-color $transition-fast;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  &.is-active {
+    opacity: 1;
+  }
+
+  &:disabled:not(.confirm-status-icon--waiting) {
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    background-color: $gray-100;
+  }
+}
+
+.confirm-status-icon--waiting.is-active {
+  color: $warning-text;
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+.confirm-status-icon--approve.is-active {
+  color: #16a34a;
+}
+
+.confirm-status-icon--reject.is-active {
+  color: $button-danger-hover;
+}
+
+.confirm-status-icon--approve:not(:disabled):hover {
+  background-color: $confirm-bg-hover;
+}
+
+.confirm-status-icon--reject:not(:disabled):hover {
+  background-color: $error-bg;
+}
+
+.confirmed-field-cell {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $spacing-2;
+  width: 100%;
+}
+
+.confirmed-field-value {
+  flex: 1;
+  min-width: 0;
+}
+
+.field-confirm-badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+
+  mat-icon {
+    width: 22px;
+    height: 22px;
+    font-size: 22px;
+  }
+}
+
+.field-confirm-badge--confirmed {
+  color: #16a34a;
+}
+
+.field-confirm-badge--rejected {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: #64748b;
+  color: #fff;
+
+  mat-icon {
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+}
+
+.field-confirm-badge--waiting {
+  color: #d97706;
+}
+
+.note-cell {
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: $confirm-note-color;
+  line-height: 1.45;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.commit-note-cell {
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: $commit-note-color;
+  line-height: 1.45;
+  white-space: normal;
+  word-break: break-word;
+  background: $commit-note-bg;
+  border-radius: $radius-md;
+  padding: 6px $spacing-2;
+}
+
+.no-data {
+  text-align: center;
+  padding: $spacing-12 $spacing-4;
+  color: $gray-500;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px $spacing-4;
+  background-color: $gray-50;
+  border-top: 1px solid $border-color;
+  font-size: $font-size-sm;
+  color: $gray-500;
+}
+
+.page-size {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+}
+
+.page-size select {
+  padding: $spacing-1 $spacing-2;
+  border: 1px solid $gray-300;
+  border-radius: $radius-md;
+  background: $bg-primary;
+  font-size: $font-size-sm;
+  color: $gray-700;
+  cursor: pointer;
+}
+
+.page-size select:focus {
+  outline: none;
+  border-color: $primary;
+  box-shadow: 0 0 0 2px rgba($primary, 0.2);
+}
+
+.page-controls {
+  display: inline-flex;
+  gap: $spacing-1;
+}
+
+.page-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid $gray-300;
+  border-radius: $radius-md;
+  background: $bg-primary;
+  cursor: pointer;
+  color: $gray-700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-fast;
+}
+
+.page-btn mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+/* Physical arrow icons — mirror in RTL so prev/next point with reading direction. */
+:host-context([dir='rtl']) .page-btn mat-icon {
+  transform: scaleX(-1);
+}
+
+.page-btn:hover:not(:disabled) {
+  background-color: $primary-tint;
+  border-color: $primary;
+  color: $primary;
+}
+
+.page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

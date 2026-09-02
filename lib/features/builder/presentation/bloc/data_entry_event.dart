@@ -53,6 +53,11 @@ class HistoryRowToggled extends DataEntryEvent {
   const HistoryRowToggled(this.rowId);
 }
 
+class HistoryReloadRequested extends DataEntryEvent {
+  final bool openHistory;
+  const HistoryReloadRequested({this.openHistory = true});
+}
+
 class SaveDraftRequested extends DataEntryEvent {
   const SaveDraftRequested();
 }

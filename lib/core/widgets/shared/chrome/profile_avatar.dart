@@ -6,7 +6,13 @@ import '../../../models/user_model.dart';
 class ProfileAvatar extends StatelessWidget {
   final UserModel user;
   final VoidCallback onLogout;
-  const ProfileAvatar({super.key, required this.user, required this.onLogout});
+  final VoidCallback? onProfile;
+  const ProfileAvatar({
+    super.key,
+    required this.user,
+    required this.onLogout,
+    this.onProfile,
+  });
 
   String get _initial {
     final raw = user.name.trim().isNotEmpty
@@ -21,6 +27,7 @@ class ProfileAvatar extends StatelessWidget {
     return PopupMenuButton<String>(
       onSelected: (v) {
         if (v == 'logout') onLogout();
+        if (v == 'profile') onProfile?.call();
       },
       offset: Offset(0, 46.h),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
@@ -64,6 +71,18 @@ class ProfileAvatar extends StatelessWidget {
           ),
         ),
         const PopupMenuDivider(),
+        PopupMenuItem(
+          value: 'profile',
+          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
+          child: Row(
+            children: [
+              const Icon(Icons.person_outline_rounded, color: AppColors.ink, size: 18),
+              SizedBox(width: 8.w),
+              Text('الملف الشخصي',
+                style: TextStyle(fontFamily: 'Cairo', fontSize: 13.sp, color: AppColors.ink, fontWeight: FontWeight.w600)),
+            ],
+          ),
+        ),
         PopupMenuItem(
           value: 'logout',
           padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),

@@ -73,7 +73,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
             SizedBox(height: 4.h),
             Text(
-              'البريد الرسمي وكلمة المرور',
+              'اسم المستخدم أو البريد، ثم كلمة المرور',
               style: TextStyle(
                 fontFamily: 'Cairo',
                 fontSize: 12.sp,
@@ -81,7 +81,7 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
             SizedBox(height: 20.h),
-            const LoginFieldLabel('البريد الإلكتروني'),
+            const LoginFieldLabel('اسم المستخدم / البريد'),
             SizedBox(height: 8.h),
             TextFormField(
               controller: _emailCtrl,
@@ -91,13 +91,12 @@ class _LoginFormState extends State<LoginForm> {
               textAlign: TextAlign.left,
               style: _inputStyle,
               decoration: LoginInputDecoration.build(
-                hint: 'name@energy.gov.sy',
-                icon: Icons.mail_outline_rounded,
+                hint: 'username أو name@moenergy.gov.sy',
+                icon: Icons.person_outline_rounded,
               ),
               validator: (v) {
                 final t = v?.trim() ?? '';
-                if (t.isEmpty) return 'أدخل البريد الإلكتروني';
-                if (!t.contains('@')) return 'بريد غير صالح';
+                if (t.isEmpty) return 'أدخل اسم المستخدم أو البريد';
                 return null;
               },
             ),

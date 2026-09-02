@@ -18,6 +18,13 @@ String? normalizeDateValue(String? raw) {
   if (text.length >= 10 && text[4] == '-' && text[7] == '-') {
     return text.substring(0, 10);
   }
+  final slash = RegExp(r'^(\d{1,2})[/.](\d{1,2})[/.](\d{4})$').firstMatch(text);
+  if (slash != null) {
+    final d = slash.group(1)!.padLeft(2, '0');
+    final m = slash.group(2)!.padLeft(2, '0');
+    final y = slash.group(3)!;
+    return '$y-$m-$d';
+  }
   return null;
 }
 

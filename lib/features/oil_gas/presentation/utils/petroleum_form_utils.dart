@@ -1,8 +1,5 @@
-String fmtDate(DateTime d) =>
-    '${d.year.toString().padLeft(4, '0')}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
+import '../../domain/utils/parse_oil_gas_number.dart';
 
-double? parseNum(String text) {
-  final t = text.trim().replaceAll(',', '.');
-  if (t.isEmpty) return null;
-  return double.tryParse(t);
-}
+String fmtDate(DateTime d) => oilGasIsoDate(d);
+
+double? parseNum(String text) => parseOilGasNumber(text);
