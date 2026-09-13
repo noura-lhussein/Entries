@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import {
@@ -16,6 +16,7 @@ import { INFO_TABLE_SCROLL } from '../../utils/info-table-scroll';
   standalone: true,
   imports: [CommonModule, MatIconModule, TableComponent, InfiniteScrollDirective],
   templateUrl: './title-grouped-tables.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './title-grouped-tables.component.scss',
 })
 export class TitleGroupedTablesComponent {

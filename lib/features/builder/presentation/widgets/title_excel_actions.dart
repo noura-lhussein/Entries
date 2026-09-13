@@ -120,7 +120,7 @@ class _TitleExcelActionsState extends State<TitleExcelActions> {
     return Wrap(
       spacing: 6.w,
       runSpacing: 6.h,
-      alignment: WrapAlignment.end,
+      alignment: WrapAlignment.start,
       children: [
         OutlinedButton.icon(
           onPressed: _downloading ? null : _download,

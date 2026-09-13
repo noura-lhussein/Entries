@@ -9,12 +9,7 @@ class FormCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     padding: EdgeInsets.all(14.r),
-    decoration: BoxDecoration(
-      color: AppColors.surface,
-      borderRadius: BorderRadius.circular(14.r),
-      border: Border.all(color: AppColors.border),
-      boxShadow: [BoxShadow(color: Colors.black.withValues(alpha:0.04), blurRadius: 6, offset: const Offset(0, 2))],
-    ),
+    decoration: AppDecorations.surfaceCard(),
     child: child,
   );
 }
@@ -23,14 +18,19 @@ class SectionCard extends StatelessWidget {
   final String title;
   final Widget child;
   final Widget? trailing;
-  const SectionCard({super.key, required this.title, required this.child, this.trailing});
+  final IconData? icon;
+  const SectionCard({
+    super.key,
+    required this.title,
+    required this.child,
+    this.trailing,
+    this.icon,
+  });
 
   @override
   Widget build(BuildContext context) => FormCard(
     child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Row(children: [
-        if (trailing != null) ...[trailing!, SizedBox(width: 8.w)],
-     
         Container(
           height: 16.r,
           width: 3.w,
@@ -38,9 +38,25 @@ class SectionCard extends StatelessWidget {
             gradient: AppColors.goldGradient,
             borderRadius: BorderRadius.circular(2.r),
           ),
-          margin: EdgeInsets.only(left: 7.w),
+          margin: EdgeInsetsDirectional.only(end: 7.w),
         ),
-        Text(title, style: TextStyle(fontFamily: 'Cairo', fontSize: 13.sp, fontWeight: FontWeight.w800, color: AppColors.textPrimary)),
+        if (icon != null) ...[
+          Icon(icon, size: 16.r, color: AppColors.goldDeep),
+          SizedBox(width: 6.w),
+        ],
+        Expanded(
+          child: Text(
+            title,
+            textAlign: TextAlign.start,
+            style: TextStyle(
+              fontFamily: 'Cairo',
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w800,
+              color: AppColors.textPrimary,
+            ),
+          ),
+        ),
+        if (trailing != null) ...[SizedBox(width: 8.w), trailing!],
       ]),
       SizedBox(height: 12.h),
       child,

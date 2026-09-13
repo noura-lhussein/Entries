@@ -11,13 +11,16 @@ part 'profile_state.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc({
     required this.updateProfile,
+    required this.updateProfilePhoto,
     required this.changePassword,
   }) : super(const ProfileState()) {
     on<ProfileUpdateRequested>(_onUpdate);
+    on<ProfilePhotoUpdateRequested>(_onPhoto);
     on<ProfilePasswordChangeRequested>(_onPassword);
   }
 
   final UpdateProfileUseCase updateProfile;
+  final UpdateProfilePhotoUseCase updateProfilePhoto;
   final ChangePasswordUseCase changePassword;
 
   Future<void> _onUpdate(
@@ -43,6 +46,36 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(state.copyWith(
           updating: false,
           error: err.apiErrorModel.message ?? 'خطأ في حفظ التغييرات',
+        ));
+      },
+    );
+  }
+
+  Future<void> _onPhoto(
+    ProfilePhotoUpdateRequested event,
+    Emitter<ProfileState> emit,
+  ) async {
+    emit(state.copyWith(
+      uploadingPhoto: true,
+      clearMessage: true,
+      clearError: true,
+    ));
+    final result = await updateProfilePhoto(
+      userId: event.userId,
+      filePath: event.filePath,
+    );
+    result.when(
+      success: (user) {
+        emit(state.copyWith(
+          uploadingPhoto: false,
+          updatedUser: user,
+          message: 'تم تحديث الصورة بنجاح',
+        ));
+      },
+      failure: (err) {
+        emit(state.copyWith(
+          uploadingPhoto: false,
+          error: err.apiErrorModel.message ?? 'تعذر تحديث الصورة',
         ));
       },
     );

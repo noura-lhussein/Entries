@@ -1,0 +1,7 @@
+{
+  "body": {
+    "detail": "section query param required (rainfall|dams|euphrates|drinking-water)."
+  },
+  "path": "/api/v1/water/reports/export/",
+  "status": 400
+}

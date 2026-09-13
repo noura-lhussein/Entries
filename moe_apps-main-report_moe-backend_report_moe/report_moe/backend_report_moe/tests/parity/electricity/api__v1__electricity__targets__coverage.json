@@ -1,0 +1,7 @@
+{
+  "body": {
+    "detail": "date query param required (YYYY-MM-DD)."
+  },
+  "path": "/api/v1/electricity/targets/coverage/",
+  "status": 400
+}

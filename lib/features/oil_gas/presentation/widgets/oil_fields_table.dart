@@ -37,9 +37,9 @@ class OilFieldsTable extends StatelessWidget {
     padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 5.h),
     child: Row(children: [
        Expanded(flex: 3, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(f.nameAr, textAlign: TextAlign.right,
+        Text(f.nameAr, textAlign: TextAlign.start,
           style: TextStyle(fontFamily: 'Cairo', fontSize: 11.sp, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
-        Text(f.code, textAlign: TextAlign.right,
+        Text(f.code, textAlign: TextAlign.start,
           style: TextStyle(fontFamily: 'Cairo', fontSize: 9.sp, color: AppColors.textHint, letterSpacing: 0.5)),
       ])),
       Expanded(flex: 3, child: Padding(padding: EdgeInsets.symmetric(horizontal: 3.w), child: TableCell(controller: oilCtrls[f.code]))),

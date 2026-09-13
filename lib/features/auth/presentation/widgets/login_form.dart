@@ -49,9 +49,12 @@ class _LoginFormState extends State<LoginForm> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18.r),
+        border: Border.all(
+          color: AppColors.goldWarm.withValues(alpha: 0.35),
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.28),
+            color: AppColors.ink.withValues(alpha: 0.28),
             blurRadius: 32,
             offset: const Offset(0, 16),
           ),
@@ -62,14 +65,27 @@ class _LoginFormState extends State<LoginForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              'بيانات الدخول',
-              style: TextStyle(
-                fontFamily: 'Cairo',
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w800,
-                color: AppColors.ink,
-              ),
+            Row(
+              children: [
+                Container(
+                  height: 16.r,
+                  width: 3.w,
+                  decoration: BoxDecoration(
+                    gradient: AppColors.goldGradient,
+                    borderRadius: BorderRadius.circular(2.r),
+                  ),
+                ),
+                SizedBox(width: 8.w),
+                Text(
+                  'بيانات الدخول',
+                  style: TextStyle(
+                    fontFamily: 'Cairo',
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.ink,
+                  ),
+                ),
+              ],
             ),
             SizedBox(height: 4.h),
             Text(

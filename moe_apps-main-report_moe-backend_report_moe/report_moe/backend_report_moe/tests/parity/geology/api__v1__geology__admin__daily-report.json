@@ -1,0 +1,7 @@
+{
+  "body": {
+    "detail": "report_date query param required (YYYY-MM-DD)."
+  },
+  "path": "/api/v1/geology/admin/daily-report/",
+  "status": 400
+}

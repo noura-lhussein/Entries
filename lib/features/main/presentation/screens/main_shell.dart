@@ -125,7 +125,7 @@ class _MainShellState extends State<MainShell> {
                   ),
                   Positioned.fill(
                     child: Container(
-                      color: Colors.white.withValues(alpha: 0.9),
+                      color: AppColors.cream.withValues(alpha: 0.92),
                     ),
                   ),
                   SafeArea(
@@ -146,12 +146,19 @@ class _MainShellState extends State<MainShell> {
       case 'myData':
         return KeyedSubtree(
           key: const ValueKey('myData'),
-          child: MyDataScreen(currentUserId: int.tryParse(user.id)),
+          child: MyDataScreen(
+            currentUserId: int.tryParse(user.id),
+            canWrite: user.canEnterData || user.isAdmin,
+            isAdmin: user.isAdmin,
+          ),
         );
       case 'entered':
-        return const KeyedSubtree(
-          key: ValueKey('entered'),
-          child: EnteredDataScreen(),
+        return KeyedSubtree(
+          key: const ValueKey('entered'),
+          child: EnteredDataScreen(
+            isAdmin: user.isAdmin,
+            canConfirm: user.isAdmin || user.canConfirmInfo,
+          ),
         );
       case 'profile':
         return const KeyedSubtree(

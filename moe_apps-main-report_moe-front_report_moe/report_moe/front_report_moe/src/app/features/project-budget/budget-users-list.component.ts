@@ -1,4 +1,11 @@
-import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  inject,
+  signal,
+  computed,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslationService } from '../../shared/services/translation.service';
@@ -15,6 +22,7 @@ import type { BudgetUser } from './project-budget.models';
   selector: 'app-budget-users-list',
   standalone: true,
   imports: [ListPageComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <app-list-page
       [config]="pageConfig()"

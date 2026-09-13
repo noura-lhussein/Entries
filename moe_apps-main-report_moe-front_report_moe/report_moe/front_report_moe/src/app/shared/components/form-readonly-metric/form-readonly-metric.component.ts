@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-form-readonly-metric',
@@ -12,6 +12,7 @@ import { Component, Input } from '@angular/core';
       <span *ngIf="hint" class="readonly-metric-hint">{{ hint }}</span>
     </p>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './form-readonly-metric.component.scss',
 })
 export class FormReadonlyMetricComponent {

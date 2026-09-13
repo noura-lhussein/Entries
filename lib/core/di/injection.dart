@@ -206,6 +206,7 @@ Future<void> initInjection() async {
   getIt.registerLazySingleton(() => GetSavedUserUseCase(getIt()));
   getIt.registerLazySingleton(() => FetchMeUseCase(getIt()));
   getIt.registerLazySingleton(() => UpdateProfileUseCase(getIt()));
+  getIt.registerLazySingleton(() => UpdateProfilePhotoUseCase(getIt()));
   getIt.registerLazySingleton(() => ChangePasswordUseCase(getIt()));
   getIt.registerLazySingleton(() => GetWaterLookupsUseCase(getIt()));
   getIt.registerLazySingleton(() => GetWaterImportStatusUseCase(getIt()));
@@ -348,6 +349,7 @@ Future<void> initInjection() async {
   getIt.registerFactory(
     () => ProfileBloc(
       updateProfile: getIt(),
+      updateProfilePhoto: getIt(),
       changePassword: getIt(),
     ),
   );
@@ -361,8 +363,8 @@ Future<void> initInjection() async {
 
   // Add Auth Interceptor after everything is registered
   final tokenRefresher = getIt<TokenRefresher>();
-  dio.interceptors.add(AuthInterceptor(tokenRefresher, dio));
+  dio.interceptors.insert(0, AuthInterceptor(tokenRefresher, dio));
   if (!identical(reportDio, dio)) {
-    reportDio.interceptors.add(AuthInterceptor(tokenRefresher, reportDio));
+    reportDio.interceptors.insert(0, AuthInterceptor(tokenRefresher, reportDio));
   }
 }

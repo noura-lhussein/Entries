@@ -1,10 +1,19 @@
-import { Component, EventEmitter, Output, computed, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Output,
+  computed,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../core/services/auth.service';
 import { LanguageService } from '../services/language.service';
+import { TranslationService } from '../services/translation.service';
 import { DialogService } from '../services/dialog.service';
 
 @Component({
@@ -17,7 +26,7 @@ import { DialogService } from '../services/dialog.service';
         type="button"
         class="icon-btn"
         (click)="toggleSidebar.emit()"
-        aria-label="Toggle sidebar"
+        [attr.aria-label]="t('topbar.toggle-sidebar')"
       >
         <mat-icon>menu</mat-icon>
       </button>
@@ -28,17 +37,18 @@ import { DialogService } from '../services/dialog.service';
           <span>{{ lang.lang() === 'en' ? 'EN' : 'AR' }}</span>
         </button>
 
-        <button type="button" class="icon-btn notif" aria-label="Notifications">
+        <button type="button" class="icon-btn notif" [attr.aria-label]="t('topbar.notifications')">
           <mat-icon>notifications</mat-icon>
           <span class="badge">0</span>
         </button>
 
-        <div class="user-menu">
+        <div class="user-menu" (click)="$event.stopPropagation()">
           <button
             type="button"
             class="avatar-btn"
             (click)="menuOpen = !menuOpen"
             aria-haspopup="true"
+            [attr.aria-expanded]="menuOpen"
           >
             <span class="avatar">{{ initials() }}</span>
           </button>
@@ -50,17 +60,18 @@ import { DialogService } from '../services/dialog.service';
             <div class="dropdown-divider"></div>
             <a routerLink="/profile" class="dropdown-item" (click)="menuOpen = false">
               <mat-icon>person</mat-icon>
-              <span>Profile</span>
+              <span>{{ t('sidebar.profile') }}</span>
             </a>
             <button type="button" class="dropdown-item danger" (click)="onLogout()">
               <mat-icon>logout</mat-icon>
-              <span>Logout</span>
+              <span>{{ t('sidebar.logout') }}</span>
             </button>
           </div>
         </div>
       </div>
     </header>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './topbar.component.scss',
 })
 export class TopbarComponent {
@@ -68,6 +79,8 @@ export class TopbarComponent {
 
   auth = inject(AuthService);
   lang = inject(LanguageService);
+  private translation = inject(TranslationService);
+  t = (key: string) => this.translation.t(key);
 
   query = '';
   menuOpen = false;
@@ -83,11 +96,20 @@ export class TopbarComponent {
 
   private dialog = inject(DialogService);
 
+  @HostListener('document:click')
+  onDocumentClick(): void {
+    if (this.menuOpen) {
+      this.menuOpen = false;
+    }
+  }
+
   async onLogout(): Promise<void> {
     this.menuOpen = false;
     const confirmed = await this.dialog.confirm({
-      title: 'تسجيل الخروج',
-      message: 'هل أنت متأكد أنك تريد تسجيل الخروج؟',
+      title: this.t('topbar.logout-title'),
+      message: this.t('topbar.logout-message'),
+      confirmLabel: this.t('topbar.logout-confirm'),
+      cancelLabel: this.t('topbar.logout-cancel'),
     });
     if (confirmed) {
       this.auth.logout();

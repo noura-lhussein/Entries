@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -208,6 +208,7 @@ interface RowFieldEdit {
       </div>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [
     `
       :host {
@@ -566,7 +567,10 @@ export class UserDataRowEditDialogComponent implements OnInit {
 
   private hydrateEntityFields(built: RowFieldEdit[], attrList: BuilderAttribute[]): void {
     for (const entityType of ENTITY_ATTRIBUTE_TYPES) {
-      if (!attrList.some((a) => a.type === entityType) && !built.some((f) => f.type === entityType)) {
+      if (
+        !attrList.some((a) => a.type === entityType) &&
+        !built.some((f) => f.type === entityType)
+      ) {
         continue;
       }
       this.builder.getEntityOptions(entityType, { limit: 500 }).subscribe({

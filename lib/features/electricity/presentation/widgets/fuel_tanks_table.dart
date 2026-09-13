@@ -50,7 +50,7 @@ class FuelTanksTable extends StatelessWidget {
           flex: 4,
           child: Text(
             tank.nameAr,
-            textAlign: TextAlign.right,
+            textAlign: TextAlign.start,
             style: TextStyle(
               fontFamily: 'Cairo',
               fontSize: 11.sp,

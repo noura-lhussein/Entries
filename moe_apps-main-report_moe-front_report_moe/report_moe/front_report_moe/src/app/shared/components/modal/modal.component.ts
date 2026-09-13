@@ -8,6 +8,7 @@ import {
   AfterViewInit,
   inject,
   ViewEncapsulation,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -41,6 +42,7 @@ import { MatIconModule } from '@angular/material/icon';
       </div>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './modal.component.scss',
 })
 export class ModalComponent implements AfterViewInit, OnDestroy {

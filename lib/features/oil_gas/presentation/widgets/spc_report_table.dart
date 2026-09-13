@@ -66,7 +66,7 @@ class SpcReportTable extends StatelessWidget {
             flex: 5,
             child: Text(
               fuelSalesLabel(r, reportDate),
-              textAlign: TextAlign.right,
+              textAlign: TextAlign.start,
               style: TextStyle(
                 fontFamily: 'Cairo',
                 fontSize: 10.sp,

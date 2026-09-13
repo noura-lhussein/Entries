@@ -6,15 +6,11 @@ import {
   inject,
   signal,
   computed,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import {
   BuilderService,
@@ -36,6 +32,7 @@ import { MasterDataQuickCreateComponent } from '../master-data/master-data-quick
 import { ENTITY_ADMIN_SLUGS } from '../master-data/master-data.models';
 import type { InfoRow, PaginatedInfoRows } from '../../core/models/info-row';
 import { TitleExcelActionsComponent } from '../../shared/components/title-excel-actions/title-excel-actions.component';
+import { soleItem } from '../../shared/utils/sole-option';
 
 export type SectionStatus = 'empty' | 'draft' | 'complete' | 'error';
 
@@ -56,6 +53,7 @@ export type SectionStatus = 'empty' | 'draft' | 'complete' | 'error';
     TitleExcelActionsComponent,
   ],
   templateUrl: './data-entry-workspace.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./data-entry-workspace.component.scss'],
 })
 export class DataEntryWorkspaceComponent implements OnChanges {
@@ -142,7 +140,11 @@ export class DataEntryWorkspaceComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['titles'] && this.titles.length) {
       const current = this.activeTitleId();
-      if (!current || !this.titles.some((t) => t.id === current)) {
+      const only = soleItem(this.titles);
+      if (only) {
+        if (current !== only.id) this.selectTitle(only.id);
+      } else if (!current || !this.titles.some((t) => t.id === current)) {
+        // Multiple titles: keep a valid selection so the form stays usable.
         this.selectTitle(this.titles[0].id);
       }
     }
@@ -187,10 +189,7 @@ export class DataEntryWorkspaceComponent implements OnChanges {
     for (const f of [...fields].sort((a, b) => a.order - b.order)) {
       const validators = [];
       if (f.required && !f.readonly) validators.push(Validators.required);
-      controls[f.key] = [
-        { value: '', disabled: !!f.readonly },
-        validators,
-      ];
+      controls[f.key] = [{ value: '', disabled: !!f.readonly }, validators];
     }
     this.form = this.fb.group(controls);
     this.form.valueChanges.subscribe(() => this.recomputeAndWarn());
@@ -419,43 +418,39 @@ export class DataEntryWorkspaceComponent implements OnChanges {
 
     this.saving.set(true);
     this.saveState.set('saving');
-    this.builder
-      .submitReport(titleId, { sub_main_id: subId, attribute_values })
-      .subscribe({
-        next: () => {
-          this.saving.set(false);
-          this.saveState.set('saved');
-          const now = new Date();
-          this.lastSavedAt.set(
-            now.toLocaleTimeString('ar-SY', {
-              hour: '2-digit',
-              minute: '2-digit',
-              numberingSystem: 'latn',
-            }),
-          );
-          this.markSection(requireComplete ? 'complete' : 'draft');
-          this.loadHistory();
-          this.toast.success(
-            requireComplete ? 'تم اعتماد القسم' : 'حُفظت المسودة',
-          );
-          if (requireComplete) this.goNext();
-        },
-        error: (err) => {
-          this.saving.set(false);
-          this.saveState.set('failed');
-          const body = err?.error;
-          if (body?.code === 'duplicate_report_date' || err?.status === 409) {
-            const msg =
-              body?.detail ||
-              'يوجد تقرير مسجّل مسبقاً لهذا التاريخ. لا يمكن إدخال أكثر من تقرير لنفس التاريخ.';
-            this.dateDuplicateWarning.set(msg);
-            this.toast.error(msg, 7000);
-            this.markSection('error');
-            return;
-          }
-          this.toast.error('فشل الحفظ — القيم ما زالت في النموذج');
-        },
-      });
+    this.builder.submitReport(titleId, { sub_main_id: subId, attribute_values }).subscribe({
+      next: () => {
+        this.saving.set(false);
+        this.saveState.set('saved');
+        const now = new Date();
+        this.lastSavedAt.set(
+          now.toLocaleTimeString('ar-SY', {
+            hour: '2-digit',
+            minute: '2-digit',
+            numberingSystem: 'latn',
+          }),
+        );
+        this.markSection(requireComplete ? 'complete' : 'draft');
+        this.loadHistory();
+        this.toast.success(requireComplete ? 'تم اعتماد القسم' : 'حُفظت المسودة');
+        if (requireComplete) this.goNext();
+      },
+      error: (err) => {
+        this.saving.set(false);
+        this.saveState.set('failed');
+        const body = err?.error;
+        if (body?.code === 'duplicate_report_date' || err?.status === 409) {
+          const msg =
+            body?.detail ||
+            'يوجد تقرير مسجّل مسبقاً لهذا التاريخ. لا يمكن إدخال أكثر من تقرير لنفس التاريخ.';
+          this.dateDuplicateWarning.set(msg);
+          this.toast.error(msg, 7000);
+          this.markSection('error');
+          return;
+        }
+        this.toast.error('فشل الحفظ — القيم ما زالت في النموذج');
+      },
+    });
   }
 
   private markSection(status: SectionStatus): void {
@@ -543,7 +538,10 @@ export class DataEntryWorkspaceComponent implements OnChanges {
     const s = this.schema();
     const labelByKey = new Map((s?.fields || []).map((f) => [f.key, f.label_ar]));
     return Object.entries(row.fields || [])
-      .filter(([k]) => !preview.has(k) && ![...labelByKey.values()].some((l) => preview.has(l) && l === k))
+      .filter(
+        ([k]) =>
+          !preview.has(k) && ![...labelByKey.values()].some((l) => preview.has(l) && l === k),
+      )
       .map(([label, value]) => ({ label, value: String(value) }));
   }
 
@@ -605,12 +603,38 @@ export class DataEntryWorkspaceComponent implements OnChanges {
     for (const type of types) {
       this.builder.getEntityOptions(type, { limit: 500 }).subscribe({
         next: (rows) => {
+          const options = rows.map((r) => ({ label: r.label, value: r.id }));
           this.entityOptions.set({
             ...this.entityOptions(),
-            [type]: rows.map((r) => ({ label: r.label, value: r.id })),
+            [type]: options,
           });
+          this.applySoleEntityDefaults(fields, type, options);
         },
       });
+    }
+    // Static select fields whose options come from the schema.
+    for (const field of fields) {
+      if (field.type !== 'select' || !field.options?.length) continue;
+      const only = soleItem(field.options);
+      if (!only) continue;
+      const ctrl = this.form.get(field.key);
+      if (!ctrl || ctrl.value) continue;
+      ctrl.setValue(only.id, { emitEvent: true });
+    }
+  }
+
+  private applySoleEntityDefaults(
+    fields: FormSchemaField[],
+    type: string,
+    options: { label: string; value: number }[],
+  ): void {
+    const only = soleItem(options);
+    if (!only) return;
+    for (const field of fields) {
+      if (field.type !== type) continue;
+      const ctrl = this.form.get(field.key);
+      if (!ctrl || ctrl.value) continue;
+      ctrl.setValue(only.value, { emitEvent: true });
     }
   }
 }

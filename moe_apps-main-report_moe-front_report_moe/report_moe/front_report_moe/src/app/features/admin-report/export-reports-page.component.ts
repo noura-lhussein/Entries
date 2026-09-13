@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AdminReportComponent } from './admin-report.component';
 import { ExportReportsDownloadService } from './export-reports-download.service';
 
@@ -8,6 +8,7 @@ import { ExportReportsDownloadService } from './export-reports-download.service'
   standalone: true,
   imports: [AdminReportComponent],
   providers: [ExportReportsDownloadService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<app-admin-report pageMode="export" />`,
 })
 export class ExportReportsPageComponent {}

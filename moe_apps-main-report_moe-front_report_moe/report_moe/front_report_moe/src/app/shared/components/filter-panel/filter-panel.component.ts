@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslationService } from '../../services/translation.service';
 import { isEmptyFilterValue, parseFilterIds, serializeFilterIds } from '../../utils/filter-params';
+import { soleOptionValue } from '../../utils/sole-option';
 import {
   FormSelectComponent,
   type SelectOption,
@@ -214,6 +215,19 @@ export class FilterPanelComponent implements OnChanges, OnDestroy {
     if (filtersChanged) this.lastFiltersSignature = filtersSig;
     if (groupsChanged || filtersChanged) {
       this.cdr.markForCheck();
+      // Defer so parent bindings settle before we emit cascade defaults.
+      queueMicrotask(() => this.applySingleOptionDefaults());
+    }
+  }
+
+  /** When a select filter has exactly one option, pick it so cascaded UIs unlock. */
+  private applySingleOptionDefaults(): void {
+    for (const group of this.filterGroups) {
+      if (group.type !== 'select') continue;
+      const only = soleOptionValue(this.rawSelectOptions(group));
+      if (only == null) continue;
+      if (this.sameAsActive(group.key, only)) continue;
+      this.filterChange.emit({ key: group.key, value: only });
     }
   }
 

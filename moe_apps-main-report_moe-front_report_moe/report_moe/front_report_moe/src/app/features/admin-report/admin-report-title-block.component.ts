@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslationService } from '../../shared/services/translation.service';
@@ -9,13 +16,9 @@ import type { AdminReportRow, TitleTable } from './admin-report.models';
 @Component({
   selector: 'app-admin-report-title-block',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatIconModule,
-    AdminReportTableComponent,
-    InfiniteScrollDirective,
-  ],
+  imports: [CommonModule, MatIconModule, AdminReportTableComponent, InfiniteScrollDirective],
   templateUrl: './admin-report-title-block.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './admin-report-title-block.component.scss',
 })
 export class AdminReportTitleBlockComponent {
@@ -44,6 +47,7 @@ export class AdminReportTitleBlockComponent {
   }
 
   get hasMoreRows(): boolean {
+    if (this.titleTable.nextCursor) return true;
     const total = this.titleTable.totalCount;
     if (total == null) return false;
     return this.titleTable.rows.length < total;

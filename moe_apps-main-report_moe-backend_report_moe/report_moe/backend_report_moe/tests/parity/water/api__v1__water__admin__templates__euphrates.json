@@ -1,0 +1,22 @@
+{
+  "body": {
+    "__xlsx__": {
+      "members": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/app.xml",
+        "docProps/core.xml",
+        "xl/_rels/workbook.xml.rels",
+        "xl/styles.xml",
+        "xl/theme/theme1.xml",
+        "xl/workbook.xml",
+        "xl/worksheets/sheet1.xml"
+      ],
+      "parts": {
+        "xl/worksheets/sheet1.xml": "<worksheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"><sheetPr><outlinePr summaryBelow=\"1\" summaryRight=\"1\"></outlinePr><pageSetUpPr></pageSetUpPr></sheetPr><dimension ref=\"A1:N3\"></dimension><sheetViews><sheetView workbookViewId=\"0\"><selection activeCell=\"A1\" sqref=\"A1\"></selection></sheetView></sheetViews><sheetFormatPr baseColWidth=\"8\" defaultRowHeight=\"15\"></sheetFormatPr><sheetData><row r=\"1\"><c r=\"A1\" t=\"inlineStr\"><is><t>المعلومات المائية والكهربائية لسدود الفرات خلال شهر / نيسان/ لعام 2026</t></is></c><c r=\"B1\" t=\"inlineStr\"></c><c r=\"C1\" t=\"inlineStr\"></c><c r=\"D1\" t=\"inlineStr\"></c><c r=\"E1\" t=\"inlineStr\"></c><c r=\"F1\" t=\"inlineStr\"></c><c r=\"G1\" t=\"inlineStr\"></c><c r=\"H1\" t=\"inlineStr\"></c><c r=\"I1\" t=\"inlineStr\"></c><c r=\"J1\" t=\"inlineStr\"></c><c r=\"K1\" t=\"inlineStr\"></c><c r=\"L1\" t=\"inlineStr\"></c><c r=\"M1\" t=\"inlineStr\"></c><c r=\"N1\" t=\"inlineStr\"></c></row><row r=\"2\"><c r=\"A2\" t=\"inlineStr\"><is><t>التاريخ</t></is></c><c r=\"B2\" t=\"inlineStr\"><is><t>وارد جرابلس</t></is></c><c r=\"C2\" t=\"inlineStr\"><is><t>منسوب تشرين</t></is></c><c r=\"D2\" t=\"inlineStr\"><is><t>مخزون تشرين</t></is></c><c r=\"E2\" t=\"inlineStr\"><is><t>ممرر تشرين</t></is></c><c r=\"F2\" t=\"inlineStr\"><is><t>توليد تشرين</t></is></c><c r=\"G2\" t=\"inlineStr\"><is><t>منسوب الفرات</t></is></c><c r=\"H2\" t=\"inlineStr\"><is><t>مخزون الفرات</t></is></c><c r=\"I2\" t=\"inlineStr\"><is><t>ممرر الفرات</t></is></c><c r=\"J2\" t=\"inlineStr\"><is><t>توليد الفرات</t></is></c><c r=\"K2\" t=\"inlineStr\"><is><t>ممرر كديران</t></is></c><c r=\"L2\" t=\"inlineStr\"><is><t>توليد كديران</t></is></c><c r=\"M2\" t=\"inlineStr\"><is><t>ممرر الجلاب</t></is></c><c r=\"N2\" t=\"inlineStr\"><is><t>إجمالي التوليد</t></is></c></row><row r=\"3\"><c r=\"A3\" t=\"inlineStr\"><is><t>2026-04-01</t></is></c><c r=\"B3\" t=\"n\"><v>1200</v></c><c r=\"C3\" t=\"n\"><v>326.5</v></c><c r=\"D3\" t=\"n\"><v>1.75</v></c><c r=\"E3\" t=\"n\"><v>800</v></c><c r=\"F3\" t=\"n\"><v>2100</v></c><c r=\"G3\" t=\"n\"><v>302.1</v></c><c r=\"H3\" t=\"n\"><v>12.09</v></c><c r=\"I3\" t=\"n\"><v>1500</v></c><c r=\"J3\" t=\"n\"><v>4500</v></c><c r=\"K3\" t=\"n\"><v>200</v></c><c r=\"L3\" t=\"n\"><v>570</v></c><c r=\"M3\" t=\"n\"><v>0</v></c><c r=\"N3\" t=\"n\"><v>7175</v></c></row></sheetData><pageMargins bottom=\"1\" footer=\"0.5\" header=\"0.5\" left=\"0.75\" right=\"0.75\" top=\"1\"></pageMargins></worksheet>"
+      }
+    }
+  },
+  "path": "/api/v1/water/admin/templates/euphrates/",
+  "status": 200
+}

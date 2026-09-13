@@ -59,12 +59,16 @@ class EnergyMinistryApp extends StatelessWidget {
             routerConfig: appRouter,
             locale: const Locale('ar', 'SY'),
             supportedLocales: const [Locale('ar', 'SY'), Locale('en', 'US')],
+            localeResolutionCallback: (_, __) => const Locale('ar', 'SY'),
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            builder: (ctx, widget) => widget!,
+            builder: (ctx, widget) => Directionality(
+              textDirection: TextDirection.rtl,
+              child: widget ?? const SizedBox.shrink(),
+            ),
           ),
         );
       },

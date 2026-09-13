@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../theme/app_theme.dart';
 import '../../../models/user_model.dart';
+import 'user_photo_circle.dart';
 
 class ProfileAvatar extends StatelessWidget {
   final UserModel user;
@@ -30,23 +31,18 @@ class ProfileAvatar extends StatelessWidget {
         if (v == 'profile') onProfile?.call();
       },
       offset: Offset(0, 46.h),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(14.r),
+        side: const BorderSide(color: AppColors.border),
+      ),
       color: AppColors.surface,
-      elevation: 8,
-      child: Container(
-        width: 34.r,
-        height: 34.r,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          gradient: AppColors.cardGoldenGradient,
-          boxShadow: [BoxShadow(color: AppColors.golden.withValues(alpha:0.4), blurRadius: 6)],
-        ),
-        child: Center(
-          child: Text(
-            _initial,
-            style: TextStyle(fontFamily: 'Cairo', fontSize: 13.sp, fontWeight: FontWeight.w800, color: Colors.white),
-          ),
-        ),
+      elevation: 10,
+      shadowColor: AppColors.ink.withValues(alpha: 0.18),
+      child: UserPhotoCircle(
+        photoUrl: user.photoUrl,
+        initials: _initial,
+        size: 36,
+        fontSize: 13,
       ),
       itemBuilder: (_) => [
         PopupMenuItem(
@@ -55,17 +51,41 @@ class ProfileAvatar extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(user.name.trim().isEmpty ? user.email : user.name,
-                style: TextStyle(fontFamily: 'Cairo', fontSize: 13.sp, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
+              Text(
+                user.name.trim().isEmpty ? user.email : user.name,
+                style: TextStyle(
+                  fontFamily: 'Cairo',
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.textPrimary,
+                ),
+              ),
               SizedBox(height: 2.h),
-              Text(user.role,
-                style: TextStyle(fontFamily: 'Cairo', fontSize: 11.sp, color: AppColors.textSecondary)),
-              SizedBox(height: 2.h),
+              Text(
+                user.role,
+                style: TextStyle(
+                  fontFamily: 'Cairo',
+                  fontSize: 11.sp,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+              SizedBox(height: 6.h),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
-                decoration: BoxDecoration(color: AppColors.golden2, borderRadius: BorderRadius.circular(20.r)),
-                child: Text(user.departmentLabel,
-                  style: TextStyle(fontFamily: 'Cairo', fontSize: 10.sp, color: AppColors.forest1, fontWeight: FontWeight.w600)),
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+                decoration: BoxDecoration(
+                  color: AppColors.goldPale,
+                  borderRadius: BorderRadius.circular(20.r),
+                  border: Border.all(color: AppColors.border),
+                ),
+                child: Text(
+                  user.departmentLabel,
+                  style: TextStyle(
+                    fontFamily: 'Cairo',
+                    fontSize: 10.sp,
+                    color: AppColors.goldDeep,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
             ],
           ),
@@ -76,10 +96,17 @@ class ProfileAvatar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
           child: Row(
             children: [
-              const Icon(Icons.person_outline_rounded, color: AppColors.ink, size: 18),
+              Icon(Icons.person_outline_rounded, color: AppColors.goldDeep, size: 18.r),
               SizedBox(width: 8.w),
-              Text('الملف الشخصي',
-                style: TextStyle(fontFamily: 'Cairo', fontSize: 13.sp, color: AppColors.ink, fontWeight: FontWeight.w600)),
+              Text(
+                'الملف الشخصي',
+                style: TextStyle(
+                  fontFamily: 'Cairo',
+                  fontSize: 13.sp,
+                  color: AppColors.ink,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ],
           ),
         ),
@@ -88,10 +115,17 @@ class ProfileAvatar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
           child: Row(
             children: [
-              const Icon(Icons.logout_rounded, color: AppColors.ink, size: 18),
+              Icon(Icons.logout_rounded, color: AppColors.burgundy, size: 18.r),
               SizedBox(width: 8.w),
-              Text('تسجيل الخروج',
-                style: TextStyle(fontFamily: 'Cairo', fontSize: 13.sp, color: AppColors.ink, fontWeight: FontWeight.w600)),
+              Text(
+                'تسجيل الخروج',
+                style: TextStyle(
+                  fontFamily: 'Cairo',
+                  fontSize: 13.sp,
+                  color: AppColors.burgundy,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ],
           ),
         ),

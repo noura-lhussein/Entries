@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'api_constants.dart';
 import 'cookie_session.dart';
 import 'csrf_interceptor.dart';
+import 'jwt_util.dart';
 import 'selective_dio_logger.dart';
 
 class DioFactory {
@@ -64,14 +65,19 @@ class DioFactory {
     return client;
   }
 
+  /// Attach Bearer only for a real JWT. Empty/stale `Authorization` makes
+  /// Django REST skip session cookies and return 401.
   static void updateHeaderWithToken(String? accessToken) {
+    final token = accessToken?.trim() ?? '';
+    if (token.isEmpty ||
+        !JwtUtil.looksLikeJwt(token) ||
+        JwtUtil.isExpired(token)) {
+      clearToken();
+      return;
+    }
     for (final client in [dio, reportDio]) {
       if (client == null) continue;
-      if (accessToken == null || accessToken.isEmpty) {
-        client.options.headers.remove('Authorization');
-      } else {
-        client.options.headers['Authorization'] = 'Bearer $accessToken';
-      }
+      client.options.headers['Authorization'] = 'Bearer $token';
     }
   }
 

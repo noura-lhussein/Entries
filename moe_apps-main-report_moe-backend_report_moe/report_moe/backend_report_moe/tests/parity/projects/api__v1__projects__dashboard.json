@@ -1,0 +1,7 @@
+{
+  "body": {
+    "detail": "Sector is required."
+  },
+  "path": "/api/v1/projects/dashboard/",
+  "status": 400
+}

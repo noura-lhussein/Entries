@@ -216,17 +216,35 @@
   flex-shrink: 0;
   z-index: 10;
   background: $bg-primary;
-  padding-block-start: $spacing-4;
-  padding-block-end: $spacing-3;
+  padding-block-start: $spacing-2;
+  padding-block-end: $spacing-2;
   border-bottom: 1px solid $border-color;
-  box-shadow: 0 1px 3px rgba($gray-800, 0.05);
+  box-shadow: 0 1px 2px rgba($gray-800, 0.04);
 
   ::ng-deep .page-header {
-    margin-bottom: $spacing-3;
+    margin-bottom: $spacing-2;
+  }
+
+  ::ng-deep .header-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: $spacing-2 $spacing-3;
   }
 
   ::ng-deep .page-title {
-    font-size: $font-size-2xl;
+    font-size: $font-size-xl;
+    line-height: 1.2;
+  }
+
+  ::ng-deep .page-description {
+    margin: 0;
+    font-size: $font-size-xs;
+    line-height: 1.3;
+  }
+
+  ::ng-deep .filters-section {
+    margin-bottom: 0;
   }
 }
 
@@ -236,7 +254,7 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
-  margin-block-start: $spacing-4;
+  margin-block-start: $spacing-3;
   border: 1px solid $border-color;
   border-radius: $radius-lg;
   background: $bg-primary;

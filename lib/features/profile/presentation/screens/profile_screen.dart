@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/models/user_model.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/utils/profile_image_picker.dart';
 import '../../../../core/widgets/shared_widgets.dart';
 import '../../../auth/domain/entities/user_entity.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
@@ -36,6 +37,9 @@ class _ProfileViewState extends State<_ProfileView> {
   late final TextEditingController _currentPass;
   late final TextEditingController _newPass;
   late final TextEditingController _confirmPass;
+  bool _hideCurrent = true;
+  bool _hideNew = true;
+  bool _hideConfirm = true;
 
   @override
   void initState() {
@@ -83,6 +87,18 @@ class _ProfileViewState extends State<_ProfileView> {
     return '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year}';
   }
 
+  Widget _eye(bool hidden, VoidCallback onTap) {
+    return IconButton(
+      onPressed: onTap,
+      visualDensity: VisualDensity.compact,
+      icon: Icon(
+        hidden ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+        size: 18.r,
+        color: AppColors.goldDeep,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<ProfileBloc, ProfileState>(
@@ -121,202 +137,87 @@ class _ProfileViewState extends State<_ProfileView> {
             return const Center(child: CircularProgressIndicator());
           }
           final user = authState.user;
+          final displayName =
+              user.fullName.trim().isEmpty ? user.email : user.fullName;
           return ListView(
-            padding: EdgeInsets.fromLTRB(12.r, 8.r, 12.r, 16.r),
+            padding: EdgeInsets.fromLTRB(14.r, 10.r, 14.r, 20.r),
             children: [
-              Text(
-                'الملف الشخصي',
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  fontFamily: 'Cairo',
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              SizedBox(height: 12.h),
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  final sideBySide = constraints.maxWidth >= 560;
-                  final avatar = FormCard(
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 88.r,
-                          height: 88.r,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: AppColors.cardGoldenGradient,
-                          ),
-                          child: Center(
-                            child: Text(
-                              _initials(user),
-                              style: TextStyle(
-                                fontFamily: 'Cairo',
-                                fontSize: 26.sp,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10.h),
-                        OutlinedButton.icon(
-                          onPressed: () {},
-                          icon: Icon(Icons.camera_alt_outlined, size: 16.r),
-                          label: Text(
-                            'تحديث الصورة',
-                            style: TextStyle(
-                              fontFamily: 'Cairo',
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: AppColors.textSecondary,
-                            side: const BorderSide(color: AppColors.border),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.r),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10.h),
-                        Text(
-                          user.fullName.trim().isEmpty
-                              ? user.email
-                              : user.fullName,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Cairo',
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w800,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                        SizedBox(height: 4.h),
-                        Text(
-                          user.email,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Cairo',
-                            fontSize: 12.sp,
-                            color: AppColors.textHint,
-                          ),
-                        ),
-                        SizedBox(height: 8.h),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10.w,
-                            vertical: 4.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.goldPale,
-                            borderRadius: BorderRadius.circular(20.r),
-                          ),
-                          child: Text(
-                            user.appRole == AppRole.admin
-                                ? 'مسؤول'
-                                : 'مستخدم عادي',
-                            style: TextStyle(
-                              fontFamily: 'Cairo',
-                              fontSize: 11.sp,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.inkMid,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                  final info = FormCard(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          'معلومات الحساب',
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            fontFamily: 'Cairo',
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w800,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                        SizedBox(height: 12.h),
-                        LayoutBuilder(
-                          builder: (context, infoConstraints) {
-                            final itemWidth =
-                                (infoConstraints.maxWidth - 12.w) / 2;
-                            return Wrap(
-                              spacing: 12.w,
-                              runSpacing: 12.h,
-                              children: [
-                                _InfoItem(
-                                  width: itemWidth,
-                                  label: 'اسم المستخدم',
-                                  value: user.username.isEmpty
-                                      ? '—'
-                                      : user.username,
-                                ),
-                                _InfoItem(
-                                  width: itemWidth,
-                                  label: 'البريد الإلكتروني',
-                                  value: user.email,
-                                ),
-                                _InfoItem(
-                                  width: itemWidth,
-                                  label: 'تاريخ التسجيل',
-                                  value: _joinDate(user.dateJoined),
-                                ),
-                                _InfoItem(
-                                  width: itemWidth,
-                                  label: 'الحالة',
-                                  value: user.isActive ? 'نشط' : 'معطل',
-                                  badge: true,
-                                  positive: user.isActive,
-                                ),
-                              ],
-                            );
+              BlocBuilder<ProfileBloc, ProfileState>(
+                buildWhen: (p, c) => p.uploadingPhoto != c.uploadingPhoto,
+                builder: (context, profileState) {
+                  return _HeroCard(
+                    initials: _initials(user),
+                    photoUrl: user.photoUrl,
+                    name: displayName,
+                    email: user.email,
+                    isAdmin: user.appRole == AppRole.admin,
+                    isActive: user.isActive,
+                    uploading: profileState.uploadingPhoto,
+                    onUpdatePhoto: profileState.uploadingPhoto
+                        ? null
+                        : () async {
+                            final path =
+                                await pickCompressedProfileImage(context);
+                            if (!context.mounted || path == null) return;
+                            context.read<ProfileBloc>().add(
+                                  ProfilePhotoUpdateRequested(
+                                    userId: user.id,
+                                    filePath: path,
+                                  ),
+                                );
                           },
-                        ),
-                      ],
-                    ),
-                  );
-                  if (!sideBySide) {
-                    return Column(
-                      children: [
-                        avatar,
-                        SizedBox(height: 12.h),
-                        info,
-                      ],
-                    );
-                  }
-                  return Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(child: avatar),
-                      SizedBox(width: 12.w),
-                      Expanded(child: info),
-                    ],
                   );
                 },
               ),
-              SizedBox(height: 12.h),
-              FormCard(
+              SizedBox(height: 14.h),
+              SectionCard(
+                title: 'معلومات الحساب',
+                icon: Icons.badge_outlined,
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final width = (constraints.maxWidth - 10.w) / 2;
+                    return Wrap(
+                      spacing: 10.w,
+                      runSpacing: 10.h,
+                      children: [
+                        _InfoTile(
+                          width: width,
+                          icon: Icons.person_outline_rounded,
+                          label: 'اسم المستخدم',
+                          value: user.username.isEmpty ? '—' : user.username,
+                        ),
+                        _InfoTile(
+                          width: width,
+                          icon: Icons.mail_outline_rounded,
+                          label: 'البريد الإلكتروني',
+                          value: user.email,
+                        ),
+                        _InfoTile(
+                          width: width,
+                          icon: Icons.event_outlined,
+                          label: 'تاريخ التسجيل',
+                          value: _joinDate(user.dateJoined),
+                        ),
+                        _InfoTile(
+                          width: width,
+                          icon: Icons.verified_outlined,
+                          label: 'الحالة',
+                          value: user.isActive ? 'نشط' : 'معطل',
+                          badge: true,
+                          positive: user.isActive,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: 14.h),
+              SectionCard(
+                title: 'تعديل البيانات الشخصية',
+                icon: Icons.edit_outlined,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
-                      'تعديل البيانات الشخصية',
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontFamily: 'Cairo',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    SizedBox(height: 12.h),
                     Row(
                       children: [
                         Expanded(
@@ -348,7 +249,7 @@ class _ProfileViewState extends State<_ProfileView> {
                       buildWhen: (p, c) => p.updating != c.updating,
                       builder: (context, state) {
                         return SaveButton(
-                          label: 'حفظ',
+                          label: 'حفظ البيانات',
                           isLoading: state.updating,
                           onPressed: state.updating
                               ? null
@@ -386,27 +287,22 @@ class _ProfileViewState extends State<_ProfileView> {
                   ],
                 ),
               ),
-              SizedBox(height: 12.h),
-              FormCard(
+              SizedBox(height: 14.h),
+              SectionCard(
+                title: 'تغيير كلمة المرور',
+                icon: Icons.lock_outline_rounded,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
-                      'تغيير كلمة المرور',
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontFamily: 'Cairo',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    SizedBox(height: 12.h),
                     AppTextField(
                       label: 'كلمة المرور الحالية',
                       hint: 'كلمة المرور الحالية',
                       controller: _currentPass,
-                      obscureText: true,
+                      obscureText: _hideCurrent,
+                      suffixIcon: _eye(
+                        _hideCurrent,
+                        () => setState(() => _hideCurrent = !_hideCurrent),
+                      ),
                     ),
                     SizedBox(height: 10.h),
                     Row(
@@ -416,7 +312,11 @@ class _ProfileViewState extends State<_ProfileView> {
                             label: 'كلمة المرور الجديدة',
                             hint: 'كلمة المرور الجديدة',
                             controller: _newPass,
-                            obscureText: true,
+                            obscureText: _hideNew,
+                            suffixIcon: _eye(
+                              _hideNew,
+                              () => setState(() => _hideNew = !_hideNew),
+                            ),
                           ),
                         ),
                         SizedBox(width: 10.w),
@@ -425,17 +325,22 @@ class _ProfileViewState extends State<_ProfileView> {
                             label: 'تأكيد كلمة المرور',
                             hint: 'تأكيد كلمة المرور',
                             controller: _confirmPass,
-                            obscureText: true,
+                            obscureText: _hideConfirm,
+                            suffixIcon: _eye(
+                              _hideConfirm,
+                              () => setState(() => _hideConfirm = !_hideConfirm),
+                            ),
                           ),
                         ),
                       ],
                     ),
                     SizedBox(height: 14.h),
                     BlocBuilder<ProfileBloc, ProfileState>(
-                      buildWhen: (p, c) => p.changingPassword != c.changingPassword,
+                      buildWhen: (p, c) =>
+                          p.changingPassword != c.changingPassword,
                       builder: (context, state) {
                         return SaveButton(
-                          label: 'حفظ',
+                          label: 'تحديث كلمة المرور',
                           isLoading: state.changingPassword,
                           onPressed: state.changingPassword
                               ? null
@@ -461,14 +366,155 @@ class _ProfileViewState extends State<_ProfileView> {
   }
 }
 
-class _InfoItem extends StatelessWidget {
+class _HeroCard extends StatelessWidget {
+  final String initials;
+  final String? photoUrl;
+  final String name;
+  final String email;
+  final bool isAdmin;
+  final bool isActive;
+  final bool uploading;
+  final VoidCallback? onUpdatePhoto;
+  const _HeroCard({
+    required this.initials,
+    required this.name,
+    required this.email,
+    required this.isAdmin,
+    required this.isActive,
+    this.photoUrl,
+    this.uploading = false,
+    this.onUpdatePhoto,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 18.h),
+      decoration: AppDecorations.forestHeader(radius: 16.r),
+      child: Column(
+        children: [
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              UserPhotoCircle(
+                photoUrl: photoUrl,
+                initials: initials,
+                size: 88,
+                fontSize: 26,
+              ),
+              if (uploading)
+                SizedBox(
+                  width: 88.r,
+                  height: 88.r,
+                  child: const CircularProgressIndicator(
+                    strokeWidth: 2.4,
+                    color: Colors.white,
+                  ),
+                ),
+            ],
+          ),
+          SizedBox(height: 12.h),
+          OutlinedButton.icon(
+            onPressed: onUpdatePhoto,
+            icon: Icon(Icons.camera_alt_outlined, size: 15.r),
+            label: Text(
+              uploading ? 'جارٍ الرفع…' : 'تحديث الصورة',
+              style: TextStyle(
+                fontFamily: 'Cairo',
+                fontSize: 11.5.sp,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: AppColors.goldLight,
+              side: BorderSide(color: AppColors.goldWarm.withValues(alpha: 0.45)),
+              backgroundColor: Colors.white.withValues(alpha: 0.06),
+              visualDensity: VisualDensity.compact,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+            ),
+          ),
+          SizedBox(height: 10.h),
+          Text(
+            name,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: 'Cairo',
+              fontSize: 17.sp,
+              fontWeight: FontWeight.w800,
+              color: Colors.white,
+            ),
+          ),
+          SizedBox(height: 3.h),
+          Text(
+            email,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: 'Cairo',
+              fontSize: 12.sp,
+              color: AppColors.goldLight.withValues(alpha: 0.9),
+            ),
+          ),
+          SizedBox(height: 12.h),
+          Wrap(
+            spacing: 8.w,
+            runSpacing: 6.h,
+            alignment: WrapAlignment.center,
+            children: [
+              _HeroChip(
+                label: isAdmin ? 'مسؤول' : 'مستخدم عادي',
+                color: AppColors.goldWarm,
+              ),
+              _HeroChip(
+                label: isActive ? 'نشط' : 'معطل',
+                color: isActive ? AppColors.goldLight : AppColors.burgundyLight,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HeroChip extends StatelessWidget {
+  final String label;
+  final Color color;
+  const _HeroChip({required this.label, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(20.r),
+        border: Border.all(color: color.withValues(alpha: 0.55)),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontFamily: 'Cairo',
+          fontSize: 11.sp,
+          fontWeight: FontWeight.w800,
+          color: color,
+        ),
+      ),
+    );
+  }
+}
+
+class _InfoTile extends StatelessWidget {
   final double width;
+  final IconData icon;
   final String label;
   final String value;
   final bool badge;
   final bool positive;
-  const _InfoItem({
+  const _InfoTile({
     required this.width,
+    required this.icon,
     required this.label,
     required this.value,
     this.badge = false,
@@ -477,25 +523,35 @@ class _InfoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: width,
+      padding: EdgeInsets.all(10.r),
+      decoration: AppDecorations.goldWashTile(radius: 12.r),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            label,
-            textAlign: TextAlign.right,
-            style: TextStyle(
-              fontFamily: 'Cairo',
-              fontSize: 11.sp,
-              fontWeight: FontWeight.w600,
-              color: AppColors.textHint,
-            ),
+          Row(
+            children: [
+              Icon(icon, size: 14.r, color: AppColors.goldDeep),
+              SizedBox(width: 6.w),
+              Expanded(
+                child: Text(
+                  label,
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontFamily: 'Cairo',
+                    fontSize: 10.5.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textHint,
+                  ),
+                ),
+              ),
+            ],
           ),
-          SizedBox(height: 4.h),
+          SizedBox(height: 6.h),
           if (badge)
             Align(
-              alignment: Alignment.centerRight,
+              alignment: AlignmentDirectional.centerStart,
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
                 decoration: BoxDecoration(
@@ -520,11 +576,13 @@ class _InfoItem extends StatelessWidget {
           else
             Text(
               value,
-              textAlign: TextAlign.right,
+              textAlign: TextAlign.start,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontFamily: 'Cairo',
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w700,
+                fontSize: 12.5.sp,
+                fontWeight: FontWeight.w800,
                 color: AppColors.textPrimary,
               ),
             ),

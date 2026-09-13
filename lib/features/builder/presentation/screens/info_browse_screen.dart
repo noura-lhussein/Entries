@@ -9,11 +9,15 @@ import '../../data/models/builder_models.dart';
 import '../bloc/info_browse_bloc.dart';
 import '../bloc/info_browse_event.dart';
 import '../bloc/info_browse_state.dart';
-import '../widgets/labeled_select_field.dart';
+import '../widgets/info_row_edit_sheet.dart';
+import '../widgets/info_filter_panel.dart';
 
 class InfoBrowseScreen extends StatelessWidget {
   final InfoBrowseMode mode;
   final int? currentUserId;
+  final bool canWrite;
+  final bool canConfirm;
+  final bool isAdmin;
   final String title;
   final String subtitle;
   final IconData icon;
@@ -25,13 +29,22 @@ class InfoBrowseScreen extends StatelessWidget {
     required this.subtitle,
     required this.icon,
     this.currentUserId,
+    this.canWrite = false,
+    this.canConfirm = false,
+    this.isAdmin = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt<InfoBrowseBloc>()
-        ..add(InfoBrowseStarted(mode: mode, currentUserId: currentUserId)),
+        ..add(InfoBrowseStarted(
+          mode: mode,
+          currentUserId: currentUserId,
+          canWrite: canWrite,
+          canConfirm: canConfirm,
+          isAdmin: isAdmin,
+        )),
       child: _InfoBrowseView(
         title: title,
         subtitle: subtitle,
@@ -43,13 +56,22 @@ class InfoBrowseScreen extends StatelessWidget {
 
 class MyDataScreen extends StatelessWidget {
   final int? currentUserId;
-  const MyDataScreen({super.key, this.currentUserId});
+  final bool canWrite;
+  final bool isAdmin;
+  const MyDataScreen({
+    super.key,
+    this.currentUserId,
+    this.canWrite = false,
+    this.isAdmin = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InfoBrowseScreen(
       mode: InfoBrowseMode.myData,
       currentUserId: currentUserId,
+      canWrite: canWrite,
+      isAdmin: isAdmin,
       title: 'بياناتي',
       subtitle: 'عرض وإدارة البيانات التي قمت بإضافتها',
       icon: Icons.storage_outlined,
@@ -58,12 +80,21 @@ class MyDataScreen extends StatelessWidget {
 }
 
 class EnteredDataScreen extends StatelessWidget {
-  const EnteredDataScreen({super.key});
+  final bool isAdmin;
+  final bool canConfirm;
+  const EnteredDataScreen({
+    super.key,
+    this.isAdmin = false,
+    this.canConfirm = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const InfoBrowseScreen(
+    return InfoBrowseScreen(
       mode: InfoBrowseMode.submitted,
+      isAdmin: isAdmin,
+      canWrite: false,
+      canConfirm: canConfirm,
       title: 'البيانات المدخلة',
       subtitle: 'استعراض السجلات حسب صلاحياتك',
       icon: Icons.table_rows_outlined,
@@ -83,207 +114,38 @@ class _InfoBrowseView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return BlocListener<InfoBrowseBloc, InfoBrowseState>(
+      listenWhen: (p, c) =>
+          p.actionMessage != c.actionMessage || p.actionError != c.actionError,
+      listener: (context, state) {
+        final msg = state.actionMessage ?? state.actionError;
+        if (msg == null || msg.isEmpty) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              msg,
+              style: TextStyle(fontFamily: 'Cairo', fontSize: 13.sp),
+            ),
+            backgroundColor:
+                state.actionError != null ? AppColors.red2 : AppColors.forest1,
+          ),
+        );
+        context.read<InfoBrowseBloc>().add(const InfoBrowseActionCleared());
+      },
+      child: ListView(
       padding: EdgeInsets.fromLTRB(12.r, 8.r, 12.r, 16.r),
       children: [
-        _Header(title: title, subtitle: subtitle, icon: icon),
+        ForestPageHeader(title: title, subtitle: subtitle, icon: icon),
         SizedBox(height: 10.h),
-        const _Filters(),
+        const InfoFilterPanel(),
         SizedBox(height: 10.h),
         const _Body(),
       ],
+    ),
     );
   }
 }
 
-class _Header extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final IconData icon;
-  const _Header({
-    required this.title,
-    required this.subtitle,
-    required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(14.r),
-      decoration: BoxDecoration(
-        gradient: AppColors.cardForestGradient,
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.all(10.r),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            child: Icon(icon, color: AppColors.golden1, size: 28.r),
-          ),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    fontFamily: 'Cairo',
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 3.h),
-                Text(
-                  subtitle,
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    fontFamily: 'Cairo',
-                    fontSize: 11.sp,
-                    color: Colors.white70,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Filters extends StatelessWidget {
-  const _Filters();
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<InfoBrowseBloc, InfoBrowseState>(
-      buildWhen: (p, c) =>
-          p.mainSections != c.mainSections ||
-          p.subSections != c.subSections ||
-          p.titles != c.titles ||
-          p.mainId != c.mainId ||
-          p.subId != c.subId ||
-          p.titleId != c.titleId ||
-          p.confirmed != c.confirmed ||
-          p.search != c.search,
-      builder: (context, state) {
-        final bloc = context.read<InfoBrowseBloc>();
-        return FormCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextField(
-                textAlign: TextAlign.right,
-                textDirection: TextDirection.rtl,
-                onChanged: (v) => bloc.add(InfoBrowseSearchChanged(v)),
-                style: TextStyle(
-                  fontFamily: 'Cairo',
-                  fontSize: 13.sp,
-                  color: AppColors.textPrimary,
-                ),
-                decoration: InputDecoration(
-                  hintText: 'بحث العنوان أو القيمة',
-                  prefixIcon: Icon(Icons.search, size: 18.r),
-                ),
-              ),
-              SizedBox(height: 10.h),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: LabeledSelectField(
-                      label: 'القسم الرئيسي',
-                      hint: '-- الكل --',
-                      value: state.mainId?.toString(),
-                      options: [
-                        const BuilderSelectOption(id: 0, value: '__all__', label: 'الكل'),
-                        for (final m in state.mainSections)
-                          BuilderSelectOption(id: m.id, label: m.name),
-                      ],
-                      onChanged: (v) => bloc.add(
-                        InfoBrowseMainFilterChanged(
-                          v == null || v == '__all__' ? null : int.tryParse(v),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10.w),
-                  Expanded(
-                    child: LabeledSelectField(
-                      label: 'القسم الفرعي',
-                      hint: '-- الكل --',
-                      value: state.subId?.toString(),
-                      enabled: state.mainId != null || state.visibleSubs.isNotEmpty,
-                      options: [
-                        const BuilderSelectOption(id: 0, value: '__all__', label: 'الكل'),
-                        for (final s in state.visibleSubs)
-                          BuilderSelectOption(id: s.id, label: s.displayLabel),
-                      ],
-                      onChanged: (v) => bloc.add(
-                        InfoBrowseSubFilterChanged(
-                          v == null || v == '__all__' ? null : int.tryParse(v),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10.h),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: LabeledSelectField(
-                      label: 'العنوان',
-                      hint: '-- الكل --',
-                      value: state.titleId?.toString(),
-                      options: [
-                        const BuilderSelectOption(id: 0, value: '__all__', label: 'الكل'),
-                        for (final t in state.titles)
-                          BuilderSelectOption(id: t.id, label: t.name),
-                      ],
-                      onChanged: (v) => bloc.add(
-                        InfoBrowseTitleFilterChanged(
-                          v == null || v == '__all__' ? null : int.tryParse(v),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10.w),
-                  Expanded(
-                    child: LabeledSelectField(
-                      label: 'حالة التأكيد',
-                      hint: 'الجميع',
-                      value: state.confirmed,
-                      options: const [
-                        BuilderSelectOption(id: 0, value: '__all__', label: 'الجميع'),
-                        BuilderSelectOption(id: 1, value: 'waiting', label: 'بانتظار التأكيد'),
-                        BuilderSelectOption(id: 2, value: 'accept', label: 'موافق عليه'),
-                        BuilderSelectOption(id: 3, value: 'reject', label: 'مرفوض'),
-                      ],
-                      onChanged: (v) => bloc.add(
-                        InfoBrowseStatusFilterChanged(
-                          v == null || v == '__all__' ? null : v,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-}
 
 class _Body extends StatelessWidget {
   const _Body();
@@ -291,6 +153,15 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<InfoBrowseBloc, InfoBrowseState>(
+      buildWhen: (p, c) =>
+          p.bootstrapping != c.bootstrapping ||
+          p.loadError != c.loadError ||
+          p.search != c.search ||
+          p.mainId != c.mainId ||
+          p.subId != c.subId ||
+          p.titleCategoryId != c.titleCategoryId ||
+          p.titleId != c.titleId ||
+          p.titles != c.titles,
       builder: (context, state) {
         if (state.bootstrapping) {
           return Padding(
@@ -356,12 +227,20 @@ class _TitleAccordion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<InfoBrowseBloc, InfoBrowseState>(
-      buildWhen: (p, c) =>
-          p.expandedTitleId != c.expandedTitleId ||
-          p.rowCounts[title.id] != c.rowCounts[title.id] ||
-          p.rows != c.rows ||
-          p.loadingRows != c.loadingRows ||
-          p.loadingMore != c.loadingMore,
+      buildWhen: (p, c) {
+        final open = c.expandedTitleId == title.id || p.expandedTitleId == title.id;
+        return p.expandedTitleId != c.expandedTitleId ||
+            p.rowCounts[title.id] != c.rowCounts[title.id] ||
+            p.canWrite != c.canWrite ||
+            p.canConfirm != c.canConfirm ||
+            p.mode != c.mode ||
+            p.attributeLabels != c.attributeLabels ||
+            p.attributes != c.attributes ||
+            (open &&
+                (p.rows != c.rows ||
+                    p.loadingRows != c.loadingRows ||
+                    p.loadingMore != c.loadingMore));
+      },
       builder: (context, state) {
         final open = state.expandedTitleId == title.id;
         final count = state.rowCounts[title.id];
@@ -378,8 +257,8 @@ class _TitleAccordion extends StatelessWidget {
                     Icon(
                       open
                           ? Icons.expand_more_rounded
-                          : Icons.chevron_right_rounded,
-                      color: AppColors.inkSoft,
+                          : Icons.chevron_left_rounded,
+                      color: AppColors.goldDeep,
                     ),
                     SizedBox(width: 6.w),
                     Expanded(
@@ -388,7 +267,7 @@ class _TitleAccordion extends StatelessWidget {
                         children: [
                           Text(
                             title.name,
-                            textAlign: TextAlign.right,
+                            textAlign: TextAlign.start,
                             style: TextStyle(
                               fontFamily: 'Cairo',
                               fontSize: 13.sp,
@@ -400,7 +279,7 @@ class _TitleAccordion extends StatelessWidget {
                               title.categoryName!.trim().isNotEmpty)
                             Text(
                               title.categoryName!,
-                              textAlign: TextAlign.right,
+                              textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontFamily: 'Cairo',
                                 fontSize: 11.sp,
@@ -410,13 +289,21 @@ class _TitleAccordion extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Text(
-                      count == null ? '…' : '$count سجل',
-                      style: TextStyle(
-                        fontFamily: 'Cairo',
-                        fontSize: 11.sp,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.inkSoft,
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+                      decoration: BoxDecoration(
+                        color: AppColors.goldPale,
+                        borderRadius: BorderRadius.circular(20.r),
+                        border: Border.all(color: AppColors.border),
+                      ),
+                      child: Text(
+                        count == null ? '…' : '$count سجل',
+                        style: TextStyle(
+                          fontFamily: 'Cairo',
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.goldDeep,
+                        ),
                       ),
                     ),
                   ],
@@ -438,7 +325,14 @@ class _TitleAccordion extends StatelessWidget {
                   )
                 else ...[
                   for (final row in state.rows) ...[
-                    _RowCard(row: row),
+                    _RowCard(
+                      row: row,
+                      labels: state.attributeLabels,
+                      attributes: state.attributes,
+                      canWrite: state.canWrite,
+                      canConfirm: state.canConfirm,
+                      showNotes: state.mode == InfoBrowseMode.submitted,
+                    ),
                     SizedBox(height: 8.h),
                   ],
                   if (state.rows.length < state.rowsTotal)
@@ -465,13 +359,150 @@ class _TitleAccordion extends StatelessWidget {
 
 class _RowCard extends StatelessWidget {
   final InfoRecord row;
-  const _RowCard({required this.row});
+  final Map<String, String> labels;
+  final List<BuilderAttribute> attributes;
+  final bool canWrite;
+  final bool canConfirm;
+  final bool showNotes;
+  const _RowCard({
+    required this.row,
+    required this.labels,
+    required this.attributes,
+    required this.canWrite,
+    this.canConfirm = false,
+    this.showNotes = false,
+  });
+
+  String _labelFor(String key) {
+    final mapped = labels[key]?.trim() ?? '';
+    if (mapped.isNotEmpty) return mapped;
+    for (final a in attributes) {
+      if ('${a.id}' == key && a.label.trim().isNotEmpty) return a.label;
+    }
+    return key;
+  }
+
+  String _displayValue(String? raw) {
+    final v = raw?.trim() ?? '';
+    if (v.isEmpty || v == '—') return '—';
+    return v;
+  }
+
+  /// Every title attribute, including empty cells — same as the web table.
+  List<(String label, String value)> _allFields() {
+    final seen = <String>{};
+    final out = <(String, String)>[];
+    void add(String key) {
+      if (!seen.add(key)) return;
+      out.add((_labelFor(key), _displayValue(row.fields[key])));
+    }
+
+    final titleId = row.titleId;
+    if (titleId != null) {
+      for (final a in attributes) {
+        if (a.titleId == titleId && a.id > 0) add('${a.id}');
+      }
+    }
+    for (final key in row.fields.keys) {
+      add(key);
+    }
+    return out;
+  }
+
+  Future<void> _edit(BuildContext context) async {
+    if (row.isAccepted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'لا يمكن تعديل سجل موافق عليه',
+            style: TextStyle(fontFamily: 'Cairo', fontSize: 13.sp),
+          ),
+          backgroundColor: AppColors.errorRed,
+        ),
+      );
+      return;
+    }
+    if (row.infoIds.isEmpty && row.fields.isEmpty) return;
+    final saved = await showInfoRowEditSheet(
+      context,
+      row: row,
+      attributes: attributes,
+      labels: labels,
+    );
+    if (!context.mounted || !saved) return;
+    context.read<InfoBrowseBloc>().add(const InfoBrowseRefreshed());
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'تم حفظ التعديلات',
+          style: TextStyle(fontFamily: 'Cairo', fontSize: 13.sp),
+        ),
+        backgroundColor: AppColors.forest1,
+      ),
+    );
+  }
+
+  Future<void> _delete(BuildContext context) async {
+    if (row.isAccepted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'لا يمكن تعديل سجل موافق عليه',
+            style: TextStyle(fontFamily: 'Cairo', fontSize: 13.sp),
+          ),
+          backgroundColor: AppColors.errorRed,
+        ),
+      );
+      return;
+    }
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          'حذف السجل',
+          style: TextStyle(fontFamily: 'Cairo', fontWeight: FontWeight.w800),
+        ),
+        content: Text(
+          'هل تريد حذف هذا السجل؟ لا يمكن التراجع عن العملية.',
+          style: TextStyle(fontFamily: 'Cairo'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('إلغاء'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: Text(
+              'حذف',
+              style: TextStyle(color: AppColors.errorRed),
+            ),
+          ),
+        ],
+      ),
+    );
+    if (!context.mounted || ok != true) return;
+    context.read<InfoBrowseBloc>().add(InfoBrowseRowDeleteRequested(row));
+  }
+
+  Future<void> _commitNote(BuildContext context) async {
+    final note = await _showCommitNoteDialog(
+      context,
+      initial: row.commitNote,
+    );
+    if (!context.mounted || note == null) return;
+    context.read<InfoBrowseBloc>().add(
+          InfoBrowseRowCommitNoteRequested(row, note),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final entries = row.fields.entries
-        .where((e) => e.value.trim().isNotEmpty && e.value != '—')
-        .toList();
+    final entries = _allFields();
+    final allowEdit = canWrite && !row.isAccepted;
+    final hasIds = row.infoIds.isNotEmpty;
+    final allowApprove = canConfirm && hasIds && !row.isAccepted;
+    final allowReject = canConfirm && hasIds && !row.isRejected;
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(10.r),
@@ -484,30 +515,32 @@ class _RowCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _StatusChip(status: row.confirmed),
-              const Spacer(),
               if (row.subMainName.isNotEmpty)
                 Expanded(
                   child: Text(
                     row.subMainName,
-                    textAlign: TextAlign.right,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.start,
+                    softWrap: true,
                     style: TextStyle(
                       fontFamily: 'Cairo',
                       fontSize: 11.sp,
                       color: AppColors.textHint,
                     ),
                   ),
-                ),
+                )
+              else
+                const Spacer(),
+              SizedBox(width: 8.w),
+              _StatusChip(status: row.confirmed),
             ],
           ),
           if (row.userName.isNotEmpty) ...[
             SizedBox(height: 4.h),
             Text(
               'أدخل بواسطة: ${row.userName}',
-              textAlign: TextAlign.right,
+              textAlign: TextAlign.start,
               style: TextStyle(
                 fontFamily: 'Cairo',
                 fontSize: 11.sp,
@@ -521,15 +554,16 @@ class _RowCard extends StatelessWidget {
               spacing: 10.w,
               runSpacing: 8.h,
               children: [
-                for (final e in entries.take(8))
+                for (final e in entries)
                   SizedBox(
                     width: 140.w,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          e.key,
-                          textAlign: TextAlign.right,
+                          e.$1,
+                          textAlign: TextAlign.start,
+                          softWrap: true,
                           style: TextStyle(
                             fontFamily: 'Cairo',
                             fontSize: 10.sp,
@@ -537,18 +571,111 @@ class _RowCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          e.value,
-                          textAlign: TextAlign.right,
+                          e.$2,
+                          textAlign: TextAlign.start,
+                          softWrap: true,
                           style: TextStyle(
                             fontFamily: 'Cairo',
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.textPrimary,
+                            color: e.$2 == '—'
+                                ? AppColors.textHint
+                                : AppColors.textPrimary,
                           ),
                         ),
                       ],
                     ),
                   ),
+              ],
+            ),
+          ],
+          if (showNotes) ...[
+            SizedBox(height: 8.h),
+            _NoteField(label: 'ملاحظة متابعة', value: _displayValue(row.commitNote)),
+            SizedBox(height: 8.h),
+            _NoteField(
+              label: 'ملاحظة التأكيد',
+              value: _displayValue(row.confirmNote),
+            ),
+          ],
+          if (canWrite) ...[
+            SizedBox(height: 8.h),
+            Wrap(
+              spacing: 4.w,
+              children: [
+                TextButton.icon(
+                  onPressed: allowEdit ? () => _edit(context) : null,
+                  icon: Icon(Icons.edit_outlined, size: 16.r),
+                  label: Text(
+                    'تعديل',
+                    style: TextStyle(fontFamily: 'Cairo', fontSize: 12.sp),
+                  ),
+                ),
+                TextButton.icon(
+                  onPressed: allowEdit ? () => _delete(context) : null,
+                  icon: Icon(
+                    Icons.delete_outline,
+                    size: 16.r,
+                    color: allowEdit ? AppColors.errorRed : AppColors.textHint,
+                  ),
+                  label: Text(
+                    'حذف',
+                    style: TextStyle(
+                      fontFamily: 'Cairo',
+                      fontSize: 12.sp,
+                      color: allowEdit ? AppColors.errorRed : AppColors.textHint,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+          if (canConfirm) ...[
+            SizedBox(height: 8.h),
+            Wrap(
+              spacing: 4.w,
+              runSpacing: 4.h,
+              children: [
+                TextButton.icon(
+                  onPressed: allowApprove
+                      ? () => context.read<InfoBrowseBloc>().add(
+                            InfoBrowseRowConfirmRequested(row, approve: true),
+                          )
+                      : null,
+                  icon: Icon(Icons.check_circle_outline, size: 16.r),
+                  label: Text(
+                    'موافقة',
+                    style: TextStyle(fontFamily: 'Cairo', fontSize: 12.sp),
+                  ),
+                ),
+                TextButton.icon(
+                  onPressed: allowReject
+                      ? () => context.read<InfoBrowseBloc>().add(
+                            InfoBrowseRowConfirmRequested(row, approve: false),
+                          )
+                      : null,
+                  icon: Icon(
+                    Icons.cancel_outlined,
+                    size: 16.r,
+                    color: allowReject ? AppColors.errorRed : AppColors.textHint,
+                  ),
+                  label: Text(
+                    'إلغاء الموافقة',
+                    style: TextStyle(
+                      fontFamily: 'Cairo',
+                      fontSize: 12.sp,
+                      color: allowReject ? AppColors.errorRed : AppColors.textHint,
+                    ),
+                  ),
+                ),
+                TextButton.icon(
+                  onPressed: hasIds ? () => _commitNote(context) : null,
+                  icon: Icon(Icons.sticky_note_2_outlined, size: 16.r),
+                  label: Text(
+                    'ملاحظة متابعة',
+                    style: TextStyle(fontFamily: 'Cairo', fontSize: 12.sp),
+                  ),
+                ),
               ],
             ),
           ],
@@ -591,4 +718,83 @@ class _StatusChip extends StatelessWidget {
       ),
     );
   }
+}
+
+class _NoteField extends StatelessWidget {
+  final String label;
+  final String value;
+  const _NoteField({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          textAlign: TextAlign.start,
+          style: TextStyle(
+            fontFamily: 'Cairo',
+            fontSize: 10.sp,
+            color: AppColors.textHint,
+          ),
+        ),
+        Text(
+          value,
+          textAlign: TextAlign.start,
+          softWrap: true,
+          style: TextStyle(
+            fontFamily: 'Cairo',
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w700,
+            color: value == '—' ? AppColors.textHint : AppColors.textPrimary,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+Future<String?> _showCommitNoteDialog(
+  BuildContext context, {
+  required String initial,
+}) {
+  final controller = TextEditingController(text: initial);
+  return showDialog<String>(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      title: Text(
+        'ملاحظة مراجعة (دون تغيير حالة التأكيد)',
+        style: TextStyle(
+          fontFamily: 'Cairo',
+          fontWeight: FontWeight.w800,
+          fontSize: 15.sp,
+        ),
+      ),
+      content: TextField(
+        controller: controller,
+        maxLines: 4,
+        textAlign: TextAlign.start,
+        decoration: InputDecoration(
+          hintText: 'تُحفظ كمتابعة منفصلة؛ لا توافق على الصف ولا ترفضه.',
+          hintStyle: TextStyle(
+            fontFamily: 'Cairo',
+            fontSize: 12.sp,
+            color: AppColors.textHint,
+          ),
+        ),
+        style: TextStyle(fontFamily: 'Cairo', fontSize: 13.sp),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(ctx),
+          child: const Text('إلغاء'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(ctx, controller.text),
+          child: const Text('تطبيق'),
+        ),
+      ],
+    ),
+  ).whenComplete(controller.dispose);
 }

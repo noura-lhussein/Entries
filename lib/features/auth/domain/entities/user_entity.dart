@@ -18,6 +18,8 @@ class UserEntity extends Equatable {
   final List<UserDepartment> sectors;
   final bool canEnterData;
   final bool canViewData;
+  final bool canConfirmInfo;
+  final String? photoUrl;
 
   const UserEntity({
     required this.id,
@@ -40,7 +42,49 @@ class UserEntity extends Equatable {
     ],
     this.canEnterData = true,
     this.canViewData = true,
+    this.canConfirmInfo = false,
+    this.photoUrl,
   });
+
+  UserEntity copyWith({
+    int? id,
+    String? email,
+    String? fullName,
+    String? displayName,
+    String? dateJoined,
+    String? username,
+    String? firstName,
+    String? lastName,
+    bool? isActive,
+    UserDepartment? department,
+    String? role,
+    AppRole? appRole,
+    List<UserDepartment>? sectors,
+    bool? canEnterData,
+    bool? canViewData,
+    bool? canConfirmInfo,
+    String? photoUrl,
+  }) {
+    return UserEntity(
+      id: id ?? this.id,
+      email: email ?? this.email,
+      fullName: fullName ?? this.fullName,
+      displayName: displayName ?? this.displayName,
+      dateJoined: dateJoined ?? this.dateJoined,
+      username: username ?? this.username,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      isActive: isActive ?? this.isActive,
+      department: department ?? this.department,
+      role: role ?? this.role,
+      appRole: appRole ?? this.appRole,
+      sectors: sectors ?? this.sectors,
+      canEnterData: canEnterData ?? this.canEnterData,
+      canViewData: canViewData ?? this.canViewData,
+      canConfirmInfo: canConfirmInfo ?? this.canConfirmInfo,
+      photoUrl: photoUrl ?? this.photoUrl,
+    );
+  }
 
   UserModel toUserModel() {
     final resolvedName = fullName.trim().isNotEmpty
@@ -56,6 +100,8 @@ class UserEntity extends Equatable {
       sectors: sectors,
       canEnterData: canEnterData,
       canViewData: canViewData,
+      canConfirmInfo: canConfirmInfo,
+      photoUrl: photoUrl,
     );
   }
 
@@ -76,5 +122,7 @@ class UserEntity extends Equatable {
         sectors,
         canEnterData,
         canViewData,
+        canConfirmInfo,
+        photoUrl,
       ];
 }

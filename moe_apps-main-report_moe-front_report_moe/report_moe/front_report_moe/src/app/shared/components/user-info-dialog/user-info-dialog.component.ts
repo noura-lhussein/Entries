@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, Inject, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -85,7 +85,7 @@ import { LanguageService } from '../../services/language.service';
             </div>
           </section>
 
-          <section class="card-section card-span-full" *ngIf="data.title_categories?.length">
+          <section class="card-section card-span-full" *ngIf="data.title_categories.length">
             <h3 class="section-heading">{{ t('users.info-dialog.title-categories') }}</h3>
             <div class="chip-list">
               <span class="chip title-chip" *ngFor="let cat of data.title_categories">{{
@@ -115,6 +115,7 @@ import { LanguageService } from '../../services/language.service';
       </div>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './user-info-dialog.component.scss',
 })
 export class UserInfoDialogComponent {

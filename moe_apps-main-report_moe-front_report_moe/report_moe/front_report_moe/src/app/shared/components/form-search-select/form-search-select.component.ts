@@ -7,6 +7,7 @@ import {
   ViewChild,
   forwardRef,
   signal,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import type { SelectOption, SelectValue } from '../form-select/form-select.component';
@@ -109,6 +110,7 @@ export type { SelectOption } from '../form-select/form-select.component';
       <small *ngIf="errorMessage" class="error">{{ errorMessage }}</small>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './form-search-select.component.scss',
 })
 export class FormSearchSelectComponent implements ControlValueAccessor {

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PageHeaderComponent } from '../page-header/page-header.component';
 import { FilterPanelComponent } from '../filter-panel/filter-panel.component';
@@ -97,6 +97,7 @@ export interface ListPageConfig {
       ></app-pagination>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './list-page.component.scss',
 })
 export class ListPageComponent {

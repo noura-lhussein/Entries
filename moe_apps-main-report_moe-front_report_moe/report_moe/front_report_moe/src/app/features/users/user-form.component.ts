@@ -1,4 +1,12 @@
-import { Component, OnInit, ViewChild, inject, signal, computed } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  inject,
+  signal,
+  computed,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
@@ -10,6 +18,7 @@ import { TranslationService } from '../../shared/services/translation.service';
 import {
   BuilderService,
   SubMainSection,
+  Title,
   TitleCategory,
   MainSection,
 } from '../../core/services/builder.service';
@@ -29,6 +38,7 @@ import { PageHeaderComponent } from '../../shared/components/page-header/page-he
     <div class="page-container">
       <app-page-header
         [title]="isEdit() ? t('user-form.title-edit') : t('user-form.title-new')"
+        [description]="isEdit() ? t('user-form.subtitle-edit') : t('user-form.subtitle-new')"
         [action]="backAction"
       ></app-page-header>
       <app-example-form
@@ -39,6 +49,7 @@ import { PageHeaderComponent } from '../../shared/components/page-header/page-he
       ></app-example-form>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './user-form.component.scss',
 })
 export class UserFormComponent implements OnInit {
@@ -53,15 +64,29 @@ export class UserFormComponent implements OnInit {
 
   @ViewChild('userForm') userForm!: DynamicFormComponent;
 
+  // moeds portal (Ministry of Energy) sectors. One static multi-select; the
+  // per-sector view/write access follows the «view/edit data» checkboxes.
+  // Mirrors the backend User.PORTAL_SECTORS.
+  private readonly portalSectorOptions = [
+    { value: 'water', labelKey: 'user-form.sector-water' },
+    { value: 'electricity', labelKey: 'user-form.sector-electricity' },
+    { value: 'oil_gas', labelKey: 'user-form.sector-oil-gas' },
+    { value: 'mineral', labelKey: 'user-form.sector-mineral' },
+    { value: 'projects', labelKey: 'user-form.sector-projects' },
+  ];
+
   isEdit = signal(false);
   userId: number | null = null;
   isLoading = signal(false);
   mainSections = signal<MainSection[]>([]);
   subSections = signal<SubMainSection[]>([]);
+  titles = signal<Title[]>([]);
   titleCategories = signal<TitleCategory[]>([]);
   filteredSubSections = signal<SubMainSection[]>([]);
+  filteredTitles = signal<Title[]>([]);
 
-  // computed rebuilds automatically when language or data signals change
+  // computed rebuilds when language or data signals change; trackBy on field.key
+  // keeps DOM stable so option updates do not scroll the page to the top.
   formConfig = computed<FormConfig>(() => {
     const mainSectionOptions = this.mainSections().map((m) => ({ value: m.id, label: m.name }));
     const subSectionOptions = this.filteredSubSections().map((s) => ({
@@ -72,8 +97,17 @@ export class UserFormComponent implements OnInit {
       value: c.id,
       label: c.name,
     }));
+    const titleOptions = this.filteredTitles().map((t) => ({
+      value: t.id,
+      label: t.name,
+    }));
 
     const allFields: FormFieldConfig[] = [
+      {
+        key: 'section_account',
+        type: 'section',
+        label: this.t('user-form.section-account'),
+      },
       {
         key: 'username',
         type: 'input',
@@ -84,6 +118,19 @@ export class UserFormComponent implements OnInit {
         validators: [Validators.required],
         disabled: this.isEdit(),
       },
+      ...(!this.isEdit()
+        ? [
+            {
+              key: 'password',
+              type: 'input' as const,
+              label: this.t('user-form.password'),
+              placeholder: this.t('user-form.password-placeholder'),
+              inputType: 'password' as const,
+              required: true,
+              validators: [Validators.required, Validators.minLength(6)],
+            },
+          ]
+        : []),
       {
         key: 'first_name',
         type: 'input',
@@ -106,31 +153,17 @@ export class UserFormComponent implements OnInit {
         inputType: 'email',
         validators: [Validators.email],
       },
-      ...(!this.isEdit()
-        ? [
-            {
-              key: 'password',
-              type: 'input' as const,
-              label: this.t('user-form.password'),
-              placeholder: this.t('user-form.password-placeholder'),
-              inputType: 'password' as const,
-              required: true,
-              validators: [Validators.required, Validators.minLength(6)],
-            },
-          ]
-        : []),
       {
         key: 'is_active',
         type: 'checkbox',
         label: this.t('user-form.is-active'),
         defaultValue: true,
       },
+
       {
-        key: 'can_write_info',
-        type: 'checkbox',
-        label: this.t('user-form.can-write'),
-        defaultValue: false,
-        disabled: !this.auth.currentUser()?.can_write_info && !this.auth.isAdmin(),
+        key: 'section_report_perms',
+        type: 'section',
+        label: this.t('user-form.section-report-perms'),
       },
       {
         key: 'can_view_info',
@@ -138,6 +171,13 @@ export class UserFormComponent implements OnInit {
         label: this.t('user-form.can-view'),
         defaultValue: false,
         disabled: !this.auth.currentUser()?.can_view_info && !this.auth.isAdmin(),
+      },
+      {
+        key: 'can_write_info',
+        type: 'checkbox',
+        label: this.t('user-form.can-write'),
+        defaultValue: false,
+        disabled: !this.auth.currentUser()?.can_write_info && !this.auth.isAdmin(),
       },
       {
         key: 'can_confirm_info',
@@ -160,11 +200,52 @@ export class UserFormComponent implements OnInit {
         defaultValue: false,
         disabled: !this.auth.currentUser()?.can_add_user && !this.auth.isAdmin(),
       },
+
+      {
+        key: 'section_portal',
+        type: 'section',
+        label: this.t('user-form.section-portal'),
+      },
+      {
+        key: 'portal_sectors',
+        type: 'multi-select',
+        label: this.t('user-form.portal-sectors'),
+        placeholder: this.t('user-form.portal-sectors-placeholder'),
+        hint: this.t('user-form.portal-sectors-hint'),
+        defaultValue: [],
+        fullWidth: true,
+        options: this.portalSectorOptions.map((o) => ({
+          value: o.value,
+          label: this.t(o.labelKey),
+        })),
+      },
+      {
+        key: 'can_manage_datasets',
+        type: 'checkbox',
+        label: this.t('user-form.portal-manage-datasets'),
+        defaultValue: false,
+        disabled: !this.auth.currentUser()?.can_manage_datasets && !this.auth.isAdmin(),
+      },
+      {
+        key: 'can_manage_control_panel',
+        type: 'checkbox',
+        label: this.t('user-form.portal-manage-control-panel'),
+        defaultValue: false,
+        disabled: !this.auth.currentUser()?.can_manage_control_panel && !this.auth.isAdmin(),
+      },
+
+      {
+        key: 'section_scope',
+        type: 'section',
+        label: this.t('user-form.section-scope'),
+      },
       {
         key: 'main_section_ids',
         type: 'multi-select',
         label: this.t('user-form.main-sections'),
         placeholder: this.t('user-form.main-sections-placeholder'),
+        hint: this.t('user-form.main-sections-hint'),
+        fullWidth: true,
         options: mainSectionOptions,
       },
       {
@@ -172,6 +253,8 @@ export class UserFormComponent implements OnInit {
         type: 'multi-select',
         label: this.t('user-form.sub-sections'),
         placeholder: this.t('user-form.sub-sections-placeholder'),
+        hint: this.t('user-form.sub-sections-hint'),
+        fullWidth: true,
         options: subSectionOptions,
       },
       {
@@ -179,7 +262,18 @@ export class UserFormComponent implements OnInit {
         type: 'multi-select',
         label: this.t('user-form.title-categories'),
         placeholder: this.t('user-form.title-categories-placeholder'),
+        hint: this.t('user-form.title-categories-hint'),
+        fullWidth: true,
         options: titleCategoryOptions,
+      },
+      {
+        key: 'title_ids',
+        type: 'multi-select',
+        label: this.t('user-form.titles'),
+        placeholder: this.t('user-form.titles-placeholder'),
+        hint: this.t('user-form.titles-hint'),
+        fullWidth: true,
+        options: titleOptions,
       },
     ];
 
@@ -188,6 +282,8 @@ export class UserFormComponent implements OnInit {
       subtitle: this.isEdit()
         ? this.t('user-form.subtitle-edit')
         : this.t('user-form.subtitle-new'),
+      hideTitle: true,
+      compact: true,
       fields: allFields,
       showDebug: false,
     };
@@ -216,6 +312,9 @@ export class UserFormComponent implements OnInit {
     if (event.key === 'main_section_ids') {
       this.onMainSectionChange(event.value);
     }
+    if (event.key === 'title_category_ids') {
+      this.onTitleCategoryChange(event.value);
+    }
   }
 
   private onMainSectionChange(selectedMainIds: number[], skipReset = false): void {
@@ -228,22 +327,42 @@ export class UserFormComponent implements OnInit {
     this.filteredSubSections.set(filtered);
 
     if (!skipReset) {
-      this.userForm?.userForm?.get('sub_main_ids')?.reset();
+      // Main is a filter + shortcut: selecting mains fills every leaf under them
+      // (including «تحديد الكل» on main). Clearing mains clears sub assignments.
+      const leafIds = filtered.map((s) => s.id);
+      this.userForm?.userForm?.get('sub_main_ids')?.setValue(leafIds, { emitEvent: false });
+    }
+  }
+
+  private onTitleCategoryChange(selectedCategoryIds: number[], skipReset = false): void {
+    let filtered: Title[] = [];
+    if (selectedCategoryIds && selectedCategoryIds.length > 0) {
+      filtered = this.titles().filter((t) => selectedCategoryIds.includes(t.category as number));
+    }
+    this.filteredTitles.set(filtered);
+
+    if (!skipReset) {
+      // Category filters + auto-fills all titles under the selection (same as main→sub).
+      const titleIds = filtered.map((t) => t.id);
+      this.userForm?.userForm?.get('title_ids')?.setValue(titleIds, { emitEvent: false });
     }
   }
 
   private loadAllThenUser(): void {
     forkJoin({
       mainSections: this.builder.getMainSections(),
-      subSections: this.builder.getSubMainSections(),
+      // Assignable sections only — parents reject UserSubMain on the backend.
+      subSections: this.builder.getSubMainSections({ leaves: true }),
       titleCategories: this.builder.getTitleCategories(),
+      titles: this.builder.getTitles(),
     }).subscribe({
-      next: ({ mainSections, subSections, titleCategories }) => {
-        const subs = subSections.results || [];
+      next: ({ mainSections, subSections, titleCategories, titles }) => {
+        const subs = (subSections.results || []).filter((s) => s.is_leaf !== false);
         this.subSections.set(subs);
         this.titleCategories.set(titleCategories.results || []);
+        this.titles.set(titles.results || []);
 
-        // Only show main sections that are parents of sub-sections this user can see
+        // Only show main sections that are parents of leaf sub-sections
         const visibleMainIds = new Set(subs.map((s: any) => s.main_section ?? s.main_section_id));
         this.mainSections.set(
           (mainSections.results || []).filter((m: any) => visibleMainIds.has(m.id)),
@@ -271,7 +390,9 @@ export class UserFormComponent implements OnInit {
           ),
         ] as number[];
 
+        const categoryIds = user.title_category_ids ?? [];
         this.onMainSectionChange(derivedMainIds, true);
+        this.onTitleCategoryChange(categoryIds, true);
 
         setTimeout(() => {
           this.userForm?.userForm?.patchValue({
@@ -285,9 +406,13 @@ export class UserFormComponent implements OnInit {
             can_confirm_info: user.can_confirm_info,
             can_export_reports: user.can_export_reports,
             can_add_user: user.can_add_user,
+            portal_sectors: user.portal_sectors ?? [],
+            can_manage_datasets: user.can_manage_datasets,
+            can_manage_control_panel: user.can_manage_control_panel,
             main_section_ids: derivedMainIds,
             sub_main_ids: userSubIds,
-            title_category_ids: user.title_category_ids ?? [],
+            title_category_ids: categoryIds,
+            title_ids: user.title_ids ?? [],
           });
         }, 50);
       },
@@ -301,19 +426,49 @@ export class UserFormComponent implements OnInit {
       return;
     }
 
-    this.isLoading.set(true);
     const formData = this.userForm.getFormData();
+    const mainIds = Array.isArray(formData.main_section_ids)
+      ? formData.main_section_ids
+      : formData.main_section_ids
+        ? [formData.main_section_ids]
+        : [];
+    const subIds = Array.isArray(formData.sub_main_ids)
+      ? formData.sub_main_ids
+      : formData.sub_main_ids
+        ? [formData.sub_main_ids]
+        : [];
 
-    delete formData.main_section_ids;
-
-    if (!Array.isArray(formData.sub_main_ids)) {
-      formData.sub_main_ids = formData.sub_main_ids ? [formData.sub_main_ids] : [];
-    }
-    if (!Array.isArray(formData.title_category_ids)) {
-      formData.title_category_ids = formData.title_category_ids
+    const categoryIds = Array.isArray(formData.title_category_ids)
+      ? formData.title_category_ids
+      : formData.title_category_ids
         ? [formData.title_category_ids]
         : [];
+    const titleIds = Array.isArray(formData.title_ids)
+      ? formData.title_ids
+      : formData.title_ids
+        ? [formData.title_ids]
+        : [];
+
+    if (mainIds.length > 0 && subIds.length === 0) {
+      this.toast.error(this.t('user-form.sub-sections-required-when-main'));
+      return;
     }
+    if (categoryIds.length > 0 && titleIds.length === 0) {
+      this.toast.error(this.t('user-form.titles-required-when-category'));
+      return;
+    }
+
+    this.isLoading.set(true);
+
+    delete formData.main_section_ids;
+    delete formData.is_admin;
+
+    if (!Array.isArray(formData.portal_sectors)) {
+      formData.portal_sectors = formData.portal_sectors ? [formData.portal_sectors] : [];
+    }
+    formData.sub_main_ids = subIds;
+    formData.title_category_ids = categoryIds;
+    formData.title_ids = titleIds;
 
     if (this.isEdit() && this.userId) {
       this.api.patch(`/users/${this.userId}/`, formData).subscribe({

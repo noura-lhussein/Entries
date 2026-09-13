@@ -1,0 +1,10 @@
+target-version = "py312"
+line-length = 100
+src = ["dynamic_forms", "config"]
+
+[lint]
+select = ["E", "F", "I", "W"]
+ignore = ["E501"]
+
+[lint.per-file-ignores]
+"dynamic_forms/migrations/*" = ["E501"]

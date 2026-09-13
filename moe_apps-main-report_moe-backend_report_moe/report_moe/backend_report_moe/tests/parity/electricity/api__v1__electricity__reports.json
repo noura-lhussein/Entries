@@ -1,0 +1,370 @@
+{
+  "body": [
+    {
+      "id": 151,
+      "report_date": "2026-06-21",
+      "source_file": "21-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:40.960638+00:00"
+    },
+    {
+      "id": 149,
+      "report_date": "2026-06-20",
+      "source_file": "20-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:40.394134+00:00"
+    },
+    {
+      "id": 145,
+      "report_date": "2026-06-19",
+      "source_file": "19-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:39.278879+00:00"
+    },
+    {
+      "id": 143,
+      "report_date": "2026-06-18",
+      "source_file": "18-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:38.709333+00:00"
+    },
+    {
+      "id": 141,
+      "report_date": "2026-06-17",
+      "source_file": "17-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:38.095921+00:00"
+    },
+    {
+      "id": 139,
+      "report_date": "2026-06-16",
+      "source_file": "16-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:37.546317+00:00"
+    },
+    {
+      "id": 137,
+      "report_date": "2026-06-15",
+      "source_file": "15-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:36.961879+00:00"
+    },
+    {
+      "id": 135,
+      "report_date": "2026-06-14",
+      "source_file": "14-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:36.381259+00:00"
+    },
+    {
+      "id": 133,
+      "report_date": "2026-06-13",
+      "source_file": "13-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:35.816137+00:00"
+    },
+    {
+      "id": 131,
+      "report_date": "2026-06-12",
+      "source_file": "12-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:35.220797+00:00"
+    },
+    {
+      "id": 129,
+      "report_date": "2026-06-11",
+      "source_file": "11-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:34.678156+00:00"
+    },
+    {
+      "id": 127,
+      "report_date": "2026-06-10",
+      "source_file": "10-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:34.098347+00:00"
+    },
+    {
+      "id": 175,
+      "report_date": "2026-06-09",
+      "source_file": "9-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:47.568849+00:00"
+    },
+    {
+      "id": 173,
+      "report_date": "2026-06-08",
+      "source_file": "8-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:47.013340+00:00"
+    },
+    {
+      "id": 171,
+      "report_date": "2026-06-07",
+      "source_file": "7-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:46.488341+00:00"
+    },
+    {
+      "id": 169,
+      "report_date": "2026-06-06",
+      "source_file": "6-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:45.955356+00:00"
+    },
+    {
+      "id": 167,
+      "report_date": "2026-06-05",
+      "source_file": "5-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:45.383830+00:00"
+    },
+    {
+      "id": 165,
+      "report_date": "2026-06-04",
+      "source_file": "4-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:44.835992+00:00"
+    },
+    {
+      "id": 161,
+      "report_date": "2026-06-03",
+      "source_file": "3-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:43.731878+00:00"
+    },
+    {
+      "id": 147,
+      "report_date": "2026-06-02",
+      "source_file": "2-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:39.852000+00:00"
+    },
+    {
+      "id": 125,
+      "report_date": "2026-06-01",
+      "source_file": "1-6-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:33.496351+00:00"
+    },
+    {
+      "id": 163,
+      "report_date": "2026-05-31",
+      "source_file": "31-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:44.278171+00:00"
+    },
+    {
+      "id": 162,
+      "report_date": "2026-05-30",
+      "source_file": "30-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:44.002012+00:00"
+    },
+    {
+      "id": 159,
+      "report_date": "2026-05-29",
+      "source_file": "29-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:43.117016+00:00"
+    },
+    {
+      "id": 158,
+      "report_date": "2026-05-28",
+      "source_file": "28-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:42.858081+00:00"
+    },
+    {
+      "id": 157,
+      "report_date": "2026-05-27",
+      "source_file": "27-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:42.589161+00:00"
+    },
+    {
+      "id": 156,
+      "report_date": "2026-05-26",
+      "source_file": "26-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:42.337866+00:00"
+    },
+    {
+      "id": 155,
+      "report_date": "2026-05-25",
+      "source_file": "25-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:42.027195+00:00"
+    },
+    {
+      "id": 154,
+      "report_date": "2026-05-24",
+      "source_file": "24-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:41.769061+00:00"
+    },
+    {
+      "id": 153,
+      "report_date": "2026-05-23",
+      "source_file": "23-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:41.507476+00:00"
+    },
+    {
+      "id": 152,
+      "report_date": "2026-05-22",
+      "source_file": "22-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:41.227671+00:00"
+    },
+    {
+      "id": 150,
+      "report_date": "2026-05-21",
+      "source_file": "21-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:40.657108+00:00"
+    },
+    {
+      "id": 148,
+      "report_date": "2026-05-20",
+      "source_file": "20-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:40.118426+00:00"
+    },
+    {
+      "id": 144,
+      "report_date": "2026-05-19",
+      "source_file": "19-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:38.987102+00:00"
+    },
+    {
+      "id": 142,
+      "report_date": "2026-05-18",
+      "source_file": "18-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:38.435187+00:00"
+    },
+    {
+      "id": 140,
+      "report_date": "2026-05-17",
+      "source_file": "17-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:37.832750+00:00"
+    },
+    {
+      "id": 138,
+      "report_date": "2026-05-16",
+      "source_file": "16-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:37.271203+00:00"
+    },
+    {
+      "id": 136,
+      "report_date": "2026-05-15",
+      "source_file": "15-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:36.684870+00:00"
+    },
+    {
+      "id": 134,
+      "report_date": "2026-05-14",
+      "source_file": "14-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:36.106156+00:00"
+    },
+    {
+      "id": 132,
+      "report_date": "2026-05-13",
+      "source_file": "13-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:35.500583+00:00"
+    },
+    {
+      "id": 130,
+      "report_date": "2026-05-12",
+      "source_file": "12-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:34.947951+00:00"
+    },
+    {
+      "id": 128,
+      "report_date": "2026-05-11",
+      "source_file": "11-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:34.375284+00:00"
+    },
+    {
+      "id": 126,
+      "report_date": "2026-05-10",
+      "source_file": "10-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:33.808987+00:00"
+    },
+    {
+      "id": 174,
+      "report_date": "2026-05-09",
+      "source_file": "9-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:47.300758+00:00"
+    },
+    {
+      "id": 172,
+      "report_date": "2026-05-08",
+      "source_file": "8-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:46.747251+00:00"
+    },
+    {
+      "id": 170,
+      "report_date": "2026-05-07",
+      "source_file": "7-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:46.218685+00:00"
+    },
+    {
+      "id": 168,
+      "report_date": "2026-05-06",
+      "source_file": "6-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:45.653833+00:00"
+    },
+    {
+      "id": 166,
+      "report_date": "2026-05-05",
+      "source_file": "5-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:45.118953+00:00"
+    },
+    {
+      "id": 164,
+      "report_date": "2026-05-04",
+      "source_file": "4-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:44.541487+00:00"
+    },
+    {
+      "id": 160,
+      "report_date": "2026-05-03",
+      "source_file": "3-5 2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:43.423218+00:00"
+    },
+    {
+      "id": 146,
+      "report_date": "2026-05-02",
+      "source_file": "2-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:39.561485+00:00"
+    },
+    {
+      "id": 124,
+      "report_date": "2026-05-01",
+      "source_file": "1-5-2026.pdf",
+      "status": "published",
+      "updated_at": "2026-07-12T11:20:33.205974+00:00"
+    }
+  ],
+  "path": "/api/v1/electricity/reports/",
+  "status": 200
+}

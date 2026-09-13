@@ -1,0 +1,7 @@
+{
+  "body": {
+    "detail": "Use /geology/reports/export/ for ore production export (Info-sourced)."
+  },
+  "path": "/api/v1/geology/admin/daily-report/export/",
+  "status": 410
+}

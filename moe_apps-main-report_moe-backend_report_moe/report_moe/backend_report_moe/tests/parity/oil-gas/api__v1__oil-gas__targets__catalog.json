@@ -1,0 +1,118 @@
+{
+  "body": [
+    {
+      "higher_is_better": true,
+      "key": "crude_oil_bbl",
+      "label_ar": "إنتاج النفط الخام",
+      "label_en": "Crude oil production",
+      "unit": "bbl/d"
+    },
+    {
+      "higher_is_better": true,
+      "key": "natural_gas_mmscf",
+      "label_ar": "إنتاج الغاز الطبيعي",
+      "label_en": "Natural gas production",
+      "unit": "MMscf/d"
+    },
+    {
+      "higher_is_better": true,
+      "key": "condensate_bbl",
+      "label_ar": "إنتاج المتكاثفات",
+      "label_en": "Condensate production",
+      "unit": "bbl/d"
+    },
+    {
+      "higher_is_better": true,
+      "key": "total_export_bbl",
+      "label_ar": "حجم الصادرات",
+      "label_en": "Export volume",
+      "unit": "bbl"
+    },
+    {
+      "higher_is_better": true,
+      "key": "export_revenue_usd",
+      "label_ar": "إيرادات التصدير",
+      "label_en": "Export revenue",
+      "unit": "USD"
+    },
+    {
+      "higher_is_better": true,
+      "key": "gasoline_ton",
+      "label_ar": "إنتاج البنزين",
+      "label_en": "Gasoline output",
+      "unit": "t"
+    },
+    {
+      "higher_is_better": true,
+      "key": "diesel_ton",
+      "label_ar": "إنتاج الديزل",
+      "label_en": "Diesel output",
+      "unit": "t"
+    },
+    {
+      "higher_is_better": true,
+      "key": "fuel_oil_ton",
+      "label_ar": "إنتاج الفيول",
+      "label_en": "Fuel oil output",
+      "unit": "t"
+    },
+    {
+      "higher_is_better": true,
+      "key": "gasoline_stock_days",
+      "label_ar": "كفاية مخزون البنزين",
+      "label_en": "Gasoline stock coverage",
+      "unit": "days"
+    },
+    {
+      "higher_is_better": true,
+      "key": "diesel_stock_days",
+      "label_ar": "كفاية مخزون الديزل",
+      "label_en": "Diesel stock coverage",
+      "unit": "days"
+    },
+    {
+      "higher_is_better": true,
+      "key": "gas_supply_to_power_percent",
+      "label_ar": "إمداد الغاز للكهرباء",
+      "label_en": "Gas supply to power",
+      "unit": "%"
+    },
+    {
+      "higher_is_better": true,
+      "key": "supplied_mmscf",
+      "label_ar": "الغاز المورد للكهرباء",
+      "label_en": "Gas supplied to power",
+      "unit": "MMscf/d"
+    },
+    {
+      "higher_is_better": true,
+      "key": "required_mmscf",
+      "label_ar": "الغاز المطلوب للكهرباء",
+      "label_en": "Gas required by power",
+      "unit": "MMscf/d"
+    },
+    {
+      "higher_is_better": true,
+      "key": "refinery_utilization_percent",
+      "label_ar": "استغلال المصافي",
+      "label_en": "Refinery utilization",
+      "unit": "%"
+    },
+    {
+      "higher_is_better": false,
+      "key": "total_losses_bbl",
+      "label_ar": "فاقد الإنتاج",
+      "label_en": "Production losses",
+      "unit": "bbl/d"
+    },
+    {
+      "higher_is_better": true,
+      "key": "dist_tonnes",
+      "label_ar": "كمية التوزيع",
+      "label_en": "Distribution volume",
+      "unit": "t"
+    }
+  ],
+  "path": "/api/v1/oil-gas/targets/catalog/",
+  "status": 200
+}

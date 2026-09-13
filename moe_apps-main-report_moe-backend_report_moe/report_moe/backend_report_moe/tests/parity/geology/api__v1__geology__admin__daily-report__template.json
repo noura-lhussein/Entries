@@ -1,0 +1,7 @@
+{
+  "body": {
+    "detail": "Ore production template moved to report_moe Form Builder. Use report_moe UI/API."
+  },
+  "path": "/api/v1/geology/admin/daily-report/template/",
+  "status": 410
+}

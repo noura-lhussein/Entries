@@ -2,6 +2,7 @@ part of 'profile_bloc.dart';
 
 class ProfileState extends Equatable {
   final bool updating;
+  final bool uploadingPhoto;
   final bool changingPassword;
   final String? message;
   final String? error;
@@ -11,6 +12,7 @@ class ProfileState extends Equatable {
 
   const ProfileState({
     this.updating = false,
+    this.uploadingPhoto = false,
     this.changingPassword = false,
     this.message,
     this.error,
@@ -21,6 +23,7 @@ class ProfileState extends Equatable {
 
   ProfileState copyWith({
     bool? updating,
+    bool? uploadingPhoto,
     bool? changingPassword,
     String? message,
     String? error,
@@ -33,6 +36,7 @@ class ProfileState extends Equatable {
   }) {
     return ProfileState(
       updating: updating ?? this.updating,
+      uploadingPhoto: uploadingPhoto ?? this.uploadingPhoto,
       changingPassword: changingPassword ?? this.changingPassword,
       message: clearMessage ? null : (message ?? this.message),
       error: clearError ? null : (error ?? this.error),
@@ -46,6 +50,7 @@ class ProfileState extends Equatable {
   @override
   List<Object?> get props => [
         updating,
+        uploadingPhoto,
         changingPassword,
         message,
         error,

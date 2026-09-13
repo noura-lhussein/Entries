@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject, OnInit } from '@angular/core';
+import { Component, ViewChild, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './sidebar.component';
@@ -23,6 +23,7 @@ import { AppBrandingService } from '../../core/services/app-branding.service';
       <app-footer></app-footer>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './main-layout.component.scss',
 })
 export class MainLayoutComponent implements OnInit {

@@ -1,0 +1,10 @@
+{
+  "body": {
+    "__binary__": {
+      "bytes": 5632,
+      "sha256": "d1c01849b76159991bfd69a964035c04d7f423f87422a78ae0d703fde2c7bde5"
+    }
+  },
+  "path": "/api/v1/water/admin/templates/rainfall/",
+  "status": 200
+}

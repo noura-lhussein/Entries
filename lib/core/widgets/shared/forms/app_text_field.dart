@@ -11,10 +11,20 @@ class AppTextField extends StatelessWidget {
   final int maxLines;
   final ValueChanged<String>? onChanged;
   final bool obscureText;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
   const AppTextField({
-    super.key, required this.label, this.hint, this.controller,
-    this.keyboardType, this.suffixText, this.maxLines = 1, this.onChanged,
+    super.key,
+    required this.label,
+    this.hint,
+    this.controller,
+    this.keyboardType,
+    this.suffixText,
+    this.maxLines = 1,
+    this.onChanged,
     this.obscureText = false,
+    this.prefixIcon,
+    this.suffixIcon,
   });
 
   @override
@@ -25,7 +35,7 @@ class AppTextField extends StatelessWidget {
       children: [
         Text(label,
           style: TextStyle(fontFamily: 'Cairo', fontSize: 11.sp, fontWeight: FontWeight.w600, color: AppColors.textHint),
-          textAlign: TextAlign.right, maxLines: 1, overflow: TextOverflow.ellipsis),
+          textAlign: TextAlign.start, maxLines: 1, overflow: TextOverflow.ellipsis),
         SizedBox(height: 5.h),
         TextField(
           controller: controller,
@@ -33,8 +43,7 @@ class AppTextField extends StatelessWidget {
           maxLines: obscureText ? 1 : maxLines,
           obscureText: obscureText,
           onChanged: onChanged,
-          textAlign: TextAlign.right,
-          textDirection: TextDirection.rtl,
+          textAlign: TextAlign.start,
           style: TextStyle(fontFamily: 'Cairo', fontSize: 13.sp, color: AppColors.textPrimary),
           decoration: InputDecoration(
             hintText: hint,
@@ -42,6 +51,8 @@ class AppTextField extends StatelessWidget {
             contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 11.h),
             suffixText: suffixText,
             suffixStyle: TextStyle(fontFamily: 'Cairo', fontSize: 10.sp, color: AppColors.textHint),
+            prefixIcon: prefixIcon,
+            suffixIcon: suffixIcon,
           ),
         ),
       ],

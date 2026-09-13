@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, computed } from '@angular/core';
+import { Component, Input, computed, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-code-banner',
@@ -24,6 +24,7 @@ import { Component, Input, computed } from '@angular/core';
       <p *ngIf="hint" class="code-banner-hint">{{ hint }}</p>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './code-banner.component.scss',
 })
 export class CodeBannerComponent {

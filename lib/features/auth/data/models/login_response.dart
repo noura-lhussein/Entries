@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import '../../../../core/models/user_model.dart';
+import '../../../../core/network/auth_tokens.dart';
+import '../../../../core/utils/media_url.dart';
 import '../../domain/entities/user_entity.dart';
 
 part 'login_response.g.dart';
@@ -13,13 +15,19 @@ class LoginResponse {
   LoginResponse({this.refresh, this.access, this.user});
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
-    if (json['user'] is Map || json.containsKey('access')) {
-      return _$LoginResponseFromJson(json);
+    final tokens = AuthTokens.fromJson(json);
+    UserResponse? user;
+    final nestedUser = json['user'];
+    if (nestedUser is Map) {
+      user = UserResponse.fromJson(Map<String, dynamic>.from(nestedUser));
+    } else if (json['id'] != null || json['username'] != null) {
+      user = UserResponse.fromJson(json);
     }
-    if (json['id'] != null || json['username'] != null) {
-      return LoginResponse(user: UserResponse.fromJson(json));
-    }
-    return _$LoginResponseFromJson(json);
+    return LoginResponse(
+      access: tokens.access,
+      refresh: tokens.refresh,
+      user: user,
+    );
   }
 
   Map<String, dynamic> toJson() => _$LoginResponseToJson(this);
@@ -76,6 +84,8 @@ class UserResponse {
   final bool? canManageDatasets;
   @JsonKey(name: 'can_manage_control_panel')
   final bool? canManageControlPanel;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final String? photoUrl;
 
   UserResponse({
     this.id,
@@ -104,12 +114,46 @@ class UserResponse {
     this.canManageProjects,
     this.canManageDatasets,
     this.canManageControlPanel,
+    this.photoUrl,
   });
 
-  factory UserResponse.fromJson(Map<String, dynamic> json) =>
-      _$UserResponseFromJson(json);
+  factory UserResponse.fromJson(Map<String, dynamic> json) {
+    final user = _$UserResponseFromJson(json);
+    return UserResponse(
+      id: user.id,
+      email: user.email,
+      username: user.username,
+      fullName: user.fullName,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      displayName: user.displayName,
+      dateJoined: user.dateJoined,
+      isAdmin: user.isAdmin,
+      isStaff: user.isStaff,
+      isSuperuser: user.isSuperuser,
+      isActive: user.isActive,
+      canWriteInfo: user.canWriteInfo,
+      canViewInfo: user.canViewInfo,
+      canConfirmInfo: user.canConfirmInfo,
+      canViewOilGas: user.canViewOilGas,
+      canWriteOilGas: user.canWriteOilGas,
+      canViewElectricity: user.canViewElectricity,
+      canWriteElectricity: user.canWriteElectricity,
+      canViewWater: user.canViewWater,
+      canWriteWater: user.canWriteWater,
+      canViewMineral: user.canViewMineral,
+      canWriteMineral: user.canWriteMineral,
+      canManageProjects: user.canManageProjects,
+      canManageDatasets: user.canManageDatasets,
+      canManageControlPanel: user.canManageControlPanel,
+      photoUrl: photoUrlFromJson(json) ?? user.photoUrl,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$UserResponseToJson(this);
+  Map<String, dynamic> toJson() => {
+        ..._$UserResponseToJson(this),
+        if (photoUrl != null && photoUrl!.isNotEmpty) 'photo': photoUrl,
+      };
 
   static const _allSectors = [
     UserDepartment.water,
@@ -226,6 +270,8 @@ class UserResponse {
       sectors: _sectors,
       canEnterData: _canWrite,
       canViewData: _canView,
+      canConfirmInfo: _admin || canConfirmInfo == true,
+      photoUrl: photoUrl,
     );
   }
 }

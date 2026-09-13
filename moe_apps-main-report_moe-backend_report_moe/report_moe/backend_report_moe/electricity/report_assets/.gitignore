@@ -1,0 +1,6 @@
+# Keep letterhead; ignore local scratch crops / debug strips.
+_dbg*
+_sample*
+_test*
+sample_*
+strips/

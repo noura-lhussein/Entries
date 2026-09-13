@@ -1,9 +1,17 @@
-import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  inject,
+  signal,
+  computed,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { forkJoin, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { catchError, debounceTime, map, takeUntil } from 'rxjs/operators';
 import { ApiService } from '../../core/services/api.service';
 import { ToastService } from '../../shared/services/toast.service';
 import { DialogService } from '../../shared/services/dialog.service';
@@ -61,6 +69,7 @@ interface TitleAccordionItem {
     FilterPanelComponent,
     PageHeaderComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <div class="page-shell">
       <div class="page-chrome">
@@ -94,10 +103,7 @@ interface TitleAccordionItem {
           } @else {
             <div class="title-accordion">
               @for (item of titleItems(); track item.titleId) {
-                <section
-                  class="title-acc"
-                  [class.is-open]="expandedTitleId() === item.titleId"
-                >
+                <section class="title-acc" [class.is-open]="expandedTitleId() === item.titleId">
                   <button
                     type="button"
                     class="title-acc__header"
@@ -130,12 +136,12 @@ interface TitleAccordionItem {
                           [groups]="expandedGroups()"
                           [actions]="actions()"
                           [emptyMessage]="translation.t('user-data.empty-message')"
-                          [hasMore]="fs.hasMore()"
+                          [hasMore]="!!rowsNextCursor()"
                           [loadingMore]="fs.loadingMore()"
                           [hideTitleHeaders]="true"
                           scrollRoot=".page-body"
                           (actionClicked)="onTableAction($event)"
-                          (loadMore)="fs.loadMore()"
+                          (loadMore)="onLoadMoreRows()"
                         />
                       }
                     </div>
@@ -149,7 +155,7 @@ interface TitleAccordionItem {
     </div>
   `,
 })
-export class UserDataComponent implements OnInit {
+export class UserDataComponent implements OnInit, OnDestroy {
   private api = inject(ApiService);
   private builder = inject(BuilderService);
   private toast = inject(ToastService);
@@ -158,6 +164,12 @@ export class UserDataComponent implements OnInit {
   private auth = inject(AuthService);
   translation = inject(TranslationService);
 
+  /** Keep at most this many loaded pages in DOM/memory (infinite-scroll window). */
+  private static readonly MAX_ACCUMULATED_PAGES = 5;
+
+  private readonly destroy$ = new Subject<void>();
+  private readonly countsRefresh$ = new Subject<void>();
+
   canWrite = computed(() => {
     const u = this.auth.currentUser();
     return u ? u.is_admin || u.can_write_info : false;
@@ -165,6 +177,8 @@ export class UserDataComponent implements OnInit {
 
   fs = new FilterState(() => this.loadExpandedRows(), 'search', DATA_TABLE_PAGE_SIZE);
   private accumulatedRows: InfoRow[] = [];
+  /** Keyset cursor for the next /info-rows/ page (preferred over offset). */
+  rowsNextCursor = signal<string | null>(null);
 
   titlesLoading = signal(true);
   expandedTitleId = signal<number | null>(null);
@@ -208,10 +222,7 @@ export class UserDataComponent implements OnInit {
   });
 
   private titlesForFilterOptions = computed(() =>
-    titlesForCategory(
-      this.titles(),
-      parseFilterIds(this.fs.filters()['title_category_id']),
-    ),
+    titlesForCategory(this.titles(), parseFilterIds(this.fs.filters()['title_category_id'])),
   );
 
   private statusColumn = (): TableColumn => ({
@@ -328,7 +339,15 @@ export class UserDataComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.countsRefresh$
+      .pipe(debounceTime(300), takeUntil(this.destroy$))
+      .subscribe(() => this.fetchTitleRowCounts());
     this.loadFilterOptions();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private loadFilterOptions(): void {
@@ -371,6 +390,7 @@ export class UserDataComponent implements OnInit {
     this.expandedTitleId.set(titleId);
     this.fs.currentPage.set(1);
     this.fs.loadingMore.set(false);
+    this.rowsNextCursor.set(null);
     this.accumulatedRows = [];
     this.expandedGroups.set([]);
     this.loadExpandedRows();
@@ -380,6 +400,7 @@ export class UserDataComponent implements OnInit {
     this.expandedTitleId.set(null);
     this.accumulatedRows = [];
     this.expandedGroups.set([]);
+    this.rowsNextCursor.set(null);
     this.fs.currentPage.set(1);
     this.fs.loadingMore.set(false);
     this.fs.setTotal(0);
@@ -412,6 +433,10 @@ export class UserDataComponent implements OnInit {
   }
 
   private refreshTitleRowCounts(): void {
+    this.countsRefresh$.next();
+  }
+
+  private fetchTitleRowCounts(): void {
     const ids = this.filteredTitles().map((t) => t.id);
     if (!ids.length) {
       this.rowCountByTitle.set(new Map());
@@ -423,42 +448,63 @@ export class UserDataComponent implements OnInit {
     this.rowCountByTitle.set(pending);
 
     const base = this.rowCountFilterParams();
-    forkJoin(
-      ids.map((titleId) =>
-        this.api
-          .get<{ count: number; title_id: number }>('/infos/row-count/', {
-            ...base,
-            title_id: titleId,
-          })
-          .pipe(
-            map((res) => ({ titleId, count: res.count ?? 0 })),
-            catchError(() => of({ titleId, count: 0 })),
-          ),
-      ),
-    ).subscribe((rows) => {
-      const next = new Map<number, number | null>();
-      for (const row of rows) next.set(row.titleId, row.count);
-      this.rowCountByTitle.set(next);
-    });
+    delete base['title_id'];
+    this.api
+      .get<{ results: { title_id: number; count: number }[] }>('/infos/row-count/', {
+        ...base,
+        title_ids: serializeFilterIds(ids.map(String)),
+      })
+      .pipe(
+        map((res) =>
+          (res.results || []).map((r) => ({ titleId: r.title_id, count: r.count ?? 0 })),
+        ),
+        catchError(() => of(ids.map((titleId) => ({ titleId, count: 0 })))),
+        takeUntil(this.destroy$),
+      )
+      .subscribe((rows) => {
+        const next = new Map<number, number | null>();
+        for (const row of rows) next.set(row.titleId, row.count);
+        this.rowCountByTitle.set(next);
+      });
   }
 
   loadExpandedRows(): void {
     const titleId = this.expandedTitleId();
     if (titleId == null) return;
 
-    const append = this.fs.currentPage() > 1;
+    const append = this.fs.loadingMore();
+    const cursor = append ? this.rowsNextCursor() : null;
+
     if (append) {
-      this.fs.loadingMore.set(true);
+      if (!cursor) {
+        this.fs.loadingMore.set(false);
+        return;
+      }
     } else {
       this.expandedLoading.set(true);
       this.accumulatedRows = [];
+      this.rowsNextCursor.set(null);
     }
 
     const params: Record<string, string | number | boolean> = {
-      ...this.fs.params,
       title_id: titleId,
       page_size: this.fs.pageSize(),
     };
+    for (const [key, value] of Object.entries(this.fs.filters())) {
+      if (value === '' || value == null) continue;
+      params[key] = Array.isArray(value) ? serializeFilterIds(value.map(String)) : value;
+    }
+    const q = this.fs.searchQuery().trim();
+    if (q) params['search'] = q;
+
+    if (append && cursor) {
+      params['cursor'] = cursor;
+      params['include_count'] = false;
+    } else {
+      params['page'] = 1;
+      params['include_count'] = true;
+    }
+
     const u = this.auth.currentUser();
     if (u && !u.is_admin && !this.fs.filters()['user']) {
       params['user'] = u.id;
@@ -468,7 +514,13 @@ export class UserDataComponent implements OnInit {
       next: (data) => {
         if (this.expandedTitleId() !== titleId) return;
         const batch = data.results || [];
-        this.accumulatedRows = append ? [...this.accumulatedRows, ...batch] : batch;
+        let merged = append ? [...this.accumulatedRows, ...batch] : batch;
+        const maxRows = this.fs.pageSize() * UserDataComponent.MAX_ACCUMULATED_PAGES;
+        if (merged.length > maxRows) {
+          merged = merged.slice(merged.length - maxRows);
+        }
+        this.accumulatedRows = merged;
+        this.rowsNextCursor.set(data.next_cursor ?? null);
         this.expandedGroups.set(
           groupInfoRowsByTitle({
             rows: this.accumulatedRows,
@@ -479,7 +531,12 @@ export class UserDataComponent implements OnInit {
             trailingColumns: [this.statusColumn()],
           }),
         );
-        this.fs.setTotal(data.count);
+        if (data.count != null) {
+          this.fs.setTotal(data.count);
+        } else if (!append) {
+          const badge = this.rowCountByTitle().get(titleId);
+          if (badge != null) this.fs.setTotal(badge);
+        }
         this.expandedLoading.set(false);
         this.fs.loading.set(false);
         this.fs.loadingMore.set(false);
@@ -487,14 +544,18 @@ export class UserDataComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.toast.error(this.translation.t('user-data.load-error'));
-        if (append) {
-          this.fs.currentPage.update((p) => Math.max(1, p - 1));
-        }
         this.expandedLoading.set(false);
         this.fs.loading.set(false);
         this.fs.loadingMore.set(false);
       },
     });
+  }
+
+  onLoadMoreRows(): void {
+    if (this.expandedLoading() || this.fs.loadingMore()) return;
+    if (!this.rowsNextCursor()) return;
+    this.fs.loadingMore.set(true);
+    this.loadExpandedRows();
   }
 
   onFilterChange(change: { key: string; value: unknown }): void {
@@ -568,7 +629,7 @@ export class UserDataComponent implements OnInit {
     if (event.type === 'edit') {
       this.openEditRowDialog(event.row, infoIds, event.origin);
     } else if (event.type === 'delete') {
-      this.deleteRow(infoIds);
+      this.deleteRow((event.row['_rowKey'] as string | null) ?? null, infoIds);
     }
   }
 
@@ -578,6 +639,7 @@ export class UserDataComponent implements OnInit {
       sub_main_name: r.sub_main_name ?? '—',
       title_name: r.title_name ?? '—',
       confirmed: r.confirmed,
+      _rowKey: r.row_key,
       _infoIds: r.info_ids,
       _fields: r.fields || {},
     };
@@ -681,27 +743,25 @@ export class UserDataComponent implements OnInit {
     return this.translation.t('user-data.confirmed-waiting');
   }
 
-  async deleteRow(infoIds: number[]): Promise<void> {
-    if (!infoIds.length) return;
+  async deleteRow(rowKey: string | null, infoIds: number[]): Promise<void> {
+    if (!rowKey && !infoIds.length) return;
     const confirmed = await this.dialog.confirm({
       title: this.translation.t('user-data.delete-confirm-title'),
       message: this.translation.t('user-data.delete-row-confirm-message'),
     });
     if (!confirmed) return;
-    let done = 0;
-    for (const id of infoIds) {
-      this.api.delete(`/infos/${id}/`).subscribe({
-        next: () => {
-          done++;
-          if (done === infoIds.length) {
-            this.toast.success(this.translation.t('user-data.delete-success'));
-            this.fs.currentPage.set(1);
-            this.loadExpandedRows();
-            this.refreshTitleRowCounts();
-          }
-        },
-        error: () => this.toast.error(this.translation.t('user-data.delete-error')),
-      });
-    }
+    // Records without a row_key predate row grouping; they only exist as single cells.
+    const request = rowKey
+      ? this.api.post<unknown>('/infos/delete-row/', { row_key: rowKey })
+      : this.api.delete<unknown>(`/infos/${infoIds[0]}/`);
+    request.subscribe({
+      next: () => {
+        this.toast.success(this.translation.t('user-data.delete-success'));
+        this.fs.currentPage.set(1);
+        this.loadExpandedRows();
+        this.refreshTitleRowCounts();
+      },
+      error: () => this.toast.error(this.translation.t('user-data.delete-error')),
+    });
   }
 }

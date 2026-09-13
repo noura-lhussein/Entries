@@ -235,9 +235,20 @@ export class BuilderService {
   }
 
   // Sub Main Sections
-  getSubMainSections(mainSectionId?: number): Observable<{ results: SubMainSection[] }> {
+  /**
+   * List sub-sections. Pass a main-section id (legacy) or options.
+   * ``leaves: true`` → only nodes without children (assignable / Info entry).
+   */
+  getSubMainSections(
+    mainSectionIdOrOpts?: number | { mainSectionId?: number; leaves?: boolean },
+  ): Observable<{ results: SubMainSection[] }> {
+    const opts =
+      typeof mainSectionIdOrOpts === 'number'
+        ? { mainSectionId: mainSectionIdOrOpts }
+        : (mainSectionIdOrOpts ?? {});
     const params: Record<string, string | number> = { page_size: 1000 };
-    if (mainSectionId) params['main_section'] = mainSectionId;
+    if (opts.mainSectionId) params['main_section'] = opts.mainSectionId;
+    if (opts.leaves) params['leaves'] = 1;
     return this.api.get<{ results: SubMainSection[] }>('/sub-sections/', params);
   }
 

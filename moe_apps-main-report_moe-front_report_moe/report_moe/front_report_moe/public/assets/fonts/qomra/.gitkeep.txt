@@ -1,0 +1,9 @@
+Qomra Arabic (itfQomraArabic) — sourced from Syrian Zone / SyID:
+https://github.com/syrianzone/syrianzone/tree/main/public/sycn/fonts
+https://syrian.zone/syid
+
+itfQomraArabic-Light.woff2
+itfQomraArabic-Regular.woff2
+itfQomraArabic-Medium.woff2
+itfQomraArabic-Bold.woff2
+itfQomraArabic-Black.woff2

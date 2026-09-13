@@ -1,0 +1,8 @@
+{
+  "body": {
+    "groups": [],
+    "resources": []
+  },
+  "path": "/api/v1/water/admin/registry/",
+  "status": 200
+}

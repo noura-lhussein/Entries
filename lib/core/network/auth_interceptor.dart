@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 
 import 'api_constants.dart';
+import 'dio_client.dart';
+import 'jwt_util.dart';
 import 'token_refresher.dart';
 
 class AuthInterceptor extends Interceptor {
@@ -17,19 +19,36 @@ class AuthInterceptor extends Interceptor {
         path.contains(ApiConstants.csrf);
   }
 
+  bool _isUsableJwt(String? token) {
+    return token != null &&
+        token.isNotEmpty &&
+        JwtUtil.looksLikeJwt(token) &&
+        !JwtUtil.isExpired(token);
+  }
+
+  void _stripBearer(RequestOptions options) {
+    options.headers.remove('Authorization');
+    options.headers.remove('authorization');
+  }
+
   @override
   void onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) {
     if (_isAuthEndpoint(options.path)) {
+      _stripBearer(options);
       handler.next(options);
       return;
     }
 
     tokenRefresher.ensureAccessToken().then((token) {
-      if (token != null && token.isNotEmpty) {
+      if (_isUsableJwt(token)) {
         options.headers['Authorization'] = 'Bearer $token';
+      } else {
+        // Empty/stale Bearer makes DRF JWT reject the request before cookies.
+        _stripBearer(options);
+        DioFactory.clearToken();
       }
       handler.next(options);
     }).catchError((Object e, StackTrace st) {
@@ -54,7 +73,7 @@ class AuthInterceptor extends Interceptor {
     }
 
     tokenRefresher.ensureAccessToken(forceRefresh: true).then((token) async {
-      if (token == null || token.isEmpty) {
+      if (!_isUsableJwt(token)) {
         handler.next(err);
         return;
       }

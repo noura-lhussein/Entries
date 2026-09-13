@@ -2,24 +2,26 @@
 @use 'styles/spacing' as *;
 @use 'styles/typography' as *;
 
+/* Compact toolbar + dialog: less vertical chrome for filter-heavy pages. */
+
 .filters-section {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: $spacing-3;
-  margin-bottom: $spacing-6;
+  gap: $spacing-2;
+  margin-bottom: $spacing-3;
 }
 
 .search-box {
   flex: 1;
-  max-width: 400px;
-  min-width: 180px;
+  max-width: 320px;
+  min-width: 160px;
   display: flex;
   align-items: center;
   background: $bg-primary;
   border: 1px solid $border-color;
   border-radius: $radius-md;
-  padding-inline: $spacing-3;
+  padding-inline: $spacing-2;
 }
 
 .search-box mat-icon {
@@ -27,7 +29,7 @@
   font-size: 18px;
   width: 18px;
   height: 18px;
-  margin-inline-end: $spacing-2;
+  margin-inline-end: $spacing-1;
   flex-shrink: 0;
 }
 
@@ -36,7 +38,7 @@
   min-width: 0;
   border: none;
   background: transparent;
-  padding-block: 10px;
+  padding-block: 6px;
   font-size: $font-size-sm;
   font-family: inherit;
   outline: none;
@@ -46,8 +48,8 @@
 .filter-btn {
   display: flex;
   align-items: center;
-  gap: $spacing-2;
-  padding: 10px $spacing-4;
+  gap: $spacing-1;
+  padding: 6px $spacing-3;
   border: 1px solid $border-color;
   background: $bg-primary;
   border-radius: $radius-md;
@@ -56,6 +58,12 @@
   font-size: $font-size-sm;
   cursor: pointer;
   flex-shrink: 0;
+}
+
+.filter-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
 }
 
 .filter-btn.active {
@@ -68,9 +76,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 1.25rem;
-  height: 1.25rem;
-  padding: 0 5px;
+  min-width: 1.1rem;
+  height: 1.1rem;
+  padding: 0 4px;
   border-radius: $radius-md;
   background: $primary;
   color: $bg-primary;
@@ -83,23 +91,23 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: $spacing-2;
-  flex: 1 1 12rem;
+  gap: $spacing-1;
+  flex: 1 1 10rem;
   min-width: 0;
 }
 
 .filter-chip {
   display: inline-flex;
   align-items: center;
-  gap: $spacing-1;
+  gap: 2px;
   max-width: 100%;
-  padding: 4px 6px 4px 10px;
+  padding: 2px 4px 2px 8px;
   border: 1px solid rgba($primary, 0.35);
   border-radius: $radius-md;
   background: $primary-tint;
   color: $gray-800;
   font-size: $font-size-xs;
-  line-height: 1.3;
+  line-height: 1.25;
 }
 
 .filter-chip-text {
@@ -120,7 +128,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  padding: 2px;
+  padding: 1px;
   border: none;
   border-radius: $radius-md;
   background: transparent;
@@ -134,33 +142,36 @@
 }
 
 .filter-chip-remove mat-icon {
-  font-size: 16px;
-  width: 16px;
-  height: 16px;
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
 }
 
 .filters-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: $spacing-4;
+  /* Denser columns → fewer rows → less vertical height. */
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: $spacing-2 $spacing-3;
   width: 100%;
   max-width: 100%;
+  align-content: start;
 }
 
 .filter-group {
   display: flex;
   flex-direction: column;
-  gap: $spacing-2;
+  gap: 4px;
   min-width: 0;
 }
 
 .filter-group > label {
-  font-size: $font-size-xs;
+  font-size: 0.6875rem;
   font-weight: $fw-semibold;
   color: $gray-600;
   text-transform: uppercase;
+  letter-spacing: 0.02em;
   margin: 0;
-  line-height: 1.25;
+  line-height: 1.2;
 }
 
 .filter-group > label.has-selection {
@@ -184,6 +195,13 @@
   gap: 0;
 }
 
+.filter-form-select ::ng-deep .trigger {
+  min-height: 32px;
+  padding-block: 4px;
+  padding-inline-start: 10px;
+  font-size: $font-size-sm;
+}
+
 .filter-form-select ::ng-deep .trigger-label {
   color: $gray-800;
 }
@@ -194,12 +212,14 @@
 
 .filter-date {
   appearance: none;
-  padding-block: 10px;
-  padding-inline: 12px 36px;
+  padding-block: 5px;
+  padding-inline: 10px 32px;
   border: 1px solid $border-color;
   background-color: $bg-primary;
   border-radius: $radius-md;
   font-size: $font-size-sm;
+  line-height: 1.3;
+  min-height: 32px;
   width: 100%;
   max-width: 100%;
   font-family: inherit;
@@ -208,7 +228,7 @@
 }
 
 .filter-input-wrapper:has(.clear-field-btn) .filter-date {
-  padding-inline-end: 40px;
+  padding-inline-end: 34px;
 }
 
 .filter-date.is-placeholder {
@@ -223,20 +243,20 @@
 }
 
 .options-truncated-hint {
-  margin: $spacing-1 0 0;
-  font-size: $font-size-xs;
+  margin: 2px 0 0;
+  font-size: 0.6875rem;
   color: $gray-600;
-  line-height: 1.3;
+  line-height: 1.25;
 }
 
 .clear-field-btn {
   position: absolute;
-  inset-inline-end: $spacing-2;
+  inset-inline-end: $spacing-1;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
-  padding: $spacing-1;
+  padding: 2px;
   cursor: pointer;
   color: $gray-400;
   display: inline-flex;
@@ -245,16 +265,16 @@
 }
 
 .clear-field-btn mat-icon {
-  font-size: 18px;
-  width: 18px;
-  height: 18px;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
 }
 
 .checkbox-wrapper {
   display: flex;
   align-items: center;
   gap: $spacing-2;
-  min-height: 42px;
+  min-height: 32px;
 }
 
 .checkbox-label {
@@ -270,11 +290,35 @@
 }
 
 .btn-clear {
-  padding: $spacing-2 $spacing-4;
+  padding: $spacing-1 $spacing-3;
   border: 1px solid $border-color;
   background: $bg-primary;
   border-radius: $radius-md;
   color: $gray-600;
   font-size: $font-size-sm;
   cursor: pointer;
+}
+
+/* Slimmer filter dialog chrome (header / body / footer). */
+:host ::ng-deep .app-modal-header {
+  padding: $spacing-3 $spacing-4;
+}
+
+:host ::ng-deep .app-modal-header h3 {
+  font-size: $font-size-base;
+}
+
+:host ::ng-deep .app-modal-body {
+  padding: $spacing-3 $spacing-4;
+}
+
+:host ::ng-deep .app-modal-footer {
+  padding: $spacing-2 $spacing-4;
+  padding-bottom: calc(#{$spacing-2} + env(safe-area-inset-bottom, 0px));
+}
+
+:host ::ng-deep .app-modal-overlay {
+  padding: $spacing-3;
+  align-items: flex-start;
+  padding-top: max($spacing-4, 4vh);
 }

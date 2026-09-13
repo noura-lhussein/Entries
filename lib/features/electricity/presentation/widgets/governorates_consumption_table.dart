@@ -52,7 +52,7 @@ class GovernoratesConsumptionTable extends StatelessWidget {
             flex: 4,
             child: Text(
               gov.nameAr,
-              textAlign: TextAlign.right,
+              textAlign: TextAlign.start,
               style: TextStyle(
                 fontFamily: 'Cairo',
                 fontSize: 11.sp,

@@ -7,6 +7,7 @@ import {
   signal,
   ViewChild,
   ElementRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,7 +30,7 @@ import { ModalComponent } from '../modal/modal.component';
         <button
           type="button"
           class="excel-btn"
-          [disabled]="downloading() || importing()"
+          [disabled]="downloading() || importing() || exporting()"
           (click)="downloadTemplate()"
         >
           <mat-icon aria-hidden="true">download</mat-icon>
@@ -38,7 +39,16 @@ import { ModalComponent } from '../modal/modal.component';
         <button
           type="button"
           class="excel-btn"
-          [disabled]="downloading() || importing()"
+          [disabled]="downloading() || importing() || exporting()"
+          (click)="openExportModal()"
+        >
+          <mat-icon aria-hidden="true">ios_share</mat-icon>
+          <span>{{ t('builder.export-data') }}</span>
+        </button>
+        <button
+          type="button"
+          class="excel-btn"
+          [disabled]="downloading() || importing() || exporting()"
           (click)="openImportModal()"
         >
           <mat-icon aria-hidden="true">upload_file</mat-icon>
@@ -52,6 +62,37 @@ import { ModalComponent } from '../modal/modal.component';
           (change)="onFileSelected($event)"
         />
       </div>
+
+      <app-modal
+        [visible]="exportModalVisible()"
+        [title]="t('builder.export-data')"
+        size="small"
+        (close)="closeExportModal()"
+      >
+        <label class="export-date-label" [attr.for]="'excel-export-date-' + titleId">
+          {{ t('builder.export-data-pick-date') }}
+        </label>
+        <input
+          class="export-date-input"
+          [id]="'excel-export-date-' + titleId"
+          type="date"
+          [value]="exportDate()"
+          (input)="onExportDateInput($event)"
+        />
+        <div footer class="modal-footer">
+          <button type="button" class="modal-btn ghost" (click)="closeExportModal()">
+            {{ t('user-data.cancel-button') }}
+          </button>
+          <button
+            type="button"
+            class="modal-btn primary"
+            [disabled]="!exportDate() || exporting()"
+            (click)="runExport()"
+          >
+            {{ t('builder.export-data') }}
+          </button>
+        </div>
+      </app-modal>
 
       <app-modal
         [visible]="importModalVisible()"
@@ -145,6 +186,7 @@ import { ModalComponent } from '../modal/modal.component';
       </app-modal>
     }
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './title-excel-actions.component.scss',
 })
 export class TitleExcelActionsComponent {
@@ -165,7 +207,10 @@ export class TitleExcelActionsComponent {
 
   importing = signal(false);
   downloading = signal(false);
+  exporting = signal(false);
   importModalVisible = signal(false);
+  exportModalVisible = signal(false);
+  exportDate = signal('');
   lastResult = signal<ExcelImportResult | null>(null);
   pendingFile = signal<File | null>(null);
   validatedOk = signal(false);
@@ -198,6 +243,47 @@ export class TitleExcelActionsComponent {
     });
   }
 
+  openExportModal(): void {
+    if (!this.canUseExcel()) {
+      this.toast.error(this.t('builder.excel-need-sub-main'));
+      return;
+    }
+    if (!this.exportDate()) {
+      this.exportDate.set(new Date().toISOString().slice(0, 10));
+    }
+    this.exportModalVisible.set(true);
+  }
+
+  closeExportModal(): void {
+    this.exportModalVisible.set(false);
+  }
+
+  onExportDateInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value || '';
+    this.exportDate.set(value);
+  }
+
+  runExport(): void {
+    const date = this.exportDate().trim();
+    if (!date || !this.titleId || !this.canUseExcel()) return;
+    this.exporting.set(true);
+    this.excel.exportData(this.titleId, date, this.subMainId).subscribe({
+      next: (blob) => {
+        const safe = (this.titleName || 'export')
+          .replace(/[^\w\u0600-\u06FF\-]+/g, '_')
+          .slice(0, 40);
+        this.excel.saveBlob(blob, `${safe}-${date}.xlsx`);
+        this.toast.success(this.t('builder.export-data-success'));
+        this.exporting.set(false);
+        this.closeExportModal();
+      },
+      error: () => {
+        this.toast.error(this.t('builder.export-data-error'));
+        this.exporting.set(false);
+      },
+    });
+  }
+
   canConfirmImport(): boolean {
     const r = this.lastResult();
     const blocking = r?.validation?.blocking ?? false;
@@ -205,7 +291,12 @@ export class TitleExcelActionsComponent {
   }
 
   isBlockingIssue(issue: ExcelValidationIssue): boolean {
-    return issue.kind === 'missing_column';
+    return (
+      issue.kind === 'missing_column' ||
+      issue.kind === 'wrong_workbook_shape' ||
+      issue.kind === 'report_date_confirmed' ||
+      issue.kind === 'sheet_unreadable'
+    );
   }
 
   issueKindLabel(kind: string): string {
@@ -213,6 +304,12 @@ export class TitleExcelActionsComponent {
       missing_column: this.t('builder.import-kind-missing'),
       unknown_column: this.t('builder.import-kind-unknown'),
       skipped_attribute: this.t('builder.import-kind-skipped'),
+      wrong_workbook_shape: this.t('builder.import-kind-wrong-shape'),
+      report_date_confirmed: this.t('builder.import-kind-date-confirmed'),
+      report_date_exists: this.t('builder.import-kind-date-exists'),
+      entity_unmatched: this.t('builder.import-kind-entity-unmatched'),
+      entity_row_incomplete: this.t('builder.import-kind-entity-incomplete'),
+      sheet_unreadable: this.t('builder.import-kind-unreadable'),
     };
     return map[kind] ?? kind;
   }

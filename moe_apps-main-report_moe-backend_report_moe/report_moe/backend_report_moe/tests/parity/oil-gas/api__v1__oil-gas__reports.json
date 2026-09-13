@@ -1,0 +1,168 @@
+{
+  "body": [
+    {
+      "id": 57,
+      "report_date": "2026-06-30",
+      "status": "published",
+      "updated_at": "2026-07-10T19:57:11.397105+00:00"
+    },
+    {
+      "id": 56,
+      "report_date": "2026-06-29",
+      "status": "published",
+      "updated_at": "2026-07-10T19:59:46.553757+00:00"
+    },
+    {
+      "id": 55,
+      "report_date": "2026-06-28",
+      "status": "published",
+      "updated_at": "2026-07-10T20:01:06.725110+00:00"
+    },
+    {
+      "id": 40,
+      "report_date": "2026-06-27",
+      "status": "published",
+      "updated_at": "2026-07-10T20:02:21.261864+00:00"
+    },
+    {
+      "id": 33,
+      "report_date": "2026-06-26",
+      "status": "published",
+      "updated_at": "2026-07-10T20:03:35.756431+00:00"
+    },
+    {
+      "id": 32,
+      "report_date": "2026-06-25",
+      "status": "published",
+      "updated_at": "2026-07-10T20:04:36.993701+00:00"
+    },
+    {
+      "id": 31,
+      "report_date": "2026-06-24",
+      "status": "published",
+      "updated_at": "2026-07-10T20:05:42.051339+00:00"
+    },
+    {
+      "id": 30,
+      "report_date": "2026-06-23",
+      "status": "published",
+      "updated_at": "2026-07-10T20:06:44.964227+00:00"
+    },
+    {
+      "id": 29,
+      "report_date": "2026-06-22",
+      "status": "published",
+      "updated_at": "2026-07-10T20:07:44.855888+00:00"
+    },
+    {
+      "id": 28,
+      "report_date": "2026-06-21",
+      "status": "published",
+      "updated_at": "2026-07-10T20:08:41.971703+00:00"
+    },
+    {
+      "id": 27,
+      "report_date": "2026-06-20",
+      "status": "published",
+      "updated_at": "2026-07-10T20:09:39.811989+00:00"
+    },
+    {
+      "id": 25,
+      "report_date": "2026-06-19",
+      "status": "published",
+      "updated_at": "2026-07-10T20:10:39.847493+00:00"
+    },
+    {
+      "id": 24,
+      "report_date": "2026-06-18",
+      "status": "published",
+      "updated_at": "2026-07-10T20:11:28.767371+00:00"
+    },
+    {
+      "id": 23,
+      "report_date": "2026-06-16",
+      "status": "published",
+      "updated_at": "2026-07-10T20:12:21.369096+00:00"
+    },
+    {
+      "id": 22,
+      "report_date": "2026-06-14",
+      "status": "published",
+      "updated_at": "2026-07-10T20:13:08.779630+00:00"
+    },
+    {
+      "id": 21,
+      "report_date": "2026-06-13",
+      "status": "published",
+      "updated_at": "2026-07-10T20:13:37.035965+00:00"
+    },
+    {
+      "id": 20,
+      "report_date": "2026-06-12",
+      "status": "published",
+      "updated_at": "2026-06-28T11:14:06.092468+00:00"
+    },
+    {
+      "id": 19,
+      "report_date": "2026-06-11",
+      "status": "published",
+      "updated_at": "2026-06-28T11:14:05.968369+00:00"
+    },
+    {
+      "id": 18,
+      "report_date": "2026-06-10",
+      "status": "published",
+      "updated_at": "2026-06-28T11:14:05.824939+00:00"
+    },
+    {
+      "id": 39,
+      "report_date": "2026-06-09",
+      "status": "published",
+      "updated_at": "2026-06-28T11:14:08.844336+00:00"
+    },
+    {
+      "id": 38,
+      "report_date": "2026-06-08",
+      "status": "published",
+      "updated_at": "2026-06-28T11:14:08.710528+00:00"
+    },
+    {
+      "id": 37,
+      "report_date": "2026-06-07",
+      "status": "published",
+      "updated_at": "2026-06-28T11:14:08.574455+00:00"
+    },
+    {
+      "id": 36,
+      "report_date": "2026-06-06",
+      "status": "published",
+      "updated_at": "2026-06-28T11:14:08.420070+00:00"
+    },
+    {
+      "id": 35,
+      "report_date": "2026-06-04",
+      "status": "published",
+      "updated_at": "2026-06-28T11:14:08.281198+00:00"
+    },
+    {
+      "id": 34,
+      "report_date": "2026-06-03",
+      "status": "published",
+      "updated_at": "2026-06-28T11:14:08.145506+00:00"
+    },
+    {
+      "id": 26,
+      "report_date": "2026-06-02",
+      "status": "published",
+      "updated_at": "2026-06-28T11:14:06.955256+00:00"
+    },
+    {
+      "id": 17,
+      "report_date": "2026-06-01",
+      "status": "published",
+      "updated_at": "2026-06-28T11:14:05.692363+00:00"
+    }
+  ],
+  "path": "/api/v1/oil-gas/reports/",
+  "status": 200
+}

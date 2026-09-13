@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/theme/app_theme.dart';
+
 class LoginFooter extends StatelessWidget {
   const LoginFooter({super.key});
 
@@ -13,7 +15,7 @@ class LoginFooter extends StatelessWidget {
         fontFamily: 'Cairo',
         fontSize: 11.5.sp,
         fontWeight: FontWeight.w600,
-        color: Colors.white.withValues(alpha: 0.65),
+        color: AppColors.goldLight.withValues(alpha: 0.85),
         letterSpacing: 0.2,
       ),
     );

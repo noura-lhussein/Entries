@@ -1,0 +1,940 @@
+{
+  "body": {
+    "alerts": [
+      {
+        "message_ar": "3 حادث خطوط نقل مسجل.",
+        "message_en": "3 transmission line incident(s) logged.",
+        "severity": "warning"
+      },
+      {
+        "message_ar": "3 حادث توليد مسجل.",
+        "message_en": "3 generation incident(s) logged.",
+        "severity": "warning"
+      }
+    ],
+    "anchor_date": "2026-08-19",
+    "available_dates": [
+      "2026-08-19",
+      "2026-08-05",
+      "2026-06-21",
+      "2026-06-20",
+      "2026-06-19",
+      "2026-06-18",
+      "2026-06-17",
+      "2026-06-16",
+      "2026-06-15",
+      "2026-06-14",
+      "2026-06-13",
+      "2026-06-12",
+      "2026-06-11",
+      "2026-06-10",
+      "2026-06-09",
+      "2026-06-08",
+      "2026-06-07",
+      "2026-06-06",
+      "2026-06-05",
+      "2026-06-04",
+      "2026-06-03",
+      "2026-06-02",
+      "2026-06-01",
+      "2026-05-31",
+      "2026-05-30",
+      "2026-05-29",
+      "2026-05-28",
+      "2026-05-27",
+      "2026-05-26",
+      "2026-05-25",
+      "2026-05-24",
+      "2026-05-23",
+      "2026-05-22",
+      "2026-05-21",
+      "2026-05-20",
+      "2026-05-19",
+      "2026-05-18",
+      "2026-05-17",
+      "2026-05-16",
+      "2026-05-15",
+      "2026-05-14",
+      "2026-05-13",
+      "2026-05-12",
+      "2026-05-11",
+      "2026-05-10",
+      "2026-05-09",
+      "2026-05-08",
+      "2026-05-07",
+      "2026-05-06",
+      "2026-05-05",
+      "2026-05-04",
+      "2026-05-03",
+      "2026-05-02",
+      "2026-05-01"
+    ],
+    "available_months": [
+      "2026-08",
+      "2026-06",
+      "2026-05"
+    ],
+    "category_name": "إدارة قطاع الكهرباء",
+    "charts": {
+      "fuel_tanks": null,
+      "generation_mix": {
+        "labels_ar": [
+          "غاز",
+          "بخار"
+        ],
+        "labels_en": [
+          "Gas",
+          "Steam"
+        ],
+        "values": [
+          3.0,
+          3.0
+        ]
+      },
+      "generation_units": [],
+      "governorate_load": {
+        "allocated": [],
+        "consumed": [],
+        "labels_ar": [],
+        "labels_en": []
+      },
+      "hydro": [],
+      "maintenance_groups": [],
+      "maintenance_groups_ar": ""
+    },
+    "days_covered": 1,
+    "incidents": {
+      "by_day": [],
+      "generation": [],
+      "grid": []
+    },
+    "kpi_groups": [
+      {
+        "id": "generation_status",
+        "kpis": [
+          {
+            "delta_pct": null,
+            "id": "nominal_capacity_mwh",
+            "label_ar": "مجموع الاستطاعة الاسمية المتاحة",
+            "label_en": "Nominal available capacity",
+            "status": "ok",
+            "unit": "MWh",
+            "value": 2.0
+          },
+          {
+            "delta_pct": null,
+            "id": "total_generation_mwh_24h",
+            "label_ar": "المجموع الكلي لإنتاج المجموعات",
+            "label_en": "Total 24h generation",
+            "status": "ok",
+            "unit": "MWh",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "gas_generation_mwh_24h",
+            "label_ar": "مجموع التوليد الغازي",
+            "label_en": "Gas generation (24h)",
+            "status": "ok",
+            "unit": "MWh",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "steam_fuel_demand_tpd",
+            "label_ar": "مجموع التوليد البخاري على الفيول",
+            "label_en": "Steam fuel demand",
+            "status": "ok",
+            "unit": "t/d",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "gas_demand_mm3d",
+            "label_ar": "الطلب على الغاز",
+            "label_en": "Gas demand",
+            "status": "ok",
+            "unit": "M m³/d",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "total_fuel_demand_tpd",
+            "label_ar": "الطلب الكلي على الفيول",
+            "label_en": "Total fuel demand",
+            "status": "ok",
+            "unit": "t/d",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "gas_consumed_mm3d",
+            "label_ar": "الكمية المستهلكة من الغاز",
+            "label_en": "Gas consumed",
+            "status": "ok",
+            "unit": "M m³/d",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "fuel_oil_consumed_tpd",
+            "label_ar": "الفيول المستهلك",
+            "label_en": "Fuel oil consumed",
+            "status": "ok",
+            "unit": "t/d",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "hydro_dams_capacity_mw",
+            "label_ar": "الاستطاعة المتاحة  للسدود المائية (الفرات و تشرين)",
+            "label_en": "Hydro dams capacity at 9:00",
+            "status": "ok",
+            "unit": "MW",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "solar_capacity_mw",
+            "label_ar": "الاستطاعة المتاحة للعنافات الشمسية",
+            "label_en": "Solar capacity at 9:00",
+            "status": "ok",
+            "unit": "MW",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "wind_capacity_mw",
+            "label_ar": "الاستطاعة المتاحة للعنافات الريحية",
+            "label_en": "Wind capacity at 9:00",
+            "status": "ok",
+            "unit": "MW",
+            "value": 3.0
+          }
+        ],
+        "label_ar": "وضع مجموعات التوليد",
+        "label_en": "Generation groups status"
+      },
+      {
+        "id": "fuel_movement",
+        "kpis": [
+          {
+            "delta_pct": null,
+            "id": "fuel_oil_received_tpd",
+            "label_ar": "الفيول الوارد",
+            "label_en": "Fuel oil received",
+            "status": "ok",
+            "unit": "t/d",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "fuel_flow_consumed_tpd",
+            "label_ar": "حركة الفيول المستهلك",
+            "label_en": "Fuel flow consumed",
+            "status": "ok",
+            "unit": "t/d",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "fuel_oil_balance_tpd",
+            "label_ar": "وفر الفيول",
+            "label_en": "Fuel oil balance",
+            "status": "ok",
+            "unit": "t/d",
+            "value": 3.0
+          }
+        ],
+        "label_ar": "حركة الفيول",
+        "label_en": "Fuel oil movement"
+      },
+      {
+        "id": "fuel_tanks",
+        "kpis": [
+          {
+            "delta_pct": null,
+            "id": "fuel_tank_max_capacity_tons",
+            "label_ar": "السعة الأعظمية لخزانات الوقود",
+            "label_en": "Fuel tank max capacity",
+            "status": "ok",
+            "unit": "t",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "fuel_reserve_tons",
+            "label_ar": "المخزون القابل للاستهلاك",
+            "label_en": "Consumable fuel reserve",
+            "status": "critical",
+            "unit": "t",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "fuel_tank_stock_tons",
+            "label_ar": "مخزون خزانات الوقود",
+            "label_en": "Total fuel stock",
+            "status": "ok",
+            "unit": "t",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "grid_frequency_hz",
+            "label_ar": "التردد",
+            "label_en": "Grid frequency",
+            "status": "ok",
+            "unit": "Hz",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "gov_consumed_mw",
+            "label_ar": "الاستطاعة المستهلكة",
+            "label_en": "Consumed capacity",
+            "status": "ok",
+            "unit": "MW",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "gov_allocated_mw",
+            "label_ar": "الكمية المخصصة",
+            "label_en": "National load allocated",
+            "status": "ok",
+            "unit": "MW",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "gov_excess_mw",
+            "label_ar": "التجاوز",
+            "label_en": "Allocation overrun",
+            "status": "ok",
+            "unit": "MW",
+            "value": 3.0
+          }
+        ],
+        "label_ar": "معلومات خزانات الوقود",
+        "label_en": "Fuel tank information"
+      },
+      {
+        "id": "generation_report",
+        "kpis": [
+          {
+            "delta_pct": null,
+            "id": "available_generated_power",
+            "label_ar": "الاستطاعة المتاحة المولدة مع الشمسي",
+            "label_en": "Available generated power (with solar)",
+            "status": "ok",
+            "unit": "MW",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "self_use_losses_mw",
+            "label_ar": "استهلاك ذاتي و ضياع",
+            "label_en": "Self-use & losses",
+            "status": "ok",
+            "unit": "MW",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "net_generation_mwh",
+            "label_ar": "التوليد الصافي",
+            "label_en": "Net generation",
+            "status": "ok",
+            "unit": "MW",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "industrial_self_use_mw",
+            "label_ar": "استهلاك صناعي",
+            "label_en": "Industrial self-use",
+            "status": "ok",
+            "unit": "MW",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "generation_without_industrial_mw",
+            "label_ar": "الاستطاعة المولدة بدون صناعي",
+            "label_en": "Generation without industrial",
+            "status": "ok",
+            "unit": "MW",
+            "value": 33.0
+          },
+          {
+            "delta_pct": null,
+            "id": "hydro_output_mw",
+            "label_ar": "السدود",
+            "label_en": "Hydro output (instant)",
+            "status": "ok",
+            "unit": "MW",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "rotary_reserve_mw",
+            "label_ar": "احتياط دوار",
+            "label_en": "Rotary reserve",
+            "status": "ok",
+            "unit": "MW",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "gas_groups_mw",
+            "label_ar": "استطاعة المجموعات الغازية",
+            "label_en": "Gas groups capacity",
+            "status": "ok",
+            "unit": "MW",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "steam_groups_mw",
+            "label_ar": "استطاعة المجموعات البخارية",
+            "label_en": "Steam groups capacity",
+            "status": "ok",
+            "unit": "MW",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "gas_import_mm3d",
+            "label_ar": "الغاز الوارد",
+            "label_en": "Gas import",
+            "status": "ok",
+            "unit": "M m³/d",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "fuel_reserve_tons",
+            "label_ar": "المخزون الاحتياطي من الفيول",
+            "label_en": "Fuel oil reserve",
+            "status": "critical",
+            "unit": "t",
+            "value": 3.0
+          }
+        ],
+        "label_ar": "تقرير التوليد",
+        "label_en": "Generation report"
+      },
+      {
+        "id": "incidents_ops",
+        "kpis": [
+          {
+            "delta_pct": null,
+            "id": "generation_incidents_count",
+            "label_ar": "حوادث التوليد",
+            "label_en": "Generation incidents",
+            "status": "critical",
+            "unit": "count",
+            "value": 3.0
+          },
+          {
+            "delta_pct": null,
+            "id": "grid_incidents_count",
+            "label_ar": "حوادث الخطوط",
+            "label_en": "Grid line incidents",
+            "status": "critical",
+            "unit": "count",
+            "value": 3.0
+          }
+        ],
+        "label_ar": "حوادث الشبكة الكهربائية",
+        "label_en": "Grid incidents"
+      }
+    ],
+    "kpis": [
+      {
+        "delta_pct": null,
+        "id": "nominal_capacity_mwh",
+        "label_ar": "مجموع الاستطاعة الاسمية المتاحة",
+        "label_en": "Nominal available capacity",
+        "status": "ok",
+        "unit": "MWh",
+        "value": 2.0
+      },
+      {
+        "delta_pct": null,
+        "id": "total_generation_mwh_24h",
+        "label_ar": "المجموع الكلي لإنتاج المجموعات",
+        "label_en": "Total 24h generation",
+        "status": "ok",
+        "unit": "MWh",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "gas_generation_mwh_24h",
+        "label_ar": "مجموع التوليد الغازي",
+        "label_en": "Gas generation (24h)",
+        "status": "ok",
+        "unit": "MWh",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "steam_fuel_demand_tpd",
+        "label_ar": "مجموع التوليد البخاري على الفيول",
+        "label_en": "Steam fuel demand",
+        "status": "ok",
+        "unit": "t/d",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "gas_demand_mm3d",
+        "label_ar": "الطلب على الغاز",
+        "label_en": "Gas demand",
+        "status": "ok",
+        "unit": "M m³/d",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "total_fuel_demand_tpd",
+        "label_ar": "الطلب الكلي على الفيول",
+        "label_en": "Total fuel demand",
+        "status": "ok",
+        "unit": "t/d",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "gas_consumed_mm3d",
+        "label_ar": "الكمية المستهلكة من الغاز",
+        "label_en": "Gas consumed",
+        "status": "ok",
+        "unit": "M m³/d",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "fuel_oil_consumed_tpd",
+        "label_ar": "الفيول المستهلك",
+        "label_en": "Fuel oil consumed",
+        "status": "ok",
+        "unit": "t/d",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "hydro_dams_capacity_mw",
+        "label_ar": "الاستطاعة المتاحة  للسدود المائية (الفرات و تشرين)",
+        "label_en": "Hydro dams capacity at 9:00",
+        "status": "ok",
+        "unit": "MW",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "solar_capacity_mw",
+        "label_ar": "الاستطاعة المتاحة للعنافات الشمسية",
+        "label_en": "Solar capacity at 9:00",
+        "status": "ok",
+        "unit": "MW",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "wind_capacity_mw",
+        "label_ar": "الاستطاعة المتاحة للعنافات الريحية",
+        "label_en": "Wind capacity at 9:00",
+        "status": "ok",
+        "unit": "MW",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "fuel_oil_received_tpd",
+        "label_ar": "الفيول الوارد",
+        "label_en": "Fuel oil received",
+        "status": "ok",
+        "unit": "t/d",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "fuel_flow_consumed_tpd",
+        "label_ar": "حركة الفيول المستهلك",
+        "label_en": "Fuel flow consumed",
+        "status": "ok",
+        "unit": "t/d",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "fuel_oil_balance_tpd",
+        "label_ar": "وفر الفيول",
+        "label_en": "Fuel oil balance",
+        "status": "ok",
+        "unit": "t/d",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "fuel_tank_max_capacity_tons",
+        "label_ar": "السعة الأعظمية لخزانات الوقود",
+        "label_en": "Fuel tank max capacity",
+        "status": "ok",
+        "unit": "t",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "fuel_reserve_tons",
+        "label_ar": "المخزون القابل للاستهلاك",
+        "label_en": "Consumable fuel reserve",
+        "status": "critical",
+        "unit": "t",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "fuel_tank_stock_tons",
+        "label_ar": "مخزون خزانات الوقود",
+        "label_en": "Total fuel stock",
+        "status": "ok",
+        "unit": "t",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "grid_frequency_hz",
+        "label_ar": "التردد",
+        "label_en": "Grid frequency",
+        "status": "ok",
+        "unit": "Hz",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "gov_consumed_mw",
+        "label_ar": "الاستطاعة المستهلكة",
+        "label_en": "Consumed capacity",
+        "status": "ok",
+        "unit": "MW",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "gov_allocated_mw",
+        "label_ar": "الكمية المخصصة",
+        "label_en": "National load allocated",
+        "status": "ok",
+        "unit": "MW",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "gov_excess_mw",
+        "label_ar": "التجاوز",
+        "label_en": "Allocation overrun",
+        "status": "ok",
+        "unit": "MW",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "available_generated_power",
+        "label_ar": "الاستطاعة المتاحة المولدة مع الشمسي",
+        "label_en": "Available generated power (with solar)",
+        "status": "ok",
+        "unit": "MW",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "self_use_losses_mw",
+        "label_ar": "استهلاك ذاتي و ضياع",
+        "label_en": "Self-use & losses",
+        "status": "ok",
+        "unit": "MW",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "net_generation_mwh",
+        "label_ar": "التوليد الصافي",
+        "label_en": "Net generation",
+        "status": "ok",
+        "unit": "MW",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "industrial_self_use_mw",
+        "label_ar": "استهلاك صناعي",
+        "label_en": "Industrial self-use",
+        "status": "ok",
+        "unit": "MW",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "generation_without_industrial_mw",
+        "label_ar": "الاستطاعة المولدة بدون صناعي",
+        "label_en": "Generation without industrial",
+        "status": "ok",
+        "unit": "MW",
+        "value": 33.0
+      },
+      {
+        "delta_pct": null,
+        "id": "hydro_output_mw",
+        "label_ar": "السدود",
+        "label_en": "Hydro output (instant)",
+        "status": "ok",
+        "unit": "MW",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "rotary_reserve_mw",
+        "label_ar": "احتياط دوار",
+        "label_en": "Rotary reserve",
+        "status": "ok",
+        "unit": "MW",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "gas_groups_mw",
+        "label_ar": "استطاعة المجموعات الغازية",
+        "label_en": "Gas groups capacity",
+        "status": "ok",
+        "unit": "MW",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "steam_groups_mw",
+        "label_ar": "استطاعة المجموعات البخارية",
+        "label_en": "Steam groups capacity",
+        "status": "ok",
+        "unit": "MW",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "gas_import_mm3d",
+        "label_ar": "الغاز الوارد",
+        "label_en": "Gas import",
+        "status": "ok",
+        "unit": "M m³/d",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "generation_incidents_count",
+        "label_ar": "حوادث التوليد",
+        "label_en": "Generation incidents",
+        "status": "critical",
+        "unit": "count",
+        "value": 3.0
+      },
+      {
+        "delta_pct": null,
+        "id": "grid_incidents_count",
+        "label_ar": "حوادث الخطوط",
+        "label_en": "Grid line incidents",
+        "status": "critical",
+        "unit": "count",
+        "value": 3.0
+      }
+    ],
+    "month": null,
+    "notes": [
+      {
+        "ar": "المؤشرات مأخوذة من Info المقبول تحت فئة إدارة قطاع الكهرباء.",
+        "en": "KPIs are sourced from accepted Info under the electricity title category."
+      }
+    ],
+    "peak_generation_time": null,
+    "period": "day",
+    "report_date": "2026-08-19",
+    "reports_count": 1,
+    "source": "dynamic_forms",
+    "status": "ready",
+    "status_cards": [
+      {
+        "detail_ar": "جميعها جاهزة",
+        "detail_en": "All operational",
+        "id": "plants",
+        "label_ar": "محطات عاملة",
+        "label_en": "Active plants",
+        "status": "ok",
+        "value": "12/12"
+      },
+      {
+        "detail_ar": "تشغيل طبيعي",
+        "detail_en": "Normal operations",
+        "id": "transmission",
+        "label_ar": "خطوط النقل",
+        "label_en": "Transmission lines",
+        "status": "ok",
+        "value": "1/1"
+      },
+      {
+        "detail_ar": "عقد الشبكة",
+        "detail_en": "Grid nodes",
+        "id": "substations",
+        "label_ar": "محطات التحويل",
+        "label_en": "Substations",
+        "status": "ok",
+        "value": "2/2"
+      }
+    ],
+    "trends": {
+      "available_generated_power": {
+        "label_ar": "الاستطاعة المتاحة المولدة مع الشمسي",
+        "label_en": "Available generated power (with solar)",
+        "metric_key": "available_generated_power",
+        "points": [
+          {
+            "date": "2026-08-05",
+            "value": 1.0
+          },
+          {
+            "date": "2026-08-19",
+            "value": 3.0
+          }
+        ],
+        "unit": "MW"
+      },
+      "fuel_reserve_pct": {
+        "label_ar": "نسبة المخزون",
+        "label_en": "Fuel reserve fill",
+        "metric_key": "fuel_reserve_pct",
+        "points": [
+          {
+            "date": "2026-08-05",
+            "value": 2.0
+          },
+          {
+            "date": "2026-08-19",
+            "value": 33.0
+          }
+        ],
+        "unit": "%"
+      },
+      "fuel_reserve_tons": {
+        "label_ar": "المخزون القابل للاستهلاك",
+        "label_en": "Consumable fuel reserve",
+        "metric_key": "fuel_reserve_tons",
+        "points": [
+          {
+            "date": "2026-08-05",
+            "value": 2.0
+          },
+          {
+            "date": "2026-08-19",
+            "value": 3.0
+          }
+        ],
+        "unit": "t"
+      },
+      "gas_import_mm3d": {
+        "label_ar": "الغاز الوارد",
+        "label_en": "Gas import",
+        "metric_key": "gas_import_mm3d",
+        "points": [
+          {
+            "date": "2026-08-05",
+            "value": 3.0
+          },
+          {
+            "date": "2026-08-19",
+            "value": 3.0
+          }
+        ],
+        "unit": "M m³/d"
+      },
+      "gov_excess_mw": {
+        "label_ar": "التجاوز",
+        "label_en": "Allocation overrun",
+        "metric_key": "gov_excess_mw",
+        "points": [
+          {
+            "date": "2026-08-05",
+            "value": 1.0
+          },
+          {
+            "date": "2026-08-19",
+            "value": 3.0
+          }
+        ],
+        "unit": "MW"
+      },
+      "net_generation_mwh": {
+        "label_ar": "التوليد الصافي",
+        "label_en": "Net generation",
+        "metric_key": "net_generation_mwh",
+        "points": [
+          {
+            "date": "2026-08-05",
+            "value": 1.0
+          },
+          {
+            "date": "2026-08-19",
+            "value": 3.0
+          }
+        ],
+        "unit": "MW"
+      },
+      "peak_generation_mw": {
+        "label_ar": "ذروة التوليد",
+        "label_en": "Peak generation",
+        "metric_key": "peak_generation_mw",
+        "points": [
+          {
+            "date": "2026-08-19",
+            "value": 3.0
+          }
+        ],
+        "unit": "MW"
+      },
+      "steam_generation_mwh": {
+        "label_ar": "التوليد البخاري",
+        "label_en": "Steam generation",
+        "metric_key": "steam_generation_mwh",
+        "points": [
+          {
+            "date": "2026-08-05",
+            "value": 1.0
+          },
+          {
+            "date": "2026-08-19",
+            "value": 3.0
+          }
+        ],
+        "unit": "MWh"
+      },
+      "total_generation_mwh_24h": {
+        "label_ar": "المجموع الكلي لإنتاج المجموعات",
+        "label_en": "Total 24h generation",
+        "metric_key": "total_generation_mwh_24h",
+        "points": [
+          {
+            "date": "2026-08-05",
+            "value": 1.0
+          },
+          {
+            "date": "2026-08-19",
+            "value": 3.0
+          }
+        ],
+        "unit": "MWh"
+      }
+    }
+  },
+  "path": "/api/v1/electricity/dashboard/",
+  "status": 200
+}

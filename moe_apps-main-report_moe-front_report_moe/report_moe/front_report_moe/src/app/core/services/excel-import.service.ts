@@ -50,6 +50,15 @@ export class ExcelImportService {
     });
   }
 
+  exportData(titleId: number, reportDate: string, subMainId?: number | null): Observable<Blob> {
+    let params = new HttpParams().set('report_date', reportDate);
+    params = this.withSubMain(params, subMainId);
+    return this.http.get(this.titleUrl(titleId, 'excel-export'), {
+      responseType: 'blob',
+      params,
+    });
+  }
+
   importFile(
     titleId: number,
     file: File,

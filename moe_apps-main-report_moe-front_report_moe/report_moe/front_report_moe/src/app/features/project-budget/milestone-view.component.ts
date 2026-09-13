@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  computed,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageHeaderComponent } from '../../shared/components/page-header/page-header.component';
@@ -111,6 +118,7 @@ import { ProjectBudgetService } from './project-budget.service';
       }
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './milestone-view.component.scss',
 })
 export class MilestoneViewComponent implements OnInit {

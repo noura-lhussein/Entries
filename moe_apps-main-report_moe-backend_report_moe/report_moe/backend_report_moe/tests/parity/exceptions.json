@@ -1,0 +1,15 @@
+{
+  "_readme": [
+    "Routes whose response is allowed to differ from the Ninja baseline, with the",
+    "reason. Every entry is a deliberate decision, not a silenced failure — if a",
+    "route is not listed here it must match exactly.",
+    "",
+    "mode 'superset': the new response must contain every key of the baseline with",
+    "the same values, and may add keys. Safe only where the consumer reads named",
+    "fields and ignores the rest, which is how both Angular clients read JSON."
+  ],
+  "/api/v1/auth/me/": {
+    "mode": "superset",
+    "reason": "One endpoint now serves both frontends, so it returns the union of the reporting and portal field sets. The portal's 17 keys are all present and unchanged; the 25 additions are report_moe's own flags, which the portal does not read."
+  }
+}

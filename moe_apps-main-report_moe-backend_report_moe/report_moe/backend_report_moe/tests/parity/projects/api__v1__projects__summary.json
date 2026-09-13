@@ -1,0 +1,29 @@
+{
+  "body": {
+    "institutions": [
+      {
+        "acronym": "",
+        "name_en": "damascous",
+        "project_count": 22,
+        "remaining_usd": 376476259.0,
+        "slug": "foundation-1",
+        "total_budget_usd": 381962480.0,
+        "total_spent_usd": 5486221.0,
+        "utilization_pct": 1.4
+      }
+    ],
+    "national": {
+      "institution_count": 1,
+      "project_count": 22,
+      "remaining_usd": 376476259.0,
+      "total_budget_usd": 381962480.0,
+      "total_spent_usd": 5486221.0,
+      "utilization_pct": 1.4
+    },
+    "reporting_through": "2026-12-31",
+    "sector": null,
+    "sector_display": "All projects"
+  },
+  "path": "/api/v1/projects/summary/",
+  "status": 200
+}

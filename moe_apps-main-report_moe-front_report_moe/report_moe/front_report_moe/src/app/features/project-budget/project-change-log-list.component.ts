@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  computed,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ListPageComponent } from '../../shared/components/list-page/list-page.component';
@@ -71,6 +78,7 @@ type ChangeLogRow = ProjectChangeLogEntry & {
       </div>
     </app-modal>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [
     `
       .device-location-modal-footer {

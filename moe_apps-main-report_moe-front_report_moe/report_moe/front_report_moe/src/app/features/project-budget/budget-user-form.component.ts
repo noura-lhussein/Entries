@@ -1,4 +1,12 @@
-import { Component, OnInit, ViewChild, inject, signal, computed } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  inject,
+  signal,
+  computed,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
@@ -31,6 +39,7 @@ import type { BudgetSelectOption, BudgetUser } from './project-budget.models';
       ></app-example-form>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './budget-user-form.component.scss',
 })
 export class BudgetUserFormComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-form-section-title',
@@ -9,6 +9,7 @@ import { Component, Input } from '@angular/core';
       <h2 class="form-section-title">{{ title }}</h2>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './form-section-title.component.scss',
 })
 export class FormSectionTitleComponent {

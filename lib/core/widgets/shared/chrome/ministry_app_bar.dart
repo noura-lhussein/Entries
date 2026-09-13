@@ -26,7 +26,15 @@ class MinistryAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       flexibleSpace: Container(
-        decoration: BoxDecoration(gradient: gradient),
+        decoration: BoxDecoration(
+          gradient: gradient,
+          border: Border(
+            bottom: BorderSide(
+              color: AppColors.goldWarm.withValues(alpha: 0.45),
+              width: 1.4,
+            ),
+          ),
+        ),
       ),
       backgroundColor: Colors.transparent,
       elevation: 0,

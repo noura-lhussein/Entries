@@ -19,6 +19,10 @@ class UserModel {
 
   final bool canViewData;
 
+  final bool canConfirmInfo;
+
+  final String? photoUrl;
+
   const UserModel({
     required this.id,
     required this.name,
@@ -29,6 +33,8 @@ class UserModel {
     required this.sectors,
     this.canEnterData = false,
     this.canViewData = false,
+    this.canConfirmInfo = false,
+    this.photoUrl,
   });
 
   bool get isAdmin => appRole == AppRole.admin;

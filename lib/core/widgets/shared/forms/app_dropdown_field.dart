@@ -17,7 +17,7 @@ class AppDropdownField extends StatelessWidget {
       children: [
         Text(label,
           style: TextStyle(fontFamily: 'Cairo', fontSize: 11.sp, fontWeight: FontWeight.w600, color: AppColors.textHint),
-          textAlign: TextAlign.right),
+          textAlign: TextAlign.start),
         SizedBox(height: 5.h),
         Container(
           decoration: BoxDecoration(
@@ -32,12 +32,12 @@ class AppDropdownField extends StatelessWidget {
               hint: Text('اختر…',
                   style: TextStyle(fontFamily: 'Cairo', fontSize: 13.sp, color: AppColors.textHint)),
               isExpanded: true, isDense: true,
-              alignment: Alignment.centerRight,
+              alignment: AlignmentDirectional.centerStart,
               style: TextStyle(fontFamily: 'Cairo', fontSize: 13.sp, color: AppColors.textPrimary),
-              icon: Icon(Icons.keyboard_arrow_down_rounded, color: AppColors.textHint, size: 18.r),
+              icon: Icon(Icons.keyboard_arrow_down_rounded, color: AppColors.goldDeep, size: 18.r),
               items: items.map((e) => DropdownMenuItem(
-                value: e, alignment: Alignment.centerRight,
-                child: Text(e, textAlign: TextAlign.right, overflow: TextOverflow.ellipsis,
+                value: e, alignment: AlignmentDirectional.centerStart,
+                child: Text(e, textAlign: TextAlign.start, overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontFamily: 'Cairo', fontSize: 13.sp, color: AppColors.textPrimary)))).toList(),
               onChanged: onChanged,
             ),

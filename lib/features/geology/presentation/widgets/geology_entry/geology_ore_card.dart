@@ -89,7 +89,7 @@ class GeologyOreCard extends StatelessWidget {
             ),
           ),
           Align(
-            alignment: Alignment.centerRight,
+            alignment: AlignmentDirectional.centerStart,
             child: TextButton(
               onPressed: onAddTypeLine,
               child: const Text('+ نوع'),

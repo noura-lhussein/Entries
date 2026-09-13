@@ -1,5 +1,7 @@
+export 'shared/chrome/forest_page_header.dart';
 export 'shared/chrome/ministry_app_bar.dart';
 export 'shared/chrome/profile_avatar.dart';
+export 'shared/chrome/user_photo_circle.dart';
 export 'shared/chrome/sector_tabs.dart';
 export 'shared/stats/stat_widgets.dart';
 export 'shared/forms/app_text_field.dart';

@@ -9,7 +9,7 @@ class HomeHeroBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(14.w, 14.h, 10.w, 14.h),
+      padding: EdgeInsetsDirectional.fromSTEB(10.w, 14.h, 14.w, 14.h),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topRight,
@@ -35,6 +35,13 @@ class HomeHeroBanner extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Image.asset(
+            'assets/images/syria_flag.png',
+            height: 96.h,
+            fit: BoxFit.contain,
+            filterQuality: FilterQuality.high,
+          ),
+          SizedBox(width: 6.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +71,7 @@ class HomeHeroBanner extends StatelessWidget {
                   'الجهة الوطنية '
                   'العليا المسؤولة عن إدارة وتطوير قطاعات الطاقة المختلفة '
                   '(البترول والكهرباء والمياه والموارد المائية والتعدين).',
-                  textAlign: TextAlign.right,
+                  textAlign: TextAlign.start,
                   style: TextStyle(
                     fontFamily: 'Cairo',
                     fontSize: 11.5.sp,
@@ -74,13 +81,6 @@ class HomeHeroBanner extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          SizedBox(width: 6.w),
-          Image.asset(
-            'assets/images/syria_flag.png',
-            height: 96.h,
-            fit: BoxFit.contain,
-            filterQuality: FilterQuality.high,
           ),
         ],
       ),

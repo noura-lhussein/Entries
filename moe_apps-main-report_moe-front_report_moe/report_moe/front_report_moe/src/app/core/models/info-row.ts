@@ -19,9 +19,14 @@ export interface InfoRow {
 }
 
 export interface PaginatedInfoRows {
-  count: number;
+  /** Total logical rows when counted; may be null when include_count was omitted. */
+  count: number | null;
+  count_is_exact?: boolean;
   page: number;
   page_size: number;
+  /** Keyset token for the next page (preferred over offset ``page``). */
+  next_cursor?: string | null;
+  is_truncated?: boolean;
   results: InfoRow[];
 }
 

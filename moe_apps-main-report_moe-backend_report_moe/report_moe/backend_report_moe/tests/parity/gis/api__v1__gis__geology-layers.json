@@ -1,0 +1,105 @@
+{
+  "body": [
+    {
+      "default_visible": false,
+      "geometry_type": "polygon",
+      "id": "geology-official",
+      "name_ar": "الجيولوجيا — ألوان الخريطة",
+      "name_en": "Geology — map colors",
+      "sector": "mineral-resources",
+      "sort_order": 60
+    },
+    {
+      "default_visible": false,
+      "geometry_type": "polygon",
+      "id": "geology-era",
+      "name_ar": "الجيولوجيا — حسب العصر الجيولوجي",
+      "name_en": "Geology — by geological era",
+      "sector": "mineral-resources",
+      "sort_order": 70
+    },
+    {
+      "default_visible": false,
+      "geometry_type": "polygon",
+      "id": "geology-cenozoic",
+      "name_ar": "وحدات حقبة الحياة الحديثة",
+      "name_en": "Cenozoic units",
+      "sector": "mineral-resources",
+      "sort_order": 80
+    },
+    {
+      "default_visible": false,
+      "geometry_type": "polygon",
+      "id": "geology-quaternary",
+      "name_ar": "وحدات رباعي",
+      "name_en": "Quaternary units",
+      "sector": "mineral-resources",
+      "sort_order": 90
+    },
+    {
+      "default_visible": false,
+      "geometry_type": "polygon",
+      "id": "geology-mesozoic",
+      "name_ar": "وحدات حقبة الحياة الوسطى",
+      "name_en": "Mesozoic units",
+      "sector": "mineral-resources",
+      "sort_order": 100
+    },
+    {
+      "default_visible": false,
+      "geometry_type": "polygon",
+      "id": "geology-sedimentary",
+      "name_ar": "وحدات رسوبية",
+      "name_en": "Sedimentary units",
+      "sector": "mineral-resources",
+      "sort_order": 120
+    },
+    {
+      "default_visible": false,
+      "geometry_type": "polygon",
+      "id": "geology-volcanic",
+      "name_ar": "وحدات بركانية",
+      "name_en": "Volcanic units",
+      "sector": "mineral-resources",
+      "sort_order": 130
+    },
+    {
+      "default_visible": true,
+      "geometry_type": "point",
+      "id": "geology-minerals",
+      "name_ar": "مواقع الخامات المعدنية",
+      "name_en": "Mineral deposits",
+      "sector": "mineral-resources",
+      "sort_order": 40
+    },
+    {
+      "default_visible": false,
+      "geometry_type": "polygon",
+      "id": "geology-geomillion",
+      "name_ar": "الخريطة الجيولوجية (Geomillion)",
+      "name_en": "Geomillion geological map",
+      "sector": "mineral-resources",
+      "sort_order": 50
+    },
+    {
+      "default_visible": false,
+      "geometry_type": "line",
+      "id": "geology-faults",
+      "name_ar": "الفوالق الجيولوجية",
+      "name_en": "Geological faults",
+      "sector": "mineral-resources",
+      "sort_order": 140
+    },
+    {
+      "default_visible": false,
+      "geometry_type": "point",
+      "id": "geology-extinct-volcanoes",
+      "name_ar": "البراكين الخامدة",
+      "name_en": "Extinct volcanoes",
+      "sector": "mineral-resources",
+      "sort_order": 150
+    }
+  ],
+  "path": "/api/v1/gis/geology-layers/",
+  "status": 200
+}

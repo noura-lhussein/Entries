@@ -25,25 +25,25 @@ const List<SectorInfo> kAllSectors = [
     id: UserDepartment.water,
     label: 'المياه',
     icon: Icons.water_drop_outlined,
-    color: Color(0xFF2E7DD1),
+    color: AppColors.inkSoft,
   ),
   SectorInfo(
     id: UserDepartment.petroleum,
     label: 'البترول',
     icon: Icons.oil_barrel_outlined,
-    color: Color(0xFFB8942A),
+    color: AppColors.goldDeep,
   ),
   SectorInfo(
     id: UserDepartment.electricity,
     label: 'الكهرباء',
     icon: Icons.bolt_outlined,
-    color: Color(0xFF1A6B3C),
+    color: AppColors.successGreen,
   ),
   SectorInfo(
     id: UserDepartment.mineral,
     label: 'التعدين',
     icon: Icons.diamond_outlined,
-    color: AppColors.goldMid,
+    color: AppColors.goldWarm,
   ),
 ];
 

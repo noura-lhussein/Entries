@@ -90,7 +90,7 @@ class PetroleumDropField extends StatelessWidget {
           child: DropdownButton<String>(
             value: value,
             isExpanded: true,
-            alignment: Alignment.centerRight,
+            alignment: AlignmentDirectional.centerStart,
             style: TextStyle(
                 fontFamily: 'Cairo',
                 fontSize: 12.sp,
@@ -98,9 +98,9 @@ class PetroleumDropField extends StatelessWidget {
             items: items
                 .map((e) => DropdownMenuItem(
                       value: e,
-                      alignment: Alignment.centerRight,
+                      alignment: AlignmentDirectional.centerStart,
                       child: Text(e,
-                          textAlign: TextAlign.right,
+                          textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis),
                     ))
                 .toList(),

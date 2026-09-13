@@ -1,56 +1,62 @@
-<div class="example-container">
+<div class="example-container" [class.is-compact]="formConfig.compact">
   <!-- Form Section -->
   <section class="form-section">
-    <header class="section-header">
+    <header class="section-header" *ngIf="!formConfig.hideTitle">
       <h2>{{ formConfig.title }}</h2>
       <p *ngIf="formConfig.subtitle">{{ formConfig.subtitle }}</p>
     </header>
 
     <div [formGroup]="userForm" class="form-body">
       <div class="form-grid">
-        <ng-container *ngFor="let field of formConfig.fields">
+        <ng-container *ngFor="let field of formConfig.fields; trackBy: trackByFieldKey">
+          <div class="form-field form-field--section" *ngIf="field.type === 'section'">
+            <h3 class="form-section-title">{{ field.label }}</h3>
+            <p class="form-section-hint" *ngIf="field.hint">{{ field.hint }}</p>
+          </div>
 
-          <div class="form-field" *ngIf="field.type === 'input'">
+          <div class="form-field" [class.form-field--full]="field.fullWidth" *ngIf="field.type === 'input'">
             <app-form-input [formControlName]="field.key" [label]="field.label" [placeholder]="field.placeholder || ''"
               [type]="field.inputType || 'text'" [hint]="field.hint || ''" [required]="field.required || false"
               [errorMessage]="getFieldError(field.key)"></app-form-input>
           </div>
 
-          <div class="form-field" *ngIf="field.type === 'textarea'">
+          <div class="form-field" [class.form-field--full]="field.fullWidth" *ngIf="field.type === 'textarea'">
             <app-form-input [formControlName]="field.key" [label]="field.label" [placeholder]="field.placeholder || ''"
               [multiline]="true" [rows]="4" [hint]="field.hint || ''" [required]="field.required || false"
               [errorMessage]="getFieldError(field.key)"></app-form-input>
           </div>
 
-          <div class="form-field" *ngIf="field.type === 'select'">
+          <div class="form-field" [class.form-field--full]="field.fullWidth" *ngIf="field.type === 'select'">
             <app-form-select [formControlName]="field.key" [label]="field.label" [placeholder]="field.placeholder || ''"
               [options]="field.options || []" [required]="field.required || false"
               [errorMessage]="getFieldError(field.key)"></app-form-select>
           </div>
 
-          <div class="form-field" *ngIf="field.type === 'multi-select'">
+          <div class="form-field" [class.form-field--full]="field.fullWidth" *ngIf="field.type === 'multi-select'">
             <app-form-multi-select [formControlName]="field.key" [label]="field.label"
               [placeholder]="field.placeholder || ''" [options]="field.options || []"
-              [required]="field.required || false" [errorMessage]="getFieldError(field.key)"
+              [required]="field.required || false" [errorMessage]="getFieldError(field.key)" [hint]="field.hint || ''"
               [filterByParent]="getFilterFunction(field)" [formValues]="userForm.value"></app-form-multi-select>
           </div>
 
-          <div class="form-field" *ngIf="field.type === 'checkbox'">
+          <div class="form-field" [class.form-field--full]="field.fullWidth" *ngIf="field.type === 'checkbox'">
             <app-form-checkbox [formControlName]="field.key" [label]="field.label"
               [hint]="field.hint || ''"></app-form-checkbox>
           </div>
 
-          <div class="form-field" *ngIf="field.type === 'date'">
+          <div class="form-field" [class.form-field--full]="field.fullWidth" *ngIf="field.type === 'date'">
             <app-form-date [formControlName]="field.key" [label]="field.label" [required]="field.required || false"
               [errorMessage]="getFieldError(field.key)"></app-form-date>
           </div>
 
-          <div class="form-field" *ngIf="field.type === 'file'">
+          <div class="form-field" [class.form-field--full]="field.fullWidth" *ngIf="field.type === 'file'">
             <label class="file-field-label">
               {{ field.label }}
               <span class="req" *ngIf="field.required">*</span>
             </label>
-            <p class="file-field-hint">{{ t('builder.file-max-hint').replace('{mb}', maxUploadMb()) }}</p>
+            <p class="file-field-hint">
+              {{ t('builder.file-max-hint').replace('{mb}', maxUploadMb()) }}
+            </p>
             <input type="file" class="file-native-input" [id]="'file-' + field.key" [accept]="field.fileAccept || '*'"
               [disabled]="fileUploading || field.disabled" (change)="onFileInputChange(field, $event)" />
             <div class="file-field-preview" *ngIf="userForm.get(field.key)?.value">
@@ -60,7 +66,9 @@
                 {{ t('builder.clear-file') }}
               </button>
             </div>
-            <p class="file-field-error" *ngIf="getFieldError(field.key)">{{ getFieldError(field.key) }}</p>
+            <p class="file-field-error" *ngIf="getFieldError(field.key)">
+              {{ getFieldError(field.key) }}
+            </p>
           </div>
         </ng-container>
       </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../core/services/api.service';
@@ -42,7 +42,10 @@ interface UserPermissions {
           <!-- Main Sections -->
           <div class="section">
             <div class="section-header">
-              <h3>{{ t('user-permissions.main-section') }}</h3>
+              <div class="section-title-block">
+                <h3>{{ t('user-permissions.main-section') }}</h3>
+                <p class="section-hint">{{ t('user-permissions.main-section-hint') }}</p>
+              </div>
               <button
                 class="btn-toggle"
                 (click)="toggleMainSection()"
@@ -83,7 +86,10 @@ interface UserPermissions {
           <!-- Sub Main Sections -->
           <div class="section">
             <div class="section-header">
-              <h3>{{ t('user-permissions.sub-section') }}</h3>
+              <div class="section-title-block">
+                <h3>{{ t('user-permissions.sub-section') }}</h3>
+                <p class="section-hint">{{ t('user-permissions.sub-section-hint') }}</p>
+              </div>
               <button
                 class="btn-toggle"
                 (click)="toggleSubSection()"
@@ -125,11 +131,7 @@ interface UserPermissions {
           <div class="section">
             <div class="section-header">
               <h3>{{ t('user-permissions.title-categories-label') }}</h3>
-              <button
-                class="btn-toggle"
-                (click)="toggleCategory()"
-                [class.active]="showCategory()"
-              >
+              <button class="btn-toggle" (click)="toggleCategory()" [class.active]="showCategory()">
                 {{
                   showCategory()
                     ? t('user-permissions.select-field')
@@ -172,8 +174,8 @@ interface UserPermissions {
       </div>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './user-permissions.component.scss',
-
 })
 export class UserPermissionsComponent implements OnInit {
   private api = inject(ApiService);
@@ -234,8 +236,11 @@ export class UserPermissionsComponent implements OnInit {
       error: () => this.toast.error(this.t('user-permissions.load-main-error')),
     });
 
-    this.builder.getSubMainSections().subscribe({
-      next: (data) => this.subSections.set(data.results || []),
+    this.builder.getSubMainSections({ leaves: true }).subscribe({
+      next: (data) => {
+        const leaves = (data.results || []).filter((s) => s.is_leaf !== false);
+        this.subSections.set(leaves);
+      },
       error: () => this.toast.error(this.t('user-permissions.load-sub-error')),
     });
 
@@ -243,6 +248,12 @@ export class UserPermissionsComponent implements OnInit {
       next: (data) => this.titleCategories.set(data.results || []),
       error: () => this.toast.error(this.t('user-permissions.load-categories-error')),
     });
+  }
+
+  private leafIdsUnderMain(mainId: number): number[] {
+    return this.subSections()
+      .filter((s: any) => (s.main_section ?? s.main_section_id) === mainId)
+      .map((s) => s.id);
   }
 
   isMainSectionSelected(id: number): boolean {
@@ -265,6 +276,9 @@ export class UserPermissionsComponent implements OnInit {
         this.removeMainSection(id);
       } else {
         this.selectedMainIds.update((ids) => [...ids, id]);
+        // Shortcut: selecting a main assigns all its leaf sub-sections.
+        const leafIds = this.leafIdsUnderMain(id);
+        this.selectedSubIds.update((ids) => [...new Set([...ids, ...leafIds])]);
       }
     }
   }
@@ -295,6 +309,8 @@ export class UserPermissionsComponent implements OnInit {
 
   removeMainSection(id: number): void {
     this.selectedMainIds.update((ids) => ids.filter((i) => i !== id));
+    const leafIds = new Set(this.leafIdsUnderMain(id));
+    this.selectedSubIds.update((ids) => ids.filter((i) => !leafIds.has(i)));
   }
 
   removeSubSection(id: number): void {

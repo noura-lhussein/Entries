@@ -1,0 +1,7 @@
+{
+  "body": {
+    "detail": "date query param required (YYYY-MM-DD)."
+  },
+  "path": "/api/v1/electricity/reports/export/",
+  "status": 400
+}

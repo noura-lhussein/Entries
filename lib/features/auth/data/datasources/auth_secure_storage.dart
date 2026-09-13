@@ -37,9 +37,21 @@ class AuthSecureStorage {
     return await _storage.read(key: _sessionFlagKey) == '1';
   }
 
-  Future<void> clearAll() async {
+  Future<void> deleteAccessToken() async {
     await _storage.delete(key: _accessTokenKey);
+  }
+
+  Future<void> deleteRefreshToken() async {
     await _storage.delete(key: _refreshTokenKey);
+  }
+
+  Future<void> deleteTokens() async {
+    await deleteAccessToken();
+    await deleteRefreshToken();
+  }
+
+  Future<void> clearAll() async {
+    await deleteTokens();
     await _storage.delete(key: _sessionFlagKey);
   }
 }

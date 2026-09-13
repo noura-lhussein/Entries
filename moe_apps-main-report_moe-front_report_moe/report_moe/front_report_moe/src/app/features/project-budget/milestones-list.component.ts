@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  computed,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { ListPageComponent } from '../../shared/components/list-page/list-page.component';
 import type { TableColumn } from '../../shared/components/data-table/data-table.component';
@@ -23,6 +30,7 @@ type MilestoneRow = Milestone & { status_label: string };
   selector: 'app-budget-milestones',
   standalone: true,
   imports: [CommonModule, ListPageComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <app-list-page
       [config]="pageConfig()"

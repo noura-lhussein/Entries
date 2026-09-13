@@ -10,6 +10,10 @@ abstract class AuthRepository {
     required String lastName,
     required String email,
   });
+  Future<ApiResult<UserEntity>> updateProfilePhoto({
+    required int userId,
+    required String filePath,
+  });
   Future<ApiResult<void>> changePassword({
     required int userId,
     required String newPassword,

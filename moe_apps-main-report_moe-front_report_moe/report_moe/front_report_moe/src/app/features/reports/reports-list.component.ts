@@ -1,4 +1,11 @@
-import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  inject,
+  signal,
+  computed,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ApiService } from '../../core/services/api.service';
 import { ToastService } from '../../shared/services/toast.service';
 import { DialogService } from '../../shared/services/dialog.service';
@@ -11,6 +18,7 @@ import { FilterState } from '../../shared/utils/filter-state';
   selector: 'app-reports-list',
   standalone: true,
   imports: [ListPageComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <app-list-page
       [config]="pageConfig()"

@@ -9,6 +9,7 @@ import {
   ViewChild,
   forwardRef,
   signal,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -160,6 +161,7 @@ const DEFAULT_SEARCH_THRESHOLD = 10;
       <small *ngIf="errorMessage" class="error">{{ errorMessage }}</small>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './form-select.component.scss',
 })
 export class FormSelectComponent implements ControlValueAccessor {

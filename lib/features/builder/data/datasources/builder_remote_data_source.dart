@@ -48,6 +48,54 @@ class BuilderRemoteDataSource {
         .toList();
   }
 
+  Future<List<BuilderSubSection>> getSubSectionTree(int mainSectionId) async {
+    final res = await _dio.get(
+      ApiConstants.builderSubSectionTree,
+      queryParameters: {'main_section': mainSectionId},
+      options: _soft(),
+    );
+    if (_missing(res)) return const [];
+    final raw = res.data;
+    final roots = raw is List ? raw : _unwrapList(raw);
+    final out = <BuilderSubSection>[];
+    void walk(Map node, int? parentId) {
+      final children = node['children'];
+      final childMaps = children is List
+          ? children.whereType<Map>().toList()
+          : const <Map>[];
+      final flat = Map<String, dynamic>.from(node)
+        ..remove('children')
+        ..['parent'] = node['parent'] ?? parentId
+        ..['children_count'] = childMaps.length
+        ..['is_leaf'] = node['is_leaf'] ?? childMaps.isEmpty
+        ..['main_section'] = node['main_section'] ?? mainSectionId;
+      out.add(BuilderSubSection.fromJson(flat));
+      final id = flat['id'];
+      for (final child in childMaps) {
+        walk(child, id is int ? id : int.tryParse('$id'));
+      }
+    }
+
+    for (final node in roots.whereType<Map>()) {
+      walk(node, null);
+    }
+    return out;
+  }
+
+  Future<List<BuilderNamedItem>> getUsers({int pageSize = 100}) async {
+    final res = await _dio.get(
+      ApiConstants.users,
+      queryParameters: {'page_size': pageSize, 'limit': pageSize},
+      options: _soft(),
+    );
+    if (_missing(res)) return const [];
+    return _unwrapList(res.data)
+        .whereType<Map>()
+        .map((e) => BuilderNamedItem.fromUserJson(Map<String, dynamic>.from(e)))
+        .where((e) => e.id > 0)
+        .toList();
+  }
+
   Future<List<BuilderTitle>> getTitles() async {
     final res = await _dio.get(
       ApiConstants.builderTitles,
@@ -60,6 +108,119 @@ class BuilderRemoteDataSource {
           .whereType<Map>()
           .map((e) => BuilderTitle.fromJson(Map<String, dynamic>.from(e))),
     );
+  }
+
+  Future<List<BuilderAttribute>> getAttributes() async {
+    final res = await _dio.get(
+      ApiConstants.builderAttributes,
+      queryParameters: {'page_size': 1000},
+      options: _soft(),
+    );
+    if (_missing(res)) return const [];
+    return _unwrapList(res.data)
+        .whereType<Map>()
+        .map((e) => BuilderAttribute.fromJson(Map<String, dynamic>.from(e)))
+        .toList();
+  }
+
+  Future<InfoCellDetail> getInfoDetail(int id) async {
+    final res = await _dio.get(
+      ApiConstants.builderInfoDetail(id),
+      options: _soft(),
+    );
+    if (_missing(res) || res.data is! Map) {
+      throw StateError('تعذر تحميل الحقل');
+    }
+    return InfoCellDetail.fromJson(Map<String, dynamic>.from(res.data as Map));
+  }
+
+  Future<void> patchInfoValue(int id, String value) async {
+    final res = await _dio.patch(
+      ApiConstants.builderInfoById(id),
+      data: {'value': value},
+      options: _soft(),
+    );
+    if (_missing(res) || (res.statusCode ?? 500) >= 400) {
+      throw StateError('تعذر حفظ الحقل');
+    }
+  }
+
+  Future<void> createInfoValue({
+    required int attributeId,
+    required int subMainId,
+    required String value,
+    String? rowKey,
+  }) async {
+    final res = await _dio.post(
+      ApiConstants.builderInfos,
+      data: {
+        'attribute': attributeId,
+        'sub_main': subMainId,
+        'value': value,
+        if (rowKey != null && rowKey.trim().isNotEmpty) 'row_key': rowKey,
+      },
+      options: _soft(),
+    );
+    if (_missing(res) || (res.statusCode ?? 500) >= 400) {
+      throw StateError('تعذر حفظ الحقل');
+    }
+  }
+
+  Future<void> deleteInfoRow({String? rowKey, int? infoId}) async {
+    if (rowKey != null && rowKey.trim().isNotEmpty) {
+      final res = await _dio.post(
+        ApiConstants.builderInfoDeleteRow,
+        data: {'row_key': rowKey},
+        options: _soft(),
+      );
+      if (_missing(res) || (res.statusCode ?? 500) >= 400) {
+        throw StateError('تعذر حذف السجل');
+      }
+      return;
+    }
+    if (infoId == null) throw StateError('تعذر حذف السجل');
+    final res = await _dio.delete(
+      ApiConstants.builderInfoById(infoId),
+      options: _soft(),
+    );
+    if (_missing(res) || (res.statusCode ?? 500) >= 400) {
+      throw StateError('تعذر حذف السجل');
+    }
+  }
+
+  Future<void> confirmInfoIds({
+    required List<int> ids,
+    required String status,
+    String? note,
+  }) async {
+    if (ids.isEmpty) return;
+    final res = await _dio.post(
+      ApiConstants.builderInfoConfirmIds,
+      data: {
+        'ids': ids,
+        'status': status,
+        if (note != null) 'note': note,
+      },
+      options: _soft(),
+    );
+    if (_missing(res) || (res.statusCode ?? 500) >= 400) {
+      throw StateError('تعذر تحديث التأكيد');
+    }
+  }
+
+  Future<void> commitInfoNoteIds({
+    required List<int> ids,
+    required String note,
+  }) async {
+    if (ids.isEmpty) return;
+    final res = await _dio.post(
+      ApiConstants.builderInfoCommitNoteIds,
+      data: {'ids': ids, 'note': note},
+      options: _soft(),
+    );
+    if (_missing(res) || (res.statusCode ?? 500) >= 400) {
+      throw StateError('تعذر حفظ الملاحظة');
+    }
   }
 
   Future<UserBuilderPermissions> getPermissions() async {
@@ -153,8 +314,12 @@ class BuilderRemoteDataSource {
     int? mainSectionId,
     int? subMainId,
     int? userId,
+    int? titleCategoryId,
+    int? attributeId,
     String? confirmed,
     String? search,
+    String? from,
+    String? to,
   }) async {
     final res = await _dio.get(
       ApiConstants.builderInfoRowCount,
@@ -163,8 +328,12 @@ class BuilderRemoteDataSource {
         mainSectionId: mainSectionId,
         subMainId: subMainId,
         userId: userId,
+        titleCategoryId: titleCategoryId,
+        attributeId: attributeId,
         confirmed: confirmed,
         search: search,
+        from: from,
+        to: to,
       ),
       options: _soft(),
     );
@@ -180,13 +349,17 @@ class BuilderRemoteDataSource {
 
   Future<PaginatedInfoRecords> queryInfoRows({
     int page = 1,
-    int pageSize = 20,
+    int pageSize = 10,
     int? titleId,
     int? mainSectionId,
     int? subMainId,
     int? userId,
+    int? titleCategoryId,
+    int? attributeId,
     String? confirmed,
     String? search,
+    String? from,
+    String? to,
   }) async {
     final res = await _dio.get(
       ApiConstants.builderInfoRows,
@@ -198,8 +371,12 @@ class BuilderRemoteDataSource {
           mainSectionId: mainSectionId,
           subMainId: subMainId,
           userId: userId,
+          titleCategoryId: titleCategoryId,
+          attributeId: attributeId,
           confirmed: confirmed,
           search: search,
+          from: from,
+          to: to,
         ),
       },
       options: _soft(),
@@ -224,16 +401,24 @@ class BuilderRemoteDataSource {
     int? mainSectionId,
     int? subMainId,
     int? userId,
+    int? titleCategoryId,
+    int? attributeId,
     String? confirmed,
     String? search,
+    String? from,
+    String? to,
   }) {
     return {
       if (titleId != null) 'title_id': titleId,
       if (mainSectionId != null) 'main_section_id': mainSectionId,
       if (subMainId != null) 'sub_main_id': subMainId,
       if (userId != null) 'user': userId,
+      if (titleCategoryId != null) 'title_category_id': titleCategoryId,
+      if (attributeId != null) 'attribute_id': attributeId,
       if (confirmed != null && confirmed.isNotEmpty) 'confirmed': confirmed,
       if (search != null && search.trim().isNotEmpty) 'search': search.trim(),
+      if (from != null && from.isNotEmpty) 'from': from,
+      if (to != null && to.isNotEmpty) 'to': to,
     };
   }
 

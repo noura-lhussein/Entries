@@ -24,6 +24,16 @@ const translations: Record<string, Record<string, string>> = {
   'sidebar.export-reports': { en: 'Export Reports', ar: 'استخراج تقارير' },
   'sidebar.account': { en: 'Account', ar: 'الحساب' },
   'sidebar.profile': { en: 'Profile', ar: 'الملف الشخصي' },
+  'sidebar.logout': { en: 'Logout', ar: 'تسجيل الخروج' },
+  'topbar.toggle-sidebar': { en: 'Toggle sidebar', ar: 'إظهار أو إخفاء القائمة' },
+  'topbar.notifications': { en: 'Notifications', ar: 'الإشعارات' },
+  'topbar.logout-title': { en: 'Logout', ar: 'تسجيل الخروج' },
+  'topbar.logout-message': {
+    en: 'Are you sure you want to log out?',
+    ar: 'هل أنت متأكد أنك تريد تسجيل الخروج؟',
+  },
+  'topbar.logout-confirm': { en: 'Logout', ar: 'تسجيل الخروج' },
+  'topbar.logout-cancel': { en: 'Cancel', ar: 'إلغاء' },
   'sidebar.section-manage': { en: 'Section Manage', ar: 'إدارة الأقسام' },
   'sidebar.master-data': { en: 'Master Data', ar: 'إدارة القيم المرجعية' },
   'master-data.title': { en: 'Master data', ar: 'إدارة القيم المرجعية' },
@@ -647,12 +657,12 @@ const translations: Record<string, Record<string, string>> = {
     ar: 'استخدم القالب المُصدَّر. الأعمدة: القسم الرئيسي، القسم الفرعي، المنطقة أو المحافظة، المؤشر، القيمة، الوحدة.',
   },
   'builder.import-excel-hint-dynamic': {
-    en: 'Download the template for this title, fill rows, then validate before import. Columns match current fields in the form builder.',
-    ar: 'نزّل قالب هذا العنوان، املأ الصفوف، ثم تحقق قبل الاستيراد. الأعمدة تطابق الحقول الحالية في منشئ النماذج.',
+    en: 'Download the template for this title (rows follow current form fields), fill values, then validate before import.',
+    ar: 'نزّل قالب هذا العنوان (الصفوف تتبع الحقول الحالية في النموذج)، املأ القيم، ثم تحقق قبل الاستيراد.',
   },
   'builder.import-excel-hint-scoped': {
-    en: 'Main and sub sections are taken from your current selection — they are not columns in the file. Fill region/governorate and field values only.',
-    ar: 'القسم الرئيسي والفرعي يُؤخذان من اختيارك الحالي في الواجهة وليسا أعمدة في الملف. املأ المنطقة/المحافظة وقيم الحقول فقط.',
+    en: 'The template rows match the current form fields. Main/sub sections come from your selection — fill indicator values, then validate before import.',
+    ar: 'صفوف القالب تطابق حقول النموذج الحالية. القسم الرئيسي/الفرعي من اختيارك في الواجهة — املأ قيم المؤشرات ثم تحقق قبل الاستيراد.',
   },
   'builder.excel-need-sub-main': {
     en: 'Select a main section and sub-section before downloading or uploading Excel.',
@@ -668,6 +678,22 @@ const translations: Record<string, Record<string, string>> = {
   'builder.import-kind-missing': { en: 'Missing', ar: 'عمود ناقص' },
   'builder.import-kind-unknown': { en: 'Unknown', ar: 'عمود غير معروف' },
   'builder.import-kind-skipped': { en: 'Not in Excel', ar: 'لا يُستورد عبر Excel' },
+  'builder.import-kind-wrong-shape': { en: 'Wrong file shape', ar: 'شكل ملف غير مطابق' },
+  'builder.import-kind-date-confirmed': { en: 'Date confirmed', ar: 'تاريخ مؤكد' },
+  'builder.import-kind-date-exists': { en: 'Date exists (replace)', ar: 'تاريخ موجود (استبدال)' },
+  'builder.import-kind-entity-unmatched': { en: 'Entity unmatched', ar: 'كيان غير مطابق' },
+  'builder.import-kind-entity-incomplete': { en: 'Incomplete row', ar: 'صف ناقص' },
+  'builder.import-kind-unreadable': { en: 'Unreadable', ar: 'تعذر القراءة' },
+  'builder.export-data': { en: 'Export entered data', ar: 'تصدير البيانات المُدخلة' },
+  'builder.export-data-pick-date': { en: 'Report date', ar: 'تاريخ التقرير' },
+  'builder.export-data-error': {
+    en: 'Could not export data for this date',
+    ar: 'تعذر تصدير البيانات لهذا التاريخ',
+  },
+  'builder.export-data-success': {
+    en: 'Data exported',
+    ar: 'تم تصدير البيانات',
+  },
   'builder.export-template-success': {
     en: 'Template downloaded',
     ar: 'تم تنزيل القالب',
@@ -1448,6 +1474,10 @@ const translations: Record<string, Record<string, string>> = {
   'user-form.subtitle-new': { en: 'Create a new system user', ar: 'إنشاء مستخدم جديد في النظام' },
   'user-form.title-edit': { en: 'Edit User', ar: 'تعديل المستخدم' },
   'user-form.subtitle-edit': { en: 'Update user data', ar: 'تحديث بيانات المستخدم' },
+  'user-form.section-account': { en: 'Account details', ar: 'بيانات الحساب' },
+  'user-form.section-report-perms': { en: 'Report permissions', ar: 'صلاحيات التقارير' },
+  'user-form.section-portal': { en: 'Energy Portal', ar: 'بوابة الوزارة' },
+  'user-form.section-scope': { en: 'Assignment scope', ar: 'نطاق الإسناد' },
   'user-form.username': { en: 'Username', ar: 'اسم المستخدم' },
   'user-form.username-placeholder': { en: 'Enter username', ar: 'أدخل اسم المستخدم' },
   'user-form.first-name': { en: 'First Name', ar: 'الاسم الأول' },
@@ -1465,6 +1495,33 @@ const translations: Record<string, Record<string, string>> = {
   'user-form.can-confirm': { en: 'Data Confirm Permission', ar: 'صلاحية تأكيد البيانات' },
   'user-form.can-export': { en: 'Export Reports Permission', ar: 'صلاحية استخراج التقارير' },
   'user-form.can-add-user': { en: 'Add User Permission', ar: 'صلاحية إضافة مستخدمين' },
+  'user-form.portal-admin': { en: 'Energy Portal — full admin', ar: 'بوابة الطاقة — مدير كامل' },
+  'user-form.portal-admin-hint': {
+    en: 'Grants every sector and admin section in the portal; overrides the picks below.',
+    ar: 'يمنح كل القطاعات وأقسام الإدارة في البوابة؛ يتجاوز الاختيارات أدناه.',
+  },
+  'user-form.portal-manage-datasets': {
+    en: 'Portal — Manage Datasets',
+    ar: 'بوابة الطاقة — إدارة مجموعات البيانات',
+  },
+  'user-form.portal-manage-control-panel': {
+    en: 'Portal — Manage Control Panel',
+    ar: 'بوابة الطاقة — إدارة لوحة التحكم',
+  },
+  'user-form.portal-sectors': { en: 'Energy Portal sectors', ar: 'قطاعات بوابة الطاقة' },
+  'user-form.portal-sectors-placeholder': {
+    en: 'Select portal sectors',
+    ar: 'اختر قطاعات البوابة',
+  },
+  'user-form.portal-sectors-hint': {
+    en: 'Portal access per sector follows the “view / edit data” permissions above.',
+    ar: 'مستوى الوصول لكل قطاع في البوابة يتبع صلاحيتَي «عرض / إدخال البيانات» أعلاه.',
+  },
+  'user-form.sector-water': { en: 'Water', ar: 'المياه' },
+  'user-form.sector-electricity': { en: 'Electricity', ar: 'الكهرباء' },
+  'user-form.sector-oil-gas': { en: 'Petroleum', ar: 'البترول' },
+  'user-form.sector-mineral': { en: 'Mineral Resources', ar: 'التعدين' },
+  'user-form.sector-projects': { en: 'Projects', ar: 'المشاريع' },
   'user-form.main-sections': {
     en: 'Main Section (filter)',
     ar: 'القسم الرئيسي (لتصفية الأقسام الفرعية)',
@@ -1473,17 +1530,47 @@ const translations: Record<string, Record<string, string>> = {
     en: 'Select main sections',
     ar: 'اختر الأقسام الرئيسية',
   },
-  'user-form.sub-sections': { en: 'Sub Sections', ar: 'الأقسام الفرعية' },
-  'user-form.sub-sections-placeholder': {
-    en: 'Select allowed sub sections',
-    ar: 'اختر الأقسام الفرعية المسموح بها',
+  'user-form.main-sections-hint': {
+    en: 'Filter only — selects all leaf sub-sections under the chosen mains. Permissions are stored on sub-sections, not mains.',
+    ar: 'للتصفية فقط — يختار تلقائياً كل الأقسام الفرعية النهائية تحت الرئيسي المحدد. الصلاحيات تُحفظ على الفرعي وليس على الرئيسي.',
   },
-  'user-form.titles': { en: 'Titles', ar: 'العناوين' },
-  'user-form.titles-placeholder': { en: 'Select allowed titles', ar: 'اختر العناوين المسموح بها' },
+  'user-form.sub-sections': {
+    en: 'Sub Sections (leaf only)',
+    ar: 'الأقسام الفرعية (النهائية فقط)',
+  },
+  'user-form.sub-sections-placeholder': {
+    en: 'Select allowed leaf sub-sections',
+    ar: 'اختر الأقسام الفرعية النهائية المسموح بها',
+  },
+  'user-form.sub-sections-hint': {
+    en: 'Only final sections (no children) can be assigned. Parent folders are hidden.',
+    ar: 'يُسمح بالتعيين على الأقسام النهائية فقط (بدون أبناء). المجلدات الأب مخفية من القائمة.',
+  },
+  'user-form.sub-sections-required-when-main': {
+    en: 'Select at least one leaf sub-section, or clear the main-section filter.',
+    ar: 'اختر قسماً فرعياً نهائياً واحداً على الأقل، أو أفرغ اختيار القسم الرئيسي.',
+  },
+  'user-form.titles': { en: 'Titles', ar: 'المسميات' },
+  'user-form.titles-placeholder': {
+    en: 'Select allowed titles',
+    ar: 'اختر المسميات المسموح بها',
+  },
+  'user-form.titles-hint': {
+    en: 'Options depend on the selected title categories. Selecting categories fills all titles under them.',
+    ar: 'الخيارات تعتمد على فئات المسميات المحددة. اختيار الفئات يملأ كل المسميات التابعة لها.',
+  },
+  'user-form.titles-required-when-category': {
+    en: 'Select at least one title, or clear the title-category filter.',
+    ar: 'اختر مسمى واحداً على الأقل، أو أفرغ اختيار فئة المسميات.',
+  },
   'user-form.title-categories': { en: 'Title categories', ar: 'فئات المسميات' },
   'user-form.title-categories-placeholder': {
     en: 'Select allowed title categories',
     ar: 'اختر فئات المسميات المسموح بها',
+  },
+  'user-form.title-categories-hint': {
+    en: 'Filters which titles can be assigned below.',
+    ar: 'تحدد أي المسميات يمكن إسنادها في الحقل التالي.',
   },
 
   // Shared filter labels
@@ -1626,7 +1713,15 @@ const translations: Record<string, Record<string, string>> = {
     ar: 'خطأ في تحميل فئات المسميات',
   },
   'user-permissions.main-section': { en: 'Main Section', ar: 'القسم الرئيسي' },
-  'user-permissions.sub-section': { en: 'Sub Section', ar: 'القسم الفرعي' },
+  'user-permissions.main-section-hint': {
+    en: 'Shortcut: selecting a main assigns all its leaf sub-sections.',
+    ar: 'اختصار: اختيار قسم رئيسي يعيّن كل فروعه النهائية.',
+  },
+  'user-permissions.sub-section': { en: 'Sub Section (leaf only)', ar: 'القسم الفرعي (نهائي فقط)' },
+  'user-permissions.sub-section-hint': {
+    en: 'Only final sections without children can be assigned.',
+    ar: 'يُسمح بتعيين الأقسام النهائية فقط (بدون أبناء).',
+  },
   'user-permissions.title-label': { en: 'Title', ar: 'المسمى' },
   'user-permissions.title-categories-label': { en: 'Title categories', ar: 'فئات المسميات' },
   'user-permissions.select-field': { en: 'Select field', ar: 'تحديد الحقل' },

@@ -152,7 +152,7 @@ class _SchemaForm extends StatelessWidget {
                       children: [
                         Text(
                           s.section.titleAr,
-                          textAlign: TextAlign.right,
+                          textAlign: TextAlign.start,
                           style: TextStyle(
                             fontFamily: 'Cairo',
                             fontSize: 16.sp,
@@ -165,7 +165,7 @@ class _SchemaForm extends StatelessWidget {
                           SizedBox(height: 4.h),
                           Text(
                             s.section.subtitleAr!,
-                            textAlign: TextAlign.right,
+                            textAlign: TextAlign.start,
                             style: TextStyle(
                               fontFamily: 'Cairo',
                               fontSize: 11.sp,
@@ -259,7 +259,7 @@ class _GroupCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     group.group.titleAr,
-                    textAlign: TextAlign.right,
+                    textAlign: TextAlign.start,
                     style: TextStyle(
                       fontFamily: 'Cairo',
                       fontSize: 13.sp,
@@ -355,7 +355,7 @@ class _HistoryCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     'آخر ${state.historyRows.isEmpty ? 5 : state.historyRows.length} سجلات لهذا القسم',
-                    textAlign: TextAlign.right,
+                    textAlign: TextAlign.start,
                     style: TextStyle(
                       fontFamily: 'Cairo',
                       fontSize: 13.sp,
@@ -367,7 +367,7 @@ class _HistoryCard extends StatelessWidget {
                 Icon(
                   state.historyOpen
                       ? Icons.expand_more_rounded
-                      : Icons.chevron_right_rounded,
+                      : Icons.chevron_left_rounded,
                   color: AppColors.inkSoft,
                 ),
               ],

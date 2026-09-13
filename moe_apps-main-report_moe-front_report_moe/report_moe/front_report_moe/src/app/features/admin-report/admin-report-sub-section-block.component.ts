@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { ButtonComponent } from '../../shared/components/button/button.component';
@@ -34,6 +41,7 @@ export interface TitleBulkConfirmEvent {
     EmptyStateComponent,
   ],
   templateUrl: './admin-report-sub-section-block.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './admin-report-sub-section-block.component.scss',
 })
 export class AdminReportSubSectionBlockComponent {

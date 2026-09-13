@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../models/user_model.dart';
 import '../theme/app_theme.dart';
 import '../utils/sector_registry.dart';
+import 'shared/chrome/user_photo_circle.dart';
 
 class AppDrawer extends StatelessWidget {
   final UserModel user;
@@ -31,7 +32,7 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final headerGradient = AppColors.headerGradient;
-    final modeAccent = AppColors.ink;
+    final modeAccent = AppColors.goldDeep;
 
     return Drawer(
       backgroundColor: AppColors.background,
@@ -46,26 +47,27 @@ class AppDrawer extends StatelessWidget {
               16.w,
               18.h,
             ),
-            decoration: BoxDecoration(gradient: headerGradient),
+            decoration: BoxDecoration(
+              gradient: headerGradient,
+              border: Border(
+                bottom: BorderSide(
+                  color: AppColors.goldWarm.withValues(alpha: 0.45),
+                  width: 1.5,
+                ),
+              ),
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Row(
                   children: [
-                    Container(
-                      width: 46.r, height: 46.r,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white.withValues(alpha:0.12),
-                        border: Border.all(color: AppColors.goldMid.withValues(alpha:0.6)),
-                      ),
-                      child: Center(
-                        child: Text(
-                          user.name.trim().isNotEmpty
-                              ? user.name.characters.first
-                              : '؟',
-                          style: TextStyle(fontFamily: 'Cairo', fontSize: 18.sp, fontWeight: FontWeight.w800, color: AppColors.goldMid)),
-                      ),
+                    UserPhotoCircle(
+                      photoUrl: user.photoUrl,
+                      initials: user.name.trim().isNotEmpty
+                          ? user.name.characters.first
+                          : '؟',
+                      size: 48,
+                      fontSize: 18,
                     ),
                     SizedBox(width: 12.w),
                     Expanded(
@@ -171,8 +173,8 @@ class AppDrawer extends StatelessWidget {
                     icon: Icons.logout_rounded,
                     label: 'تسجيل الخروج',
                     isActive: false,
-                    accent: AppColors.ink,
-                    labelColor: AppColors.ink,
+                    accent: AppColors.burgundy,
+                    labelColor: AppColors.burgundy,
                     onTap: () { Navigator.pop(context); onLogout(); },
                   ),
                   SizedBox(height: 8.h),
@@ -232,7 +234,7 @@ class _DrawerTile extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 3.h),
       child: Material(
-        color: isActive ? accent.withValues(alpha:0.08) : Colors.transparent,
+        color: isActive ? AppColors.goldWash : Colors.transparent,
         borderRadius: BorderRadius.circular(10.r),
         child: InkWell(
           borderRadius: BorderRadius.circular(10.r),
@@ -242,7 +244,14 @@ class _DrawerTile extends StatelessWidget {
             child: Row(
               children: [
                 if (isActive)
-                  Container(width: 3.w, height: 16.h, decoration: BoxDecoration(color: accent, borderRadius: BorderRadius.circular(2.r)))
+                  Container(
+                    width: 3.w,
+                    height: 16.h,
+                    decoration: BoxDecoration(
+                      gradient: AppColors.goldGradient,
+                      borderRadius: BorderRadius.circular(2.r),
+                    ),
+                  )
                 else
                   SizedBox(width: 3.w),
                 SizedBox(width: 8.w),

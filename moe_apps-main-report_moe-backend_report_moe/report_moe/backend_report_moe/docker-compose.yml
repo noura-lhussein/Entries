@@ -1,0 +1,58 @@
+# report_moe stack — shares moe_shared DB with moeds (container moe-postgis on network moe_net).
+# Start moeds first: cd ../../moeds && docker compose up -d db
+services:
+  web:
+    build: .
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8001"
+    volumes:
+      - .:/app
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
+    environment:
+      DB_NAME: moe_shared
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: moe-postgis
+      DB_PORT: "5432"
+      DB_SEARCH_PATH: report_moe,moeds,public
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production-use-a-long-random-string}
+      GDAL_LIBRARY_PATH: ""
+      GEOS_LIBRARY_PATH: ""
+      PROJ_LIB: ""
+      GDAL_DATA: ""
+      DEBUG: "1"
+      ALLOWED_HOSTS: "*"
+      SESSION_COOKIE_SECURE: "0"
+      CSRF_COOKIE_SECURE: "0"
+      CORS_ALLOWED_ORIGINS: "http://localhost:4001,http://127.0.0.1:4001,http://localhost:4201,http://127.0.0.1:4201"
+      CSRF_TRUSTED_ORIGINS: "http://localhost:4001,http://127.0.0.1:4001,http://localhost:4201,http://127.0.0.1:4201"
+    networks:
+      - default
+      - moe_net
+
+  front:
+    build:
+      context: ../front_report_moe
+      dockerfile: Dockerfile
+    # Relative apiUrl + proxy → same-origin, so the session cookie / CSRF work.
+    # proxy.conf.docker.json targets this stack's backend service (web:8001).
+    command: npm run start -- --host 0.0.0.0 --port 4001 --proxy-config proxy.conf.docker.json
+    volumes:
+      - ../front_report_moe:/app
+      - front_node_modules:/app/node_modules
+    ports:
+      - "4001:4001"
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    depends_on:
+      - web
+
+volumes:
+  front_node_modules:
+
+networks:
+  moe_net:
+    external: true
+    name: moe_net

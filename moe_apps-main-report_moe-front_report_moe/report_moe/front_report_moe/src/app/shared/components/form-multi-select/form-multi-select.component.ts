@@ -8,6 +8,8 @@ import {
   SimpleChanges,
   inject,
   computed,
+  signal,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
@@ -18,6 +20,9 @@ export type { SelectOption } from '../form-select/form-select.component';
 
 /** Selected values are stored as primitive IDs. */
 export type MultiSelectValue = SelectValue;
+
+/** Show this many chips before collapsing the rest behind «+N more». */
+const CHIP_PREVIEW_LIMIT = 8;
 
 @Component({
   selector: 'app-form-multi-select',
@@ -62,17 +67,34 @@ export type MultiSelectValue = SelectValue;
           {{ labels().empty }}
         </div>
         <ng-container *ngIf="value.length > 0">
-          <div *ngFor="let item of selectedItems()" class="chip-item">
+          <div *ngFor="let item of visibleChips()" class="chip-item">
             <span>{{ item.label }}</span>
             <button
               type="button"
               class="chip-remove"
               (click)="removeItem(item.value)"
               [title]="labels().remove"
+              [disabled]="disabled"
             >
               ✕
             </button>
           </div>
+          <button
+            *ngIf="hiddenChipCount() > 0 && !chipsExpanded()"
+            type="button"
+            class="more-chips-btn"
+            (click)="chipsExpanded.set(true)"
+          >
+            +{{ hiddenChipCount() }} {{ labels().more }}
+          </button>
+          <button
+            *ngIf="chipsExpanded() && selectedItems().length > CHIP_PREVIEW_LIMIT"
+            type="button"
+            class="more-chips-btn"
+            (click)="chipsExpanded.set(false)"
+          >
+            {{ labels().showLess }}
+          </button>
           <button
             *ngIf="!disabled"
             type="button"
@@ -89,10 +111,14 @@ export type MultiSelectValue = SelectValue;
       <small *ngIf="errorMessage" class="error">{{ errorMessage }}</small>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './form-multi-select.component.scss',
 })
 export class FormMultiSelectComponent implements ControlValueAccessor, OnChanges {
   private language = inject(LanguageService);
+
+  readonly CHIP_PREVIEW_LIMIT = CHIP_PREVIEW_LIMIT;
+  chipsExpanded = signal(false);
 
   labels = computed(() =>
     this.language.lang() === 'ar'
@@ -101,12 +127,16 @@ export class FormMultiSelectComponent implements ControlValueAccessor, OnChanges
           clearAll: 'إلغاء الكل',
           empty: 'لم يتم الاختيار بعد',
           remove: 'إزالة',
+          more: 'أخرى',
+          showLess: 'عرض أقل',
         }
       : {
           selectAll: 'Select All',
           clearAll: 'Clear All',
           empty: 'No items selected',
           remove: 'Remove',
+          more: 'more',
+          showLess: 'Show less',
         },
   );
 
@@ -150,13 +180,31 @@ export class FormMultiSelectComponent implements ControlValueAccessor, OnChanges
       .filter((item): item is SelectOption => !!item);
   }
 
+  visibleChips(): SelectOption[] {
+    const items = this.selectedItems();
+    if (this.chipsExpanded() || items.length <= CHIP_PREVIEW_LIMIT) {
+      return items;
+    }
+    return items.slice(0, CHIP_PREVIEW_LIMIT);
+  }
+
+  hiddenChipCount(): number {
+    const total = this.selectedItems().length;
+    if (this.chipsExpanded() || total <= CHIP_PREVIEW_LIMIT) return 0;
+    return total - CHIP_PREVIEW_LIMIT;
+  }
+
   onSelectChange(event: Event): void {
-    const stringValue = (event.target as HTMLSelectElement).value;
+    const select = event.target as HTMLSelectElement;
+    const stringValue = select.value;
     if (stringValue !== '') {
       // Convert back to the actual type (number if it looks like a number)
       const actualValue = isNaN(Number(stringValue)) ? stringValue : Number(stringValue);
       this.addItem(actualValue);
     }
+    // Reset native select so the same option can be re-picked after removal,
+    // and avoid leaving focus on a destroyed option list (scroll jump).
+    select.selectedIndex = 0;
   }
 
   addItem(val?: MultiSelectValue): void {
@@ -187,12 +235,16 @@ export class FormMultiSelectComponent implements ControlValueAccessor, OnChanges
 
   clearAll(): void {
     this.value = [];
+    this.chipsExpanded.set(false);
     this.onChange(this.value);
     this.valueChange.emit(this.value);
   }
 
   writeValue(value: MultiSelectValue[] | null): void {
     this.value = Array.isArray(value) ? value : [];
+    if (this.value.length <= CHIP_PREVIEW_LIMIT) {
+      this.chipsExpanded.set(false);
+    }
   }
 
   registerOnChange(fn: (value: MultiSelectValue[]) => void): void {

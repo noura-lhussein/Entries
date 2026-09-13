@@ -1,4 +1,11 @@
-import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  inject,
+  signal,
+  computed,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,9 +23,7 @@ import {
   FormSelectComponent,
   type SelectOption,
 } from '../../shared/components/form-select/form-select.component';
-import {
-  AssignedUsersDialogComponent,
-} from '../../shared/components/assigned-users-dialog/assigned-users-dialog.component';
+import { AssignedUsersDialogComponent } from '../../shared/components/assigned-users-dialog/assigned-users-dialog.component';
 import {
   TableComponent,
   type TableAction,
@@ -187,6 +192,7 @@ import {
       </div>
     </app-modal>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './sections-manage.component.scss',
 })
 export class SectionsManageComponent implements OnInit {
@@ -217,9 +223,7 @@ export class SectionsManageComponent implements OnInit {
   parentSectionOptions = computed<SelectOption[]>(() => {
     const mainId = this.subFormMainId;
     const editingId = this.editingSubId();
-    const roots: SelectOption[] = [
-      { value: null, label: this.t('sections-manage.select-parent') },
-    ];
+    const roots: SelectOption[] = [{ value: null, label: this.t('sections-manage.select-parent') }];
     if (!mainId) return roots;
     const options = this.subSections()
       .filter((s: any) => this.getSubMainId(s) === mainId && s.id !== editingId)
@@ -258,7 +262,8 @@ export class SectionsManageComponent implements OnInit {
       parent_name: sub.parent_name || '—',
       main_section_name:
         this.mainSections().find((m) => m.id === this.getSubMainId(sub))?.name || '—',
-      node_kind: sub.is_leaf === false ? this.t('sections-manage.branch') : this.t('sections-manage.leaf'),
+      node_kind:
+        sub.is_leaf === false ? this.t('sections-manage.branch') : this.t('sections-manage.leaf'),
     })),
   );
 

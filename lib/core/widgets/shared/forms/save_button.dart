@@ -16,7 +16,16 @@ class SaveButton extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: AppColors.actionGradient,
           borderRadius: BorderRadius.circular(10.r),
-          border: Border(top: BorderSide(color: AppColors.goldWarm.withValues(alpha:0.4), width: 1)),
+          border: Border(
+            top: BorderSide(color: AppColors.goldWarm.withValues(alpha: 0.55), width: 1.2),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.ink.withValues(alpha: 0.18),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: ElevatedButton(
           onPressed: isLoading ? null : onPressed,

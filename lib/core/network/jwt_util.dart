@@ -22,8 +22,14 @@ abstract final class JwtUtil {
 
   /// Treat as expired [skewMs] before real expiry (default 30s, same as portal).
   static bool isExpired(String token, {int skewMs = 30000}) {
+    if (!looksLikeJwt(token)) return true;
     final exp = expiryMs(token);
     if (exp == null) return true;
     return DateTime.now().millisecondsSinceEpoch >= exp - skewMs;
+  }
+
+  static bool looksLikeJwt(String token) {
+    final parts = token.trim().split('.');
+    return parts.length == 3 && parts.every((p) => p.isNotEmpty);
   }
 }

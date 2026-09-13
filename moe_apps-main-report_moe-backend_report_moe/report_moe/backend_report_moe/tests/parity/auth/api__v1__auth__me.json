@@ -1,0 +1,23 @@
+{
+  "body": {
+    "can_manage_control_panel": true,
+    "can_manage_datasets": true,
+    "can_manage_projects": true,
+    "can_view_electricity": true,
+    "can_view_mineral": true,
+    "can_view_oil_gas": true,
+    "can_view_water": true,
+    "can_write_electricity": true,
+    "can_write_mineral": true,
+    "can_write_oil_gas": true,
+    "can_write_water": true,
+    "date_joined": "2026-06-03T22:58:23+00:00",
+    "display_name": "MOE Portal Admin",
+    "email": "admin@moenergy.gov.sy",
+    "full_name": "MOE Portal Admin",
+    "id": 1,
+    "is_admin": true
+  },
+  "path": "/api/v1/auth/me/",
+  "status": 200
+}

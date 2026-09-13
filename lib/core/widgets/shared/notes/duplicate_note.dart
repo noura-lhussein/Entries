@@ -6,11 +6,11 @@ class DuplicateNote extends StatelessWidget {
   const DuplicateNote({super.key});
   @override
   Widget build(BuildContext context) => Row(children: [
-    Icon(Icons.info_outline_rounded, size: 12.r, color: AppColors.textHint),
+    Icon(Icons.info_outline_rounded, size: 12.r, color: AppColors.goldDeep),
     SizedBox(width: 5.w),
     Expanded(child: Text(
       'إذا وُجد سجل لنفس المفتاح (التاريخ + المحطة) سيتم تحديثه.',
       style: TextStyle(fontFamily: 'Cairo', fontSize: 10.sp, color: AppColors.textHint, fontStyle: FontStyle.italic),
-      textAlign: TextAlign.right)),
+      textAlign: TextAlign.start)),
   ]);
 }

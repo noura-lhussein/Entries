@@ -14,6 +14,18 @@ class BuilderNamedItem {
         id: _asInt(json['id']) ?? 0,
         name: json['name']?.toString() ?? '',
       );
+
+  factory BuilderNamedItem.fromUserJson(Map<String, dynamic> json) {
+    final full = json['full_name']?.toString().trim() ?? '';
+    final username = json['username']?.toString().trim() ?? '';
+    final email = json['email']?.toString().trim() ?? '';
+    return BuilderNamedItem(
+      id: _asInt(json['id']) ?? 0,
+      name: full.isNotEmpty
+          ? full
+          : (username.isNotEmpty ? username : email),
+    );
+  }
 }
 
 class BuilderSubSection {
@@ -23,6 +35,7 @@ class BuilderSubSection {
   final int? parentId;
   final String? parentName;
   final bool? isLeaf;
+  final int childrenCount;
   const BuilderSubSection({
     required this.id,
     required this.name,
@@ -30,7 +43,11 @@ class BuilderSubSection {
     this.parentId,
     this.parentName,
     this.isLeaf,
+    this.childrenCount = 0,
   });
+
+  bool get isBranch =>
+      isLeaf == false || childrenCount > 0;
 
   String get displayLabel {
     final parent = parentName?.trim();
@@ -48,6 +65,7 @@ class BuilderSubSection {
         parentId: _asInt(json['parent']),
         parentName: json['parent_name']?.toString(),
         isLeaf: json['is_leaf'] is bool ? json['is_leaf'] as bool : null,
+        childrenCount: _asInt(json['children_count']) ?? 0,
       );
 }
 
@@ -102,6 +120,27 @@ class BuilderSelectOption {
           '',
     );
   }
+}
+
+class BuilderAttribute {
+  final int id;
+  final String label;
+  final String type;
+  final int? titleId;
+  const BuilderAttribute({
+    required this.id,
+    required this.label,
+    this.type = 'text',
+    this.titleId,
+  });
+
+  factory BuilderAttribute.fromJson(Map<String, dynamic> json) =>
+      BuilderAttribute(
+        id: _asInt(json['id']) ?? 0,
+        label: json['label']?.toString() ?? '',
+        type: json['type']?.toString() ?? 'text',
+        titleId: _asInt(json['title_id']) ?? _asInt(json['title']),
+      );
 }
 
 class FormSchemaGroup {
@@ -294,26 +333,71 @@ class InfoHistoryRow {
 
 class InfoRecord {
   final String rowId;
+  final String? rowKey;
+  final List<int> infoIds;
   final int? titleId;
   final String titleName;
   final int? subMainId;
   final String subMainName;
   final String userName;
   final String confirmed;
+  final String confirmNote;
+  final String commitNote;
   final String? createdAt;
   final Map<String, String> fields;
 
   const InfoRecord({
     required this.rowId,
     required this.fields,
+    this.rowKey,
+    this.infoIds = const [],
     this.titleId,
     this.titleName = '',
     this.subMainId,
     this.subMainName = '',
     this.userName = '',
     this.confirmed = 'waiting',
+    this.confirmNote = '',
+    this.commitNote = '',
     this.createdAt,
   });
+
+  bool get isAccepted => confirmed == 'accept';
+
+  bool get isRejected => confirmed == 'reject';
+
+  bool isSameRow(InfoRecord other) {
+    if (rowKey != null &&
+        rowKey!.isNotEmpty &&
+        other.rowKey != null &&
+        other.rowKey!.isNotEmpty) {
+      return rowKey == other.rowKey;
+    }
+    return rowId == other.rowId;
+  }
+
+  InfoRecord copyWith({
+    String? confirmed,
+    String? confirmNote,
+    String? commitNote,
+    Map<String, String>? fields,
+  }) {
+    return InfoRecord(
+      rowId: rowId,
+      fields: fields ?? this.fields,
+      rowKey: rowKey,
+      infoIds: infoIds,
+      titleId: titleId,
+      titleName: titleName,
+      subMainId: subMainId,
+      subMainName: subMainName,
+      userName: userName,
+      confirmed: confirmed ?? this.confirmed,
+      confirmNote: confirmNote ?? this.confirmNote,
+      commitNote: commitNote ?? this.commitNote,
+      createdAt: createdAt,
+    );
+  }
 
   factory InfoRecord.fromJson(Map<String, dynamic> json) {
     final raw = json['fields'];
@@ -325,16 +409,49 @@ class InfoRecord {
     }
     return InfoRecord(
       rowId: json['row_id']?.toString() ?? '',
+      rowKey: json['row_key']?.toString(),
+      infoIds: _asIntList(json['info_ids']),
       titleId: _asInt(json['title_id']),
       titleName: json['title_name']?.toString() ?? '',
       subMainId: _asInt(json['sub_main_id']),
       subMainName: json['sub_main_name']?.toString() ?? '',
       userName: json['user_name']?.toString() ?? '',
       confirmed: json['confirmed']?.toString() ?? 'waiting',
+      confirmNote: json['confirm_note']?.toString() ?? '',
+      commitNote: json['commit_note']?.toString() ?? '',
       createdAt: json['created_at']?.toString(),
       fields: fields,
     );
   }
+}
+
+class InfoCellDetail {
+  final int id;
+  final int attributeId;
+  final int? subMainId;
+  final String label;
+  final String type;
+  final String value;
+  final String confirmed;
+  const InfoCellDetail({
+    required this.id,
+    required this.label,
+    required this.value,
+    this.attributeId = 0,
+    this.subMainId,
+    this.type = 'text',
+    this.confirmed = 'waiting',
+  });
+
+  factory InfoCellDetail.fromJson(Map<String, dynamic> json) => InfoCellDetail(
+        id: _asInt(json['id']) ?? 0,
+        attributeId: _asInt(json['attribute']) ?? 0,
+        subMainId: _asInt(json['sub_main']),
+        label: json['attribute_label']?.toString() ?? '',
+        type: json['type']?.toString() ?? 'text',
+        value: json['value']?.toString() ?? '',
+        confirmed: json['confirmed']?.toString() ?? 'waiting',
+      );
 }
 
 class PaginatedInfoRecords {

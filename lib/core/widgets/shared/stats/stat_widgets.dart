@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../theme/app_theme.dart';
+import '../chrome/forest_page_header.dart';
 
 class StatCard extends StatelessWidget {
   final String label;
@@ -16,15 +17,21 @@ class StatCard extends StatelessWidget {
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(10.r),
         border: Border.all(color: AppColors.border),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha:0.03), blurRadius: 4, offset: const Offset(0, 1))],
+        boxShadow: AppDecorations.cardShadow,
       ),
       child: Stack(children: [
-        Positioned(top: 0, bottom: 0, right: 0,
+        PositionedDirectional(
+          top: 0,
+          bottom: 0,
+          start: 0,
           child: Container(
             width: 3.w,
             decoration: BoxDecoration(
               gradient: AppColors.goldGradient,
-              borderRadius: BorderRadius.only(topRight: Radius.circular(12.r), bottomRight: Radius.circular(12.r)),
+              borderRadius: BorderRadiusDirectional.only(
+                topStart: Radius.circular(12.r),
+                bottomStart: Radius.circular(12.r),
+              ),
             ),
           ),
         ),
@@ -37,16 +44,16 @@ class StatCard extends StatelessWidget {
             children: [
               Text(label,
                 style: TextStyle(fontFamily: 'Cairo', fontSize: 10.sp, height: 1.35, color: AppColors.textHint, fontWeight: FontWeight.w500),
-                textAlign: TextAlign.right,
+                textAlign: TextAlign.start,
                 softWrap: true),
               SizedBox(height: 4.h),
               Text(value,
                 style: TextStyle(fontFamily: 'Cairo', fontSize: 17.sp, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
-                textAlign: TextAlign.right, overflow: TextOverflow.ellipsis),
+                textAlign: TextAlign.start, overflow: TextOverflow.ellipsis),
               if (unit != null)
                 Text(unit!,
                   style: TextStyle(fontFamily: 'Cairo', fontSize: 9.sp, color: AppColors.textHint),
-                  textAlign: TextAlign.right),
+                  textAlign: TextAlign.start),
             ],
           ),
         ),
@@ -89,32 +96,6 @@ class GradientHeaderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(14.r),
-      decoration: BoxDecoration(
-        gradient: AppColors.cardForestGradient,
-        borderRadius: BorderRadius.circular(14.r),
-      ),
-      child: Row(children: [
-      
-        Container(
-          width: 42.r, height: 42.r,
-          decoration: BoxDecoration(
-            color: AppColors.goldWarm.withValues(alpha:0.12),
-            borderRadius: BorderRadius.circular(10.r),
-            border: Border.all(color: AppColors.goldWarm.withValues(alpha:0.25)),
-          ),
-          child: Icon(icon, color: AppColors.goldWarm, size: 22.r),
-        ),
-      SizedBox(width: 12.w),
-        Expanded(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(title, style: TextStyle(fontFamily: 'Cairo', fontSize: 15.sp, fontWeight: FontWeight.w800, color: Colors.white)),
-            SizedBox(height: 3.h),
-            Text(subtitle, style: TextStyle(fontFamily: 'Cairo', fontSize: 11.sp, color: Colors.white.withValues(alpha:0.55)), maxLines: 2),
-          ]),
-        ),
-          ]),
-    );
+    return ForestPageHeader(title: title, subtitle: subtitle, icon: icon);
   }
 }

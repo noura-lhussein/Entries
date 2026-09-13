@@ -1,0 +1,269 @@
+{
+  "body": {
+    "governorates": [
+      {
+        "id": 1,
+        "name_ar": "الحسكة",
+        "name_en": "Al-Hasakeh",
+        "pcode": "SY08"
+      },
+      {
+        "id": 2,
+        "name_ar": "حلب",
+        "name_en": "Aleppo",
+        "pcode": "SY02"
+      },
+      {
+        "id": 3,
+        "name_ar": "الرقة",
+        "name_en": "Ar-Raqqa",
+        "pcode": "SY11"
+      },
+      {
+        "id": 4,
+        "name_ar": "السويداء",
+        "name_en": "As-Sweida",
+        "pcode": "SY09"
+      },
+      {
+        "id": 5,
+        "name_ar": "دمشق",
+        "name_en": "Damascus",
+        "pcode": "SY01"
+      },
+      {
+        "id": 6,
+        "name_ar": "درعا",
+        "name_en": "Dar'a",
+        "pcode": "SY14"
+      },
+      {
+        "id": 7,
+        "name_ar": "دير الزور",
+        "name_en": "Deir-ez-Zor",
+        "pcode": "SY07"
+      },
+      {
+        "id": 8,
+        "name_ar": "حماة",
+        "name_en": "Hama",
+        "pcode": "SY04"
+      },
+      {
+        "id": 9,
+        "name_ar": "حمص",
+        "name_en": "Homs",
+        "pcode": "SY03"
+      },
+      {
+        "id": 10,
+        "name_ar": "إدلب",
+        "name_en": "Idleb",
+        "pcode": "SY10"
+      },
+      {
+        "id": 11,
+        "name_ar": "اللاذقية",
+        "name_en": "Lattakia",
+        "pcode": "SY06"
+      },
+      {
+        "id": 12,
+        "name_ar": "القنيطرة",
+        "name_en": "Quneitra",
+        "pcode": "SY12"
+      },
+      {
+        "id": 13,
+        "name_ar": "ريف دمشق",
+        "name_en": "Rural Damascus",
+        "pcode": "SY13"
+      },
+      {
+        "id": 14,
+        "name_ar": "طرطوس",
+        "name_en": "Tartous",
+        "pcode": "SY05"
+      }
+    ],
+    "organizations": [
+      {
+        "acronym": "O1",
+        "governorate_id": null,
+        "governorate_name_ar": "",
+        "governorate_name_en": "",
+        "id": 1,
+        "name_en": "مديرية مياه الشرب",
+        "slug": "org-1"
+      },
+      {
+        "acronym": "O2",
+        "governorate_id": 5,
+        "governorate_name_ar": "دمشق",
+        "governorate_name_en": "Damascus",
+        "id": 2,
+        "name_en": "مديرية خدمات الطاقة في محافظة دمشق",
+        "slug": "org-2"
+      },
+      {
+        "acronym": "O4",
+        "governorate_id": 13,
+        "governorate_name_ar": "ريف دمشق",
+        "governorate_name_en": "Rural Damascus",
+        "id": 4,
+        "name_en": "مديرية خدمات الطاقة في محافظة ريف دمشق",
+        "slug": "org-4"
+      },
+      {
+        "acronym": "O5",
+        "governorate_id": null,
+        "governorate_name_ar": "",
+        "governorate_name_en": "",
+        "id": 5,
+        "name_en": "إدارة تنظيم قطاع الكهرباء",
+        "slug": "org-5"
+      },
+      {
+        "acronym": "O6",
+        "governorate_id": 12,
+        "governorate_name_ar": "القنيطرة",
+        "governorate_name_en": "Quneitra",
+        "id": 6,
+        "name_en": "مديرية خدمات الطاقة في محافظة القنيطرة",
+        "slug": "org-6"
+      },
+      {
+        "acronym": "O7",
+        "governorate_id": 14,
+        "governorate_name_ar": "طرطوس",
+        "governorate_name_en": "Tartous",
+        "id": 7,
+        "name_en": "مديرية خدمات الطاقة في محافظة طرطوس",
+        "slug": "org-7"
+      },
+      {
+        "acronym": "O8",
+        "governorate_id": 11,
+        "governorate_name_ar": "اللاذقية",
+        "governorate_name_en": "Lattakia",
+        "id": 8,
+        "name_en": "مديرية خدمات الطاقة في محافظة اللاذقية",
+        "slug": "org-8"
+      },
+      {
+        "acronym": "O9",
+        "governorate_id": 1,
+        "governorate_name_ar": "الحسكة",
+        "governorate_name_en": "Al-Hasakeh",
+        "id": 9,
+        "name_en": "مديرية خدمات الطاقة في محافظة الحسكة",
+        "slug": "org-9"
+      },
+      {
+        "acronym": "O10",
+        "governorate_id": null,
+        "governorate_name_ar": "",
+        "governorate_name_en": "",
+        "id": 10,
+        "name_en": "دائرة المحطات الكهرومائية",
+        "slug": "org-10"
+      },
+      {
+        "acronym": "O11",
+        "governorate_id": 10,
+        "governorate_name_ar": "إدلب",
+        "governorate_name_en": "Idleb",
+        "id": 11,
+        "name_en": "مديرية خدمات الطاقة في محافظة ادلب",
+        "slug": "org-11"
+      },
+      {
+        "acronym": "O12",
+        "governorate_id": 9,
+        "governorate_name_ar": "حمص",
+        "governorate_name_en": "Homs",
+        "id": 12,
+        "name_en": "مديرية خدمات الطاقة في محافظة حمص",
+        "slug": "org-12"
+      },
+      {
+        "acronym": "O13",
+        "governorate_id": 8,
+        "governorate_name_ar": "حماة",
+        "governorate_name_en": "Hama",
+        "id": 13,
+        "name_en": "مديرية خدمات الطاقة في محافظة حماة",
+        "slug": "org-13"
+      },
+      {
+        "acronym": "O14",
+        "governorate_id": 6,
+        "governorate_name_ar": "درعا",
+        "governorate_name_en": "Dar'a",
+        "id": 14,
+        "name_en": "مديرية خدمات الطاقة في محافظة درعا",
+        "slug": "org-14"
+      },
+      {
+        "acronym": "O15",
+        "governorate_id": 7,
+        "governorate_name_ar": "دير الزور",
+        "governorate_name_en": "Deir-ez-Zor",
+        "id": 15,
+        "name_en": "مديرية خدمات الطاقة في محافظة دير الزور",
+        "slug": "org-15"
+      }
+    ],
+    "sectors": [
+      {
+        "label_ar": "البترول",
+        "label_en": "Petroleum",
+        "value": "oil-gas"
+      },
+      {
+        "label_ar": "المياه",
+        "label_en": "Water Resources",
+        "value": "water-resources"
+      },
+      {
+        "label_ar": "الكهرباء",
+        "label_en": "Electricity",
+        "value": "electricity"
+      },
+      {
+        "label_ar": "التعدين",
+        "label_en": "Mineral Resources",
+        "value": "mineral-resources"
+      },
+      {
+        "label_ar": "متعدد القطاعات",
+        "label_en": "Multi-sector",
+        "value": "multi-sector"
+      }
+    ],
+    "statuses": [
+      {
+        "label_ar": "نشط",
+        "label_en": "Active",
+        "value": "active"
+      },
+      {
+        "label_ar": "مخطط",
+        "label_en": "Planned",
+        "value": "planned"
+      },
+      {
+        "label_ar": "مكتمل",
+        "label_en": "Completed",
+        "value": "completed"
+      },
+      {
+        "label_ar": "موقوف",
+        "label_en": "Suspended",
+        "value": "suspended"
+      }
+    ]
+  },
+  "path": "/api/v1/projects/meta/",
+  "status": 200
+}

@@ -11,6 +11,7 @@ class LabeledSelectField extends StatelessWidget {
   final ValueChanged<String?> onChanged;
   final bool enabled;
   final bool required;
+  final bool clearable;
   final String hint;
 
   const LabeledSelectField({
@@ -21,6 +22,7 @@ class LabeledSelectField extends StatelessWidget {
     required this.onChanged,
     this.enabled = true,
     this.required = false,
+    this.clearable = false,
     this.hint = 'اختر…',
   });
 
@@ -95,7 +97,7 @@ class LabeledSelectField extends StatelessWidget {
                   ),
               ],
             ),
-            textAlign: TextAlign.right,
+            textAlign: TextAlign.start,
           ),
         if (label.isNotEmpty) SizedBox(height: 5.h),
         InputDecorator(
@@ -112,7 +114,7 @@ class LabeledSelectField extends StatelessWidget {
               value: current,
               hint: Text(
                 hint,
-                textAlign: TextAlign.right,
+                textAlign: TextAlign.start,
                 style: TextStyle(
                   fontFamily: 'Cairo',
                   fontSize: 13.sp,
@@ -121,25 +123,34 @@ class LabeledSelectField extends StatelessWidget {
               ),
               isExpanded: true,
               isDense: true,
-              alignment: Alignment.centerRight,
+              alignment: AlignmentDirectional.centerStart,
               style: TextStyle(
                 fontFamily: 'Cairo',
                 fontSize: 13.sp,
                 color: AppColors.textPrimary,
               ),
-              icon: Icon(
-                Icons.keyboard_arrow_down_rounded,
-                color: AppColors.textHint,
-                size: 18.r,
-              ),
+              icon: clearable && current != null && enabled
+                  ? GestureDetector(
+                      onTap: () => onChanged(null),
+                      child: Icon(
+                        Icons.close_rounded,
+                        color: AppColors.inkSoft,
+                        size: 16.r,
+                      ),
+                    )
+                  : Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      color: AppColors.goldDeep,
+                      size: 18.r,
+                    ),
               items: all
                   .map(
                     (e) => DropdownMenuItem(
                       value: e.value,
-                      alignment: Alignment.centerRight,
+                      alignment: AlignmentDirectional.centerStart,
                       child: Text(
                         e.label,
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.start,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontFamily: 'Cairo',

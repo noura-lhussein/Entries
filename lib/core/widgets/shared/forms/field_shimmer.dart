@@ -19,7 +19,7 @@ class FieldShimmer extends StatelessWidget {
                 fontSize: 11.sp,
                 fontWeight: FontWeight.w600,
                 color: AppColors.textHint),
-            textAlign: TextAlign.right),
+            textAlign: TextAlign.start),
         SizedBox(height: 5.h),
         Shimmer.fromColors(
           baseColor: AppColors.goldWash,

@@ -1,0 +1,60 @@
+{
+  "body": [
+    {
+      "default_visible": true,
+      "geometry_type": "polygon",
+      "id": "water-lakes",
+      "name_ar": "البحيرات",
+      "name_en": "Lakes",
+      "sector": "water-resources",
+      "sort_order": 10
+    },
+    {
+      "default_visible": false,
+      "geometry_type": "line",
+      "id": "water-rivers",
+      "name_ar": "الأنهار الرئيسية",
+      "name_en": "Main rivers",
+      "sector": "water-resources",
+      "sort_order": 20
+    },
+    {
+      "default_visible": false,
+      "geometry_type": "line",
+      "id": "water-streams",
+      "name_ar": "شبكة المسيلات المائية",
+      "name_en": "Stream network",
+      "sector": "water-resources",
+      "sort_order": 30
+    },
+    {
+      "default_visible": false,
+      "geometry_type": "point",
+      "id": "water-dams",
+      "name_ar": "السدود",
+      "name_en": "Dams",
+      "sector": "water-resources",
+      "sort_order": 40
+    },
+    {
+      "default_visible": false,
+      "geometry_type": "point",
+      "id": "water-springs",
+      "name_ar": "الينابيع",
+      "name_en": "Springs",
+      "sector": "water-resources",
+      "sort_order": 50
+    },
+    {
+      "default_visible": false,
+      "geometry_type": "point",
+      "id": "water-drinking-stations",
+      "name_ar": "محطات مياه الشرب",
+      "name_en": "Drinking water stations",
+      "sector": "water-resources",
+      "sort_order": 55
+    }
+  ],
+  "path": "/api/v1/gis/water-layers/",
+  "status": 200
+}

@@ -1,0 +1,10 @@
+{
+  "body": {
+    "__binary__": {
+      "bytes": 5632,
+      "sha256": "55e2b71b502adc7b9f1e877fe79cbb62a367a98d49d8a9195e3e7fc7217364e5"
+    }
+  },
+  "path": "/api/v1/water/admin/templates/dams-storage/",
+  "status": 200
+}

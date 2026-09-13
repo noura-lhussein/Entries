@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   TableComponent,
   type TableAction,
@@ -15,6 +22,7 @@ import type { AdminReportColumn, AdminReportRow } from './admin-report.models';
   selector: 'app-admin-report-table',
   standalone: true,
   imports: [TableComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <app-table
       [data]="rows"
@@ -111,4 +119,3 @@ export class AdminReportTableComponent {
     this.bulkConfirm.emit(action === 'approve');
   }
 }
-

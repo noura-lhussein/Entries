@@ -54,6 +54,15 @@ class SelectiveDioLogger extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     _log('┌──────────────────────────────────────────────────────────────');
     _log('│ --> ${options.method} ${options.uri}');
+    final authHeader = options.headers['Authorization']?.toString() ??
+        options.headers['authorization']?.toString() ??
+        '';
+    final hasBearer = authHeader.toLowerCase().startsWith('bearer ') &&
+        authHeader.trim().length > 7;
+    _log(
+      '│ auth: ${hasBearer ? 'Bearer' : 'none'}'
+      '  cookie: ${options.headers['Cookie'] != null || options.headers['cookie'] != null ? 'yes' : 'no'}',
+    );
     if (options.queryParameters.isNotEmpty) {
       _log('│ query: ${options.queryParameters}');
     }

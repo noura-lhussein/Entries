@@ -44,7 +44,7 @@ class HomeScreen extends StatelessWidget {
               ),
               child: Text(
                 'حسابك لا يملك صلاحية إدخال البيانات. هذا التطبيق مخصص لقسم الإدخال فقط.',
-                textAlign: TextAlign.right,
+                textAlign: TextAlign.start,
                 style: TextStyle(
                   fontFamily: 'Cairo',
                   fontSize: 12.sp,
@@ -76,17 +76,13 @@ class HomeScreen extends StatelessWidget {
           SizedBox(height: 10.h),
           Container(
             padding: EdgeInsets.all(14.r),
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              borderRadius: BorderRadius.circular(14.r),
-              border: Border.all(color: AppColors.border),
-            ),
+            decoration: AppDecorations.surfaceCard(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
                   'تأسست الوزارة نتيجة اندماج ثلاث وزارات سابقة:',
-                  textAlign: TextAlign.right,
+                  textAlign: TextAlign.start,
                   style: TextStyle(
                     fontFamily: 'Cairo',
                     fontSize: 12.5.sp,
@@ -108,11 +104,7 @@ class HomeScreen extends StatelessWidget {
           SizedBox(height: 10.h),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 4.h),
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              borderRadius: BorderRadius.circular(14.r),
-              border: Border.all(color: AppColors.border),
-            ),
+            decoration: AppDecorations.surfaceCard(),
             child: const Column(
               children: [
                 HomeInfoRow(label: 'تأسست', value: '29 مارس 2025'),

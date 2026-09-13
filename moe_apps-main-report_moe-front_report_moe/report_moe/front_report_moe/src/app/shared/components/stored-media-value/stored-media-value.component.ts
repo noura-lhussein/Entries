@@ -1,4 +1,4 @@
-import { Component, Input, inject, signal, computed } from '@angular/core';
+import { Component, Input, inject, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
@@ -92,6 +92,7 @@ function fileMaterialIcon(path: string): string {
       </div>
     </app-modal>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './stored-media-value.component.scss',
 })
 export class StoredMediaValueComponent {

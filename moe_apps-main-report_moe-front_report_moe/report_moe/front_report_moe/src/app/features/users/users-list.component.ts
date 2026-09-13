@@ -1,4 +1,11 @@
-import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  inject,
+  signal,
+  computed,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { forkJoin } from 'rxjs';
@@ -19,6 +26,7 @@ import { UserInfoDialogComponent } from '../../shared/components/user-info-dialo
   selector: 'app-users-list',
   standalone: true,
   imports: [ListPageComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <app-list-page
       [config]="pageConfig()"

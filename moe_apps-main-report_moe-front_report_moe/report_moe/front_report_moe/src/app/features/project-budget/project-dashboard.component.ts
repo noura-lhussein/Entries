@@ -1,5 +1,12 @@
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  computed,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../core/services/auth.service';
@@ -51,8 +58,15 @@ interface DashboardCategoryNode {
 @Component({
   selector: 'app-project-dashboard',
   standalone: true,
-  imports: [CommonModule, MatIconModule, NgTemplateOutlet, PageLoaderComponent, ProjectsMapComponent],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    NgTemplateOutlet,
+    PageLoaderComponent,
+    ProjectsMapComponent,
+  ],
   templateUrl: './project-dashboard.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './project-dashboard.component.scss',
 })
 export class ProjectDashboardComponent implements OnInit {

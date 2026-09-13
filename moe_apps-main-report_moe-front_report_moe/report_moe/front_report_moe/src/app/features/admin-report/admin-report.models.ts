@@ -93,6 +93,8 @@ export interface TitleTable {
   /** Total matching rows from API (for infinite scroll). */
   totalCount?: number | null;
   loadedPage?: number;
+  /** Keyset cursor for the next /info-rows/ page. */
+  nextCursor?: string | null;
   isLoading?: boolean;
   isLoadingMore?: boolean;
   isLoaded?: boolean;

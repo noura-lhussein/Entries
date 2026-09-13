@@ -1,0 +1,105 @@
+{
+  "status": "ready",
+  "selected_year": 2024,
+  "data_through": "2024-12-31",
+  "kpis": [
+    {
+      "id": "total-storage",
+      "label_en": "Total stored volume",
+      "label_ar": "إجمالي المخزون",
+      "value": 14679.29,
+      "unit": "MCM",
+      "delta_pct": 10.3,
+      "status": "ok"
+    },
+    {
+      "id": "national-fill",
+      "label_en": "National fill level",
+      "label_ar": "نسبة الامتلاء",
+      "value": 78.3,
+      "unit": "%",
+      "delta_pct": null,
+      "status": "neutral"
+    },
+    {
+      "id": "monitored-dams",
+      "label_en": "Monitored dams",
+      "label_ar": "السدود المراقبة",
+      "value": 123,
+      "unit": "",
+      "delta_pct": null,
+      "status": "neutral"
+    },
+    {
+      "id": "critical-dams",
+      "label_en": "Critical dams (<15%)",
+      "label_ar": "سدود قاربت للحد الميت (<15%)",
+      "value": 74,
+      "unit": "",
+      "delta_pct": null,
+      "status": "critical"
+    },
+    {
+      "id": "avg-fill",
+      "label_en": "Average dam fill",
+      "label_ar": "متوسط امتلاء السدود",
+      "value": 20.0,
+      "unit": "%",
+      "delta_pct": null,
+      "status": "neutral"
+    }
+  ],
+  "insights": [
+    {
+      "id": "storage-up",
+      "text_en": "National stored volume rose +10.3% vs 2023 (14,679.3 million m³).",
+      "text_ar": "ارتفع الحجم المخزّن وطنياً بنسبة +10.3% مقارنة بـ 2023 (14,679.3 مليون م³).",
+      "severity": "info"
+    },
+    {
+      "id": "healthy-fill",
+      "text_en": "Reservoirs are at 78.3% of registered capacity — comfortable storage buffer.",
+      "text_ar": "نسبة امتلاء السدود 78.3% من السعة المسجلة — مخزون مريح.",
+      "severity": "info"
+    },
+    {
+      "id": "critical-dams",
+      "text_en": "74 dam(s) below 15% fill require immediate operational review.",
+      "text_ar": "74 سداً أقل من 15% امتلاءً تحتاج مراجعة تشغيلية فورية.",
+      "severity": "critical"
+    },
+    {
+      "id": "gov-contrast",
+      "text_en": "درعا shows the lowest average fill (2.5%) while الرقة holds the largest stored volume (12,488.0 MCM).",
+      "text_ar": "درعا تسجل أدنى متوسط امتلاء (2.5%) بينما الرقة تحتفظ بأكبر حجم مخزّن (12,488.0 مليون م³).",
+      "severity": "info"
+    },
+    {
+      "id": "dam-1-low",
+      "text_en": "القلمون (ريف دمشق) at 0.0% (0.00 / 1.65 MCM).",
+      "text_ar": "القلمون (ريف دمشق) عند 0.0% (0.00 / 1.65 مليون م³).",
+      "severity": "critical"
+    }
+  ],
+  "chart_keys": [
+    "annual_trend",
+    "fill_distribution",
+    "governorate_comparison",
+    "top_dams"
+  ],
+  "map_count": 123,
+  "top_dam": {
+    "dam_id": 43,
+    "name": "الفرات",
+    "governorate": "الرقة",
+    "storage_mcm": 12488.0,
+    "max_storage_mcm": 14100.0,
+    "fill_pct": 88.6,
+    "fill_band": "high",
+    "reading_date": "2024-12-31",
+    "latitude": 35.871723,
+    "longitude": 38.563141,
+    "purpose": "الري +توليد الطاقة الكهربائية",
+    "dam_type": "ترابي"
+  }
+}

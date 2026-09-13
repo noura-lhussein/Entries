@@ -1,0 +1,22 @@
+{
+  "body": {
+    "__xlsx__": {
+      "members": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/app.xml",
+        "docProps/core.xml",
+        "xl/_rels/workbook.xml.rels",
+        "xl/styles.xml",
+        "xl/theme/theme1.xml",
+        "xl/workbook.xml",
+        "xl/worksheets/sheet1.xml"
+      ],
+      "parts": {
+        "xl/worksheets/sheet1.xml": "<worksheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"><sheetPr><outlinePr summaryBelow=\"1\" summaryRight=\"1\"></outlinePr><pageSetUpPr></pageSetUpPr></sheetPr><dimension ref=\"A1:J4\"></dimension><sheetViews><sheetView workbookViewId=\"0\"><selection activeCell=\"A1\" sqref=\"A1\"></selection></sheetView></sheetViews><sheetFormatPr baseColWidth=\"8\" defaultRowHeight=\"15\"></sheetFormatPr><sheetData><row r=\"1\"><c r=\"A1\" t=\"inlineStr\"><is><t>المنتج</t></is></c><c r=\"B1\" t=\"inlineStr\"><is><t>Product (EN)</t></is></c><c r=\"C1\" t=\"inlineStr\"><is><t>النوع</t></is></c><c r=\"D1\" t=\"inlineStr\"><is><t>الوحدة</t></is></c><c r=\"E1\" t=\"inlineStr\"><is><t>المخطط السنوي</t></is></c><c r=\"F1\" t=\"inlineStr\"><is><t>مخطط النصف الأول</t></is></c><c r=\"G1\" t=\"inlineStr\"><is><t>المنفذ (النصف الأول)</t></is></c><c r=\"H1\" t=\"inlineStr\"><is><t>نسبة التنفيذ %</t></is></c><c r=\"I1\" t=\"inlineStr\"><is><t>عدد العقود</t></is></c><c r=\"J1\" t=\"inlineStr\"><is><t>الاحتياطي</t></is></c></row><row r=\"2\"><c r=\"A2\" t=\"inlineStr\"><is><t>الجص</t></is></c><c r=\"B2\" t=\"inlineStr\"><is><t>Gypsum</t></is></c><c r=\"C2\" t=\"inlineStr\"></c><c r=\"D2\" t=\"inlineStr\"><is><t>طن</t></is></c><c r=\"E2\" t=\"n\"><v>300000</v></c><c r=\"F2\" t=\"n\"><v>75000</v></c><c r=\"G2\" t=\"n\"><v>122251.5</v></c><c r=\"H2\" t=\"n\"><v>163</v></c><c r=\"I2\" t=\"n\"><v>4</v></c><c r=\"J2\" t=\"inlineStr\"><is><t>اللاذقية 37 مليون / ريف دمشق 22 مليون / الرقة 3.5 مليار</t></is></c></row><row r=\"3\"><c r=\"A3\" t=\"inlineStr\"><is><t>رمال كوارتزية</t></is></c><c r=\"B3\" t=\"inlineStr\"><is><t>Quartz sand</t></is></c><c r=\"C3\" t=\"inlineStr\"><is><t>ذاتي</t></is></c><c r=\"D3\" t=\"inlineStr\"><is><t>طن</t></is></c><c r=\"E3\" t=\"n\"><v>1200000</v></c><c r=\"F3\" t=\"n\"><v>172000</v></c><c r=\"G3\" t=\"n\"><v>248963</v></c><c r=\"H3\" t=\"n\"><v>144.75</v></c><c r=\"I3\" t=\"n\"><v>43</v></c><c r=\"J3\" t=\"inlineStr\"><is><t>200 مليون من الرمل الصناعي / 100 مليون من الرمل الصالح للأغراض الإنشائية</t></is></c></row><row r=\"4\"><c r=\"A4\" t=\"inlineStr\"><is><t>رمال كوارتزية</t></is></c><c r=\"B4\" t=\"inlineStr\"><is><t>Quartz sand</t></is></c><c r=\"C4\" t=\"inlineStr\"><is><t>معهّد</t></is></c><c r=\"D4\" t=\"inlineStr\"><is><t>م3</t></is></c><c r=\"E4\" t=\"n\"><v>300000</v></c><c r=\"F4\" t=\"n\"><v>326000</v></c><c r=\"G4\" t=\"n\"><v>416643</v></c><c r=\"H4\" t=\"n\"><v>127.8</v></c><c r=\"J4\" t=\"inlineStr\"></c></row></sheetData><pageMargins bottom=\"1\" footer=\"0.5\" header=\"0.5\" left=\"0.75\" right=\"0.75\" top=\"1\"></pageMargins></worksheet>"
+      }
+    }
+  },
+  "path": "/api/v1/geology/reports/export/",
+  "status": 200
+}

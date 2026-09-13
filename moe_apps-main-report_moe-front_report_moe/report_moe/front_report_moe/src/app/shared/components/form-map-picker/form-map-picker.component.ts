@@ -9,6 +9,7 @@ import {
   effect,
   inject,
   signal,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import * as L from 'leaflet';
@@ -160,6 +161,7 @@ const COORD_PRECISION = 8;
       <small *ngIf="hint && !readOnly" class="hint">{{ hint }}</small>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './form-map-picker.component.scss',
 })
 export class FormMapPickerComponent implements AfterViewInit, OnDestroy {

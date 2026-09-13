@@ -1,0 +1,10 @@
+{
+  "body": {
+    "__binary__": {
+      "bytes": 5632,
+      "sha256": "d1084adb2e4e9e03e3b391ab9465d886c41d767ef33e3347e78b3fa3cf009ede"
+    }
+  },
+  "path": "/api/v1/water/admin/templates/dams-metadata/",
+  "status": 200
+}

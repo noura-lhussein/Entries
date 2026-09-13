@@ -1,0 +1,7 @@
+{
+  "body": {
+    "detail": "Query parameter date is required (YYYY-MM-DD)."
+  },
+  "path": "/api/v1/oil-gas/reports/detail/",
+  "status": 400
+}

@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  computed,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   ReactiveFormsModule,
   UntypedFormBuilder,
@@ -307,6 +315,7 @@ import {
       </form>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './project-form.component.scss',
 })
 export class ProjectFormComponent implements OnInit, OnDestroy {

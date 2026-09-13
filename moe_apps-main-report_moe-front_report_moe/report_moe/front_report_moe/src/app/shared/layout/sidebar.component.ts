@@ -1,4 +1,12 @@
-import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -94,6 +102,7 @@ import { SIDEBAR_NAV, type SidebarNavItem } from './sidebar.config';
       </nav>
     </aside>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent implements OnInit, OnDestroy {

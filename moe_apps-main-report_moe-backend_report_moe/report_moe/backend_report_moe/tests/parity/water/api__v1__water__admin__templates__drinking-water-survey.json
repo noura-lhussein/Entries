@@ -1,0 +1,22 @@
+{
+  "body": {
+    "__xlsx__": {
+      "members": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/app.xml",
+        "docProps/core.xml",
+        "xl/_rels/workbook.xml.rels",
+        "xl/styles.xml",
+        "xl/theme/theme1.xml",
+        "xl/workbook.xml",
+        "xl/worksheets/sheet1.xml"
+      ],
+      "parts": {
+        "xl/worksheets/sheet1.xml": "<worksheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"><sheetPr><outlinePr summaryBelow=\"1\" summaryRight=\"1\"></outlinePr><pageSetUpPr></pageSetUpPr></sheetPr><dimension ref=\"A1:AG1\"></dimension><sheetViews><sheetView workbookViewId=\"0\"><selection activeCell=\"A1\" sqref=\"A1\"></selection></sheetView></sheetViews><sheetFormatPr baseColWidth=\"8\" defaultRowHeight=\"15\"></sheetFormatPr><sheetData><row r=\"1\"><c r=\"A1\" t=\"inlineStr\"><is><t>TEI Id</t></is></c><c r=\"B1\" t=\"inlineStr\"><is><t>Station Code</t></is></c><c r=\"C1\" t=\"inlineStr\"><is><t>Name</t></is></c><c r=\"D1\" t=\"inlineStr\"><is><t>Governorate</t></is></c><c r=\"E1\" t=\"inlineStr\"><is><t>Enrollment Date</t></is></c><c r=\"F1\" t=\"inlineStr\"><is><t>Org Unit</t></is></c><c r=\"G1\" t=\"inlineStr\"><is><t>Building Condition (1/2/3)</t></is></c><c r=\"H1\" t=\"inlineStr\"><is><t>Is Operational (yes/no)</t></is></c><c r=\"I1\" t=\"inlineStr\"><is><t>Non Operational Reason</t></is></c><c r=\"J1\" t=\"inlineStr\"><is><t>Previously Rehabilitated (yes/no)</t></is></c><c r=\"K1\" t=\"inlineStr\"><is><t>Rehabilitation Type (partial/complete)</t></is></c><c r=\"L1\" t=\"inlineStr\"><is><t>Water Hammer Protection (yes/no)</t></is></c><c r=\"M1\" t=\"inlineStr\"><is><t>Water Hammer Efficiency (1/2/3)</t></is></c><c r=\"N1\" t=\"inlineStr\"><is><t>Needs Solar Installation (yes/no)</t></is></c><c r=\"O1\" t=\"inlineStr\"><is><t>Solar Space Available (yes/no)</t></is></c><c r=\"P1\" t=\"inlineStr\"><is><t>Safety Procedures (no/partially/yes)</t></is></c><c r=\"Q1\" t=\"inlineStr\"><is><t>Water Tanks Available (yes/no)</t></is></c><c r=\"R1\" t=\"inlineStr\"><is><t>Public Grid Supply (yes/no)</t></is></c><c r=\"S1\" t=\"inlineStr\"><is><t>Grid Connection Working (yes/no)</t></is></c><c r=\"T1\" t=\"inlineStr\"><is><t>Electrical Connection Efficiency (1/2/3)</t></is></c><c r=\"U1\" t=\"inlineStr\"><is><t>Transformer Efficiency (1/2/3)</t></is></c><c r=\"V1\" t=\"inlineStr\"><is><t>Electrical Panel Efficiency (1/2/3)</t></is></c><c r=\"W1\" t=\"inlineStr\"><is><t>Grid Power Productivity (%)</t></is></c><c r=\"X1\" t=\"inlineStr\"><is><t>Solar Power Available (yes/no)</t></is></c><c r=\"Y1\" t=\"inlineStr\"><is><t>Solar Power Productivity (%)</t></is></c><c r=\"Z1\" t=\"inlineStr\"><is><t>Solar System Efficiency (1/2/3)</t></is></c><c r=\"AA1\" t=\"inlineStr\"><is><t>Generator Available (yes/no)</t></is></c><c r=\"AB1\" t=\"inlineStr\"><is><t>Alternative Power Source (yes/no)</t></is></c><c r=\"AC1\" t=\"inlineStr\"><is><t>Well Station (yes/no)</t></is></c><c r=\"AD1\" t=\"inlineStr\"><is><t>Filtration Station (yes/no)</t></is></c><c r=\"AE1\" t=\"inlineStr\"><is><t>Boosting Station (yes/no)</t></is></c><c r=\"AF1\" t=\"inlineStr\"><is><t>Water Analyzed (yes/no)</t></is></c><c r=\"AG1\" t=\"inlineStr\"><is><t>Lab Equipment (no/partially/yes)</t></is></c></row></sheetData><pageMargins bottom=\"1\" footer=\"0.5\" header=\"0.5\" left=\"0.75\" right=\"0.75\" top=\"1\"></pageMargins></worksheet>"
+      }
+    }
+  },
+  "path": "/api/v1/water/admin/templates/drinking-water-survey/",
+  "status": 200
+}

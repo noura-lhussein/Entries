@@ -7,6 +7,7 @@ import {
   Output,
   EventEmitter,
   inject,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -33,7 +34,7 @@ export type InputType = 'text' | 'email' | 'password' | 'number' | 'date' | 'tel
 
 export interface FormFieldConfig {
   key: string;
-  type: 'input' | 'textarea' | 'select' | 'multi-select' | 'checkbox' | 'date' | 'file';
+  type: 'input' | 'textarea' | 'select' | 'multi-select' | 'checkbox' | 'date' | 'file' | 'section';
   label: string;
   placeholder?: string;
   inputType?: InputType;
@@ -45,6 +46,8 @@ export interface FormFieldConfig {
   options?: SelectOption[];
   defaultValue?: any;
   filterFunction?: (option: SelectOption, formValues: any) => boolean;
+  /** Span the full form grid (both columns). */
+  fullWidth?: boolean;
   /** When type is `file`: restrict picker (browser hint only). */
   fileAccept?: string;
   /** When type is `file`: server-side validation category for upload. */
@@ -56,6 +59,10 @@ export interface FormConfig {
   subtitle?: string;
   submitLabel?: string;
   hideSubmitButton?: boolean;
+  /** Hide the in-card title/subtitle (e.g. when the page already has a header). */
+  hideTitle?: boolean;
+  /** Tighter layout without full-viewport page chrome. */
+  compact?: boolean;
   fields: FormFieldConfig[];
   showTable?: boolean;
   tableColumns?: TableColumn[];
@@ -80,6 +87,7 @@ export interface FormConfig {
     StoredMediaValueComponent,
   ],
   templateUrl: './example-form.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./example-form.component.scss'],
 })
 export class ExampleFormComponent implements OnInit, OnChanges {
@@ -264,6 +272,7 @@ export class ExampleFormComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['formConfig'] && !changes['formConfig'].firstChange && this.userForm) {
       this.formConfig.fields.forEach((field) => {
+        if (field.type === 'section') return;
         const control = this.userForm.get(field.key);
         if (!control) return;
         if (field.disabled) {
@@ -275,10 +284,16 @@ export class ExampleFormComponent implements OnInit, OnChanges {
     }
   }
 
+  trackByFieldKey(_index: number, field: FormFieldConfig): string {
+    return field.key;
+  }
+
   private initForm(): void {
     const formConfig: { [key: string]: any } = {};
 
     this.formConfig.fields.forEach((field) => {
+      if (field.type === 'section') return;
+
       const validators = [];
       if (field.required) {
         validators.push(Validators.required);
@@ -287,7 +302,9 @@ export class ExampleFormComponent implements OnInit, OnChanges {
         validators.push(...field.validators);
       }
 
-      const defaultValue = field.defaultValue ?? '';
+      const defaultValue =
+        field.defaultValue ??
+        (field.type === 'multi-select' ? [] : field.type === 'checkbox' ? false : '');
       formConfig[field.key] = [
         { value: defaultValue, disabled: field.disabled ?? false },
         validators,
@@ -331,6 +348,7 @@ export class ExampleFormComponent implements OnInit, OnChanges {
     if (!this.userForm || !this.formConfig?.fields?.length) return;
     const patch: Record<string, unknown> = {};
     for (const field of this.formConfig.fields) {
+      if (field.type === 'section') continue;
       if (field.type === 'checkbox') {
         patch[field.key] = field.defaultValue ?? false;
       } else if (field.type === 'multi-select') {

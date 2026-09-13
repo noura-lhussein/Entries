@@ -1,0 +1,327 @@
+{
+  "body": {
+    "active_count": 8,
+    "archived_count": 0,
+    "format_options": [
+      {
+        "label_ar": "CSV",
+        "label_en": "CSV",
+        "value": "CSV"
+      },
+      {
+        "label_ar": "XLSX",
+        "label_en": "XLSX",
+        "value": "XLSX"
+      },
+      {
+        "label_ar": "GeoJSON",
+        "label_en": "GeoJSON",
+        "value": "GeoJSON"
+      },
+      {
+        "label_ar": "SHP",
+        "label_en": "SHP",
+        "value": "SHP"
+      },
+      {
+        "label_ar": "JSON",
+        "label_en": "JSON",
+        "value": "JSON"
+      },
+      {
+        "label_ar": "KML",
+        "label_en": "KML",
+        "value": "KML"
+      },
+      {
+        "label_ar": "KMZ",
+        "label_en": "KMZ",
+        "value": "KMZ"
+      },
+      {
+        "label_ar": "ZIP",
+        "label_en": "ZIP",
+        "value": "ZIP"
+      },
+      {
+        "label_ar": "PDF",
+        "label_en": "PDF",
+        "value": "PDF"
+      },
+      {
+        "label_ar": "API",
+        "label_en": "API",
+        "value": "API"
+      },
+      {
+        "label_ar": "DOCX",
+        "label_en": "DOCX",
+        "value": "DOCX"
+      }
+    ],
+    "formats": [
+      {
+        "count": 1,
+        "label": "CSV",
+        "value": "CSV"
+      },
+      {
+        "count": 1,
+        "label": "XLSX",
+        "value": "XLSX"
+      },
+      {
+        "count": 3,
+        "label": "GeoJSON",
+        "value": "GeoJSON"
+      },
+      {
+        "count": 1,
+        "label": "SHP",
+        "value": "SHP"
+      },
+      {
+        "count": 1,
+        "label": "KML",
+        "value": "KML"
+      },
+      {
+        "count": 1,
+        "label": "KMZ",
+        "value": "KMZ"
+      },
+      {
+        "count": 3,
+        "label": "PDF",
+        "value": "PDF"
+      }
+    ],
+    "governorates": [
+      {
+        "dataset_count": 0,
+        "id": 1,
+        "name_ar": "الحسكة",
+        "name_en": "Al-Hasakeh",
+        "pcode": "SY08"
+      },
+      {
+        "dataset_count": 0,
+        "id": 2,
+        "name_ar": "حلب",
+        "name_en": "Aleppo",
+        "pcode": "SY02"
+      },
+      {
+        "dataset_count": 0,
+        "id": 3,
+        "name_ar": "الرقة",
+        "name_en": "Ar-Raqqa",
+        "pcode": "SY11"
+      },
+      {
+        "dataset_count": 0,
+        "id": 4,
+        "name_ar": "السويداء",
+        "name_en": "As-Sweida",
+        "pcode": "SY09"
+      },
+      {
+        "dataset_count": 7,
+        "id": 5,
+        "name_ar": "دمشق",
+        "name_en": "Damascus",
+        "pcode": "SY01"
+      },
+      {
+        "dataset_count": 0,
+        "id": 6,
+        "name_ar": "درعا",
+        "name_en": "Dar'a",
+        "pcode": "SY14"
+      },
+      {
+        "dataset_count": 0,
+        "id": 7,
+        "name_ar": "دير الزور",
+        "name_en": "Deir-ez-Zor",
+        "pcode": "SY07"
+      },
+      {
+        "dataset_count": 0,
+        "id": 8,
+        "name_ar": "حماة",
+        "name_en": "Hama",
+        "pcode": "SY04"
+      },
+      {
+        "dataset_count": 0,
+        "id": 9,
+        "name_ar": "حمص",
+        "name_en": "Homs",
+        "pcode": "SY03"
+      },
+      {
+        "dataset_count": 0,
+        "id": 10,
+        "name_ar": "إدلب",
+        "name_en": "Idleb",
+        "pcode": "SY10"
+      },
+      {
+        "dataset_count": 0,
+        "id": 11,
+        "name_ar": "اللاذقية",
+        "name_en": "Lattakia",
+        "pcode": "SY06"
+      },
+      {
+        "dataset_count": 0,
+        "id": 12,
+        "name_ar": "القنيطرة",
+        "name_en": "Quneitra",
+        "pcode": "SY12"
+      },
+      {
+        "dataset_count": 0,
+        "id": 13,
+        "name_ar": "ريف دمشق",
+        "name_en": "Rural Damascus",
+        "pcode": "SY13"
+      },
+      {
+        "dataset_count": 1,
+        "id": 14,
+        "name_ar": "طرطوس",
+        "name_en": "Tartous",
+        "pcode": "SY05"
+      }
+    ],
+    "organizations": [
+      {
+        "acronym": "O5",
+        "id": 5,
+        "name_en": "إدارة تنظيم قطاع الكهرباء",
+        "slug": "org-5"
+      },
+      {
+        "acronym": "O10",
+        "id": 10,
+        "name_en": "دائرة المحطات الكهرومائية",
+        "slug": "org-10"
+      },
+      {
+        "acronym": "O11",
+        "id": 11,
+        "name_en": "مديرية خدمات الطاقة في محافظة ادلب",
+        "slug": "org-11"
+      },
+      {
+        "acronym": "O9",
+        "id": 9,
+        "name_en": "مديرية خدمات الطاقة في محافظة الحسكة",
+        "slug": "org-9"
+      },
+      {
+        "acronym": "O6",
+        "id": 6,
+        "name_en": "مديرية خدمات الطاقة في محافظة القنيطرة",
+        "slug": "org-6"
+      },
+      {
+        "acronym": "O8",
+        "id": 8,
+        "name_en": "مديرية خدمات الطاقة في محافظة اللاذقية",
+        "slug": "org-8"
+      },
+      {
+        "acronym": "O13",
+        "id": 13,
+        "name_en": "مديرية خدمات الطاقة في محافظة حماة",
+        "slug": "org-13"
+      },
+      {
+        "acronym": "O12",
+        "id": 12,
+        "name_en": "مديرية خدمات الطاقة في محافظة حمص",
+        "slug": "org-12"
+      },
+      {
+        "acronym": "O14",
+        "id": 14,
+        "name_en": "مديرية خدمات الطاقة في محافظة درعا",
+        "slug": "org-14"
+      },
+      {
+        "acronym": "O2",
+        "id": 2,
+        "name_en": "مديرية خدمات الطاقة في محافظة دمشق",
+        "slug": "org-2"
+      },
+      {
+        "acronym": "O15",
+        "id": 15,
+        "name_en": "مديرية خدمات الطاقة في محافظة دير الزور",
+        "slug": "org-15"
+      },
+      {
+        "acronym": "O4",
+        "id": 4,
+        "name_en": "مديرية خدمات الطاقة في محافظة ريف دمشق",
+        "slug": "org-4"
+      },
+      {
+        "acronym": "O7",
+        "id": 7,
+        "name_en": "مديرية خدمات الطاقة في محافظة طرطوس",
+        "slug": "org-7"
+      },
+      {
+        "acronym": "O1",
+        "id": 1,
+        "name_en": "مديرية مياه الشرب",
+        "slug": "org-1"
+      }
+    ],
+    "sectors": [
+      {
+        "label_ar": "البترول",
+        "label_en": "Petroleum",
+        "value": "oil-gas"
+      },
+      {
+        "label_ar": "المياه",
+        "label_en": "Water Resources",
+        "value": "water-resources"
+      },
+      {
+        "label_ar": "الكهرباء",
+        "label_en": "Electricity",
+        "value": "electricity"
+      },
+      {
+        "label_ar": "الموارد المعدنية",
+        "label_en": "Mineral Resources",
+        "value": "mineral-resources"
+      },
+      {
+        "label_ar": "متعدد القطاعات",
+        "label_en": "Multi-sector",
+        "value": "multi-sector"
+      }
+    ],
+    "statuses": [
+      {
+        "label_ar": "نشط",
+        "label_en": "Active",
+        "value": "active"
+      },
+      {
+        "label_ar": "مؤرشف",
+        "label_en": "Archived",
+        "value": "archived"
+      }
+    ]
+  },
+  "path": "/api/v1/datasets/meta/",
+  "status": 200
+}

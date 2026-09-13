@@ -15,6 +15,15 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+
+  &.is-compact {
+    padding: 0;
+    max-width: none;
+    margin: 0;
+    background: transparent;
+    min-height: 0;
+    gap: 0;
+  }
 }
 
 .form-section {
@@ -58,6 +67,33 @@
 
 .form-field {
   min-width: 0;
+}
+
+.form-field--full,
+.form-field--section {
+  grid-column: 1 / -1;
+}
+
+.form-section-title {
+  margin: 8px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid #e5e7eb;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.4;
+}
+
+.form-grid > .form-field--section:first-child .form-section-title {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.form-section-hint {
+  margin: 4px 0 0;
+  font-size: 0.8125rem;
+  color: #6b7280;
 }
 
 .form-actions {

@@ -8,10 +8,8 @@ import 'cookie_session.dart';
 import 'dio_client.dart';
 import 'jwt_util.dart';
 
-/// Single-flight access-token refresh (matches portal `refreshInFlight`).
-///
-/// report_moe uses Django session cookies; moe-portal-style APIs return JWT.
-/// Both are kept: Bearer is attached only when an access token exists.
+/// Same flow as the meters display app: JWT in FlutterSecureStorage,
+/// single-flight refresh, then Bearer on requests.
 class TokenRefresher {
   TokenRefresher(this.secureStorage, this.cookieSession);
 
@@ -19,50 +17,50 @@ class TokenRefresher {
   final CookieSession cookieSession;
 
   Future<String?>? _inFlight;
-
-  /// Called after tokens are cleared due to an auth failure (not network).
   void Function()? onSessionInvalidated;
-
   var _invalidating = false;
 
-  /// Returns a valid JWT access token when the API uses JWT.
-  /// Cookie-session APIs return null; cookies are sent by [CookieManager].
   Future<String?> ensureAccessToken({bool forceRefresh = false}) async {
     if (!forceRefresh) {
       final access = await secureStorage.getAccessToken();
       if (access != null &&
           access.isNotEmpty &&
+          JwtUtil.looksLikeJwt(access) &&
           !JwtUtil.isExpired(access)) {
+        DioFactory.updateHeaderWithToken(access);
         return access;
       }
       final refreshToken = await secureStorage.getRefreshToken();
-      if (refreshToken == null || refreshToken.isEmpty) {
+      if (refreshToken == null ||
+          refreshToken.isEmpty ||
+          !JwtUtil.looksLikeJwt(refreshToken)) {
+        DioFactory.clearToken();
         return null;
       }
     }
 
-    final refreshToken = await secureStorage.getRefreshToken();
-    if (refreshToken == null || refreshToken.isEmpty) {
-      return null;
-    }
     return refresh();
   }
 
-  /// Shared refresh; concurrent callers await the same future.
   Future<String?> refresh() {
     return _inFlight ??= _doRefresh().whenComplete(() => _inFlight = null);
   }
 
   Future<String?> _doRefresh() async {
     final usedRefresh = await secureStorage.getRefreshToken();
-    if (usedRefresh == null || usedRefresh.isEmpty) {
+    if (usedRefresh == null ||
+        usedRefresh.isEmpty ||
+        !JwtUtil.looksLikeJwt(usedRefresh)) {
+      // Session-cookie APIs have no refresh token. Drop leftover JWT only;
+      // do not wipe Django cookies or force login.
+      await secureStorage.deleteTokens();
+      DioFactory.clearToken();
       return null;
     }
 
     try {
       return await _requestRefresh(usedRefresh);
     } on DioException catch (e) {
-      // Another request may have rotated refresh while we were in flight.
       final latest = await secureStorage.getRefreshToken();
       if (latest != null && latest.isNotEmpty && latest != usedRefresh) {
         try {
@@ -121,7 +119,9 @@ class TokenRefresher {
     final newAccess = data?['access']?.toString();
     final newRefresh = data?['refresh']?.toString();
 
-    if (newAccess == null || newAccess.isEmpty) {
+    if (newAccess == null ||
+        newAccess.isEmpty ||
+        !JwtUtil.looksLikeJwt(newAccess)) {
       throw StateError('Refresh response missing access token');
     }
 

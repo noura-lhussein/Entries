@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  computed,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   ReactiveFormsModule,
   UntypedFormBuilder,
@@ -64,6 +71,7 @@ const NAV_COLLAPSE_KEY = 'master-data.nav.collapsed';
     ButtonComponent,
   ],
   templateUrl: './master-data.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './master-data.component.scss',
 })
 export class MasterDataComponent implements OnInit {

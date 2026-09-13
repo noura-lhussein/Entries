@@ -1,0 +1,8 @@
+# Keep letterhead assets; ignore local previews / scratch crops.
+_sample*
+_test*
+sample_*
+header.png
+footer.png
+logo.png
+band_top.png

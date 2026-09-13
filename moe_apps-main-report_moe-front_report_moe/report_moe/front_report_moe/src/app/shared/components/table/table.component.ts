@@ -11,6 +11,7 @@ import {
   ElementRef,
   ViewChild,
   inject,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -366,6 +367,7 @@ export interface TableAction {
       </div>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './table.component.scss',
 })
 export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {

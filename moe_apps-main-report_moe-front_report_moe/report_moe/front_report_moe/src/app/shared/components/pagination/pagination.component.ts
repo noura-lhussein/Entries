@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, Output, computed, signal } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  computed,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 type PageItem = { type: 'page'; value: number } | { type: 'gap'; value: string };
@@ -74,6 +82,7 @@ type PageItem = { type: 'page'; value: number } | { type: 'gap'; value: string }
       </ul>
     </nav>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './pagination.component.scss',
 })
 export class PaginationComponent {

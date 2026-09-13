@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject, input, output, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  inject,
+  input,
+  output,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   ReactiveFormsModule,
   UntypedFormBuilder,
@@ -41,12 +49,7 @@ import { MasterDataService } from './master-data.service';
     ButtonComponent,
   ],
   template: `
-    <app-modal
-      [visible]="visible()"
-      [title]="title()"
-      size="large"
-      (close)="closed.emit()"
-    >
+    <app-modal [visible]="visible()" [title]="title()" size="large" (close)="closed.emit()">
       <app-page-loader *ngIf="loading()" [message]="t('dashboard.loading')" />
       <form *ngIf="!loading() && meta()" class="qc-form" [formGroup]="form">
         <app-form-map-picker
@@ -109,7 +112,12 @@ import { MasterDataService } from './master-data.service';
         </div>
       </form>
       <div footer class="qc-actions" *ngIf="!loading() && meta()">
-        <app-button variant="ghost" [label]="t('master-data.cancel')" type="button" (clicked)="closed.emit()" />
+        <app-button
+          variant="ghost"
+          [label]="t('master-data.cancel')"
+          type="button"
+          (clicked)="closed.emit()"
+        />
         <app-button
           variant="primary"
           [label]="t('master-data.save')"
@@ -120,6 +128,7 @@ import { MasterDataService } from './master-data.service';
       </div>
     </app-modal>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [
     `
       .qc-fields {
@@ -174,7 +183,9 @@ export class MasterDataQuickCreateComponent implements OnInit {
         const m = res.resources.find((r) => r.slug === this.slug()) || null;
         this.meta.set(m);
         this.title.set(
-          m ? `${this.t('master-data.add')} — ${m.label_ar || m.label_en}` : this.t('master-data.add'),
+          m
+            ? `${this.t('master-data.add')} — ${m.label_ar || m.label_en}`
+            : this.t('master-data.add'),
         );
         if (m) {
           this.buildForm(m);
@@ -193,9 +204,7 @@ export class MasterDataQuickCreateComponent implements OnInit {
   visibleFields(): MasterFieldSchema[] {
     const m = this.meta();
     if (!m) return [];
-    return m.fields.filter(
-      (f) => f.name !== 'id' && !f.read_only && f.name !== 'geometry_type',
-    );
+    return m.fields.filter((f) => f.name !== 'id' && !f.read_only && f.name !== 'geometry_type');
   }
 
   showMap(): boolean {

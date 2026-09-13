@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ToastComponent } from './shared/components/toast/toast.component';
 import { GlobalLoaderComponent } from './shared/components/global-loader/global-loader.component';
@@ -14,6 +14,7 @@ import { GlobalLoaderComponent } from './shared/components/global-loader/global-
       <router-outlet></router-outlet>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [
     `
       :host {

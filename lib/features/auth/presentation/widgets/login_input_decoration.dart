@@ -12,7 +12,7 @@ class LoginInputDecoration {
     Widget? suffix,
   }) {
     final radius = BorderRadius.circular(12.r);
-    final idle = BorderSide(color: const Color(0xFFD5DDD8), width: 1.2);
+    final idle = BorderSide(color: AppColors.border, width: 1.2);
 
     return InputDecoration(
       hintText: hint,
@@ -21,16 +21,16 @@ class LoginInputDecoration {
         fontSize: 13.sp,
         color: AppColors.inkSoft.withValues(alpha: 0.65),
       ),
-      prefixIcon: Icon(icon, size: 20.r, color: AppColors.inkMid),
+      prefixIcon: Icon(icon, size: 20.r, color: AppColors.goldDeep),
       suffixIcon: suffix,
       filled: true,
-      fillColor: const Color(0xFFF4F7F5),
+      fillColor: AppColors.goldWash,
       contentPadding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 15.h),
       border: OutlineInputBorder(borderRadius: radius, borderSide: idle),
       enabledBorder: OutlineInputBorder(borderRadius: radius, borderSide: idle),
       focusedBorder: OutlineInputBorder(
         borderRadius: radius,
-        borderSide: const BorderSide(color: AppColors.inkMid, width: 1.8),
+        borderSide: const BorderSide(color: AppColors.goldMid, width: 1.8),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: radius,

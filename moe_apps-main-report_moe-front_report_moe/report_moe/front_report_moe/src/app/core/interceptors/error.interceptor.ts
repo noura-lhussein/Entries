@@ -7,7 +7,6 @@ import { TranslationService } from '../../shared/services/translation.service';
 
 const isAuthEndpoint = (url: string) =>
   url.includes('/auth/login') ||
-  url.includes('/auth/refresh') ||
   url.includes('/auth/logout') ||
   url.includes('/auth/me') ||
   url.includes('/auth/csrf');
@@ -34,7 +33,8 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       } else if (error.status >= 500) {
         toast.error(t('http-errors.server').replace('{status}', String(error.status)));
       } else if (error.status === 403) {
-        // Skip toast when anonymous (login page /auth/me → 403) or during logout.
+        // 403 now means "authenticated but not allowed" (anonymous is 401).
+        // Still skip the toast during logout.
         if (auth.currentUser() && !auth.isLoggingOut()) {
           toast.error(t('http-errors.forbidden'));
         }

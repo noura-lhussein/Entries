@@ -1,0 +1,7 @@
+{
+  "body": {
+    "detail": "Invalid date."
+  },
+  "path": "/api/v1/water/admin/daily/euphrates/",
+  "status": 400
+}

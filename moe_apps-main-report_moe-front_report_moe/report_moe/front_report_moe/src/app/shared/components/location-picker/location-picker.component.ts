@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, forwardRef, inject, signal } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnDestroy,
+  forwardRef,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { FormSelectComponent } from '../form-select/form-select.component';
@@ -57,6 +65,7 @@ import { LocationsService } from '../../services/locations.service';
       />
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [
     `
       .location-picker {

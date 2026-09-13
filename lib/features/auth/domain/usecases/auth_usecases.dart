@@ -81,6 +81,18 @@ class UpdateProfileUseCase {
   }
 }
 
+class UpdateProfilePhotoUseCase {
+  final AuthRepository repository;
+  UpdateProfilePhotoUseCase(this.repository);
+
+  Future<ApiResult<UserEntity>> call({
+    required int userId,
+    required String filePath,
+  }) {
+    return repository.updateProfilePhoto(userId: userId, filePath: filePath);
+  }
+}
+
 class ChangePasswordUseCase {
   final AuthRepository repository;
   ChangePasswordUseCase(this.repository);

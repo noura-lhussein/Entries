@@ -27,11 +27,7 @@ class FileImportPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     padding: EdgeInsets.symmetric(vertical: 32.h, horizontal: 24.w),
-    decoration: BoxDecoration(
-      color: AppColors.surface,
-      borderRadius: BorderRadius.circular(14.r),
-      border: Border.all(color: AppColors.border),
-    ),
+    decoration: AppDecorations.surfaceCard(),
     child: Column(mainAxisSize: MainAxisSize.min, children: [
       Container(
         width: 56.r, height: 56.r,

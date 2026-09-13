@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, Inject, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -67,9 +67,7 @@ export interface AssignedUsersDialogData {
                 [class.pill-inactive]="!user.is_active"
               >
                 {{
-                  user.is_active
-                    ? t('users.info-dialog.active')
-                    : t('users.info-dialog.inactive')
+                  user.is_active ? t('users.info-dialog.active') : t('users.info-dialog.inactive')
                 }}
               </span>
               <span class="parent" *ngIf="user.parent_name">
@@ -87,6 +85,7 @@ export interface AssignedUsersDialogData {
       </div>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [
     `
       .dialog-wrapper {

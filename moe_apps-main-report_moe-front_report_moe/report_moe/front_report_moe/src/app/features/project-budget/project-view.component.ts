@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  computed,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -520,6 +527,7 @@ interface ChangeLogBatch {
       </article>
     </ng-template>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './project-view.component.scss',
 })
 export class ProjectViewComponent implements OnInit {

@@ -23,30 +23,28 @@ class HomeSectorCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(14.r),
         onTap: onTap,
         child: Container(
-          padding: EdgeInsets.all(14.r),
-          decoration: BoxDecoration(
-            color: AppColors.surface,
-            borderRadius: BorderRadius.circular(14.r),
-            border: Border.all(color: AppColors.border),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.03),
-                blurRadius: 4,
-                offset: const Offset(0, 1),
-              ),
-            ],
-          ),
+          padding: EdgeInsetsDirectional.fromSTEB(12.w, 12.h, 10.w, 12.h),
+          decoration: AppDecorations.surfaceCard(),
           child: Row(
             children: [
               Container(
-                width: 42.r,
-                height: 42.r,
+                width: 3.w,
+                height: 36.h,
+                decoration: BoxDecoration(
+                  color: info.color,
+                  borderRadius: BorderRadius.circular(2.r),
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Container(
+                width: 44.r,
+                height: 44.r,
                 decoration: BoxDecoration(
                   color: info.color.withValues(alpha: 0.10),
-                  borderRadius: BorderRadius.circular(11.r),
-                  border: Border.all(color: info.color.withValues(alpha: 0.25)),
+                  borderRadius: BorderRadius.circular(12.r),
+                  border: Border.all(color: info.color.withValues(alpha: 0.28)),
                 ),
-                child: Icon(info.icon, color: info.color, size: 21.r),
+                child: Icon(info.icon, color: info.color, size: 22.r),
               ),
               SizedBox(width: 12.w),
               Expanded(
@@ -76,10 +74,19 @@ class HomeSectorCard extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 8.w),
-              Icon(
-                Icons.chevron_right_rounded,
-                color: AppColors.textHint,
-                size: 20.r,
+              Container(
+                width: 28.r,
+                height: 28.r,
+                decoration: BoxDecoration(
+                  color: AppColors.goldWash,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: AppColors.border),
+                ),
+                child: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: AppColors.goldDeep,
+                  size: 14.r,
+                ),
               ),
             ],
           ),

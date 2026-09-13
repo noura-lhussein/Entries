@@ -1,0 +1,1116 @@
+{
+  "body": {
+    "count": 8,
+    "page": 1,
+    "page_size": 10,
+    "results": [
+      {
+        "created_at": "2026-07-02T06:47:30.668220+00:00",
+        "data_end_date": null,
+        "data_start_date": null,
+        "description_ar": "التقارير اليومية لشهر حزيران",
+        "description_en": "daily reports for June",
+        "download_count": 1,
+        "download_url": "http://localhost:8002/api/v1/datasets/10/download/",
+        "external_url": "",
+        "file_name": "تقرير_1-6-2026.pdf",
+        "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_1-6-2026.pdf",
+        "governorate": {
+          "id": 5,
+          "name_ar": "دمشق",
+          "name_en": "Damascus",
+          "pcode": "SY01"
+        },
+        "has_download": true,
+        "id": 10,
+        "is_active": true,
+        "organization": {
+          "acronym": "O5",
+          "id": 5,
+          "name_en": "إدارة تنظيم قطاع الكهرباء",
+          "slug": "org-5"
+        },
+        "resource_formats": [
+          "PDF"
+        ],
+        "resources": [
+          {
+            "created_at": "2026-07-02T06:47:30.681465+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=21",
+            "file_name": "تقرير_1-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_1-6-2026.pdf",
+            "format": "PDF",
+            "id": 21,
+            "sort_order": 0
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.684995+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=22",
+            "file_name": "تقرير_2-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_2-6-2026.pdf",
+            "format": "PDF",
+            "id": 22,
+            "sort_order": 1
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.687033+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=23",
+            "file_name": "تقرير_3-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_3-6-2026.pdf",
+            "format": "PDF",
+            "id": 23,
+            "sort_order": 2
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.688908+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=24",
+            "file_name": "تقرير_4-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_4-6-2026.pdf",
+            "format": "PDF",
+            "id": 24,
+            "sort_order": 3
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.690853+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=25",
+            "file_name": "تقرير_6-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_6-6-2026.pdf",
+            "format": "PDF",
+            "id": 25,
+            "sort_order": 4
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.692681+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=26",
+            "file_name": "تقرير_7-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_7-6-2026.pdf",
+            "format": "PDF",
+            "id": 26,
+            "sort_order": 5
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.694569+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=27",
+            "file_name": "تقرير_8-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_8-6-2026.pdf",
+            "format": "PDF",
+            "id": 27,
+            "sort_order": 6
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.696401+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=28",
+            "file_name": "تقرير_9-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_9-6-2026.pdf",
+            "format": "PDF",
+            "id": 28,
+            "sort_order": 7
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.698113+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=29",
+            "file_name": "تقرير_10-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_10-6-2026.pdf",
+            "format": "PDF",
+            "id": 29,
+            "sort_order": 8
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.699813+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=30",
+            "file_name": "تقرير_11-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_11-6-2026.pdf",
+            "format": "PDF",
+            "id": 30,
+            "sort_order": 9
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.701633+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=31",
+            "file_name": "تقرير_12-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_12-6-2026.pdf",
+            "format": "PDF",
+            "id": 31,
+            "sort_order": 10
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.703334+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=32",
+            "file_name": "تقرير_13-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_13-6-2026.pdf",
+            "format": "PDF",
+            "id": 32,
+            "sort_order": 11
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.705078+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=33",
+            "file_name": "تقرير_14-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_14-6-2026.pdf",
+            "format": "PDF",
+            "id": 33,
+            "sort_order": 12
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.706830+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=34",
+            "file_name": "تقرير_16-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_16-6-2026.pdf",
+            "format": "PDF",
+            "id": 34,
+            "sort_order": 13
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.708540+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=35",
+            "file_name": "تقرير_18-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_18-6-2026.pdf",
+            "format": "PDF",
+            "id": 35,
+            "sort_order": 14
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.710290+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=36",
+            "file_name": "تقرير_19-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_19-6-2026.pdf",
+            "format": "PDF",
+            "id": 36,
+            "sort_order": 15
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.712003+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=37",
+            "file_name": "تقرير_20-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_20-6-2026.pdf",
+            "format": "PDF",
+            "id": 37,
+            "sort_order": 16
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.713679+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=38",
+            "file_name": "تقرير_21-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_21-6-2026.pdf",
+            "format": "PDF",
+            "id": 38,
+            "sort_order": 17
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.715512+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=39",
+            "file_name": "تقرير_22-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_22-6-2026.pdf",
+            "format": "PDF",
+            "id": 39,
+            "sort_order": 18
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.717446+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=40",
+            "file_name": "تقرير_23-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_23-6-2026.pdf",
+            "format": "PDF",
+            "id": 40,
+            "sort_order": 19
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.719300+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=41",
+            "file_name": "تقرير_24-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_24-6-2026.pdf",
+            "format": "PDF",
+            "id": 41,
+            "sort_order": 20
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.721116+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=42",
+            "file_name": "تقرير_25-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_25-6-2026.pdf",
+            "format": "PDF",
+            "id": 42,
+            "sort_order": 21
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.723037+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=43",
+            "file_name": "تقرير_26-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_26-6-2026.pdf",
+            "format": "PDF",
+            "id": 43,
+            "sort_order": 22
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.725077+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=44",
+            "file_name": "تقرير_27-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_27-6-2026.pdf",
+            "format": "PDF",
+            "id": 44,
+            "sort_order": 23
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.727842+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=45",
+            "file_name": "تقرير_28-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_28-6-2026.pdf",
+            "format": "PDF",
+            "id": 45,
+            "sort_order": 24
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.730590+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=46",
+            "file_name": "تقرير_29-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_29-6-2026.pdf",
+            "format": "PDF",
+            "id": 46,
+            "sort_order": 25
+          },
+          {
+            "created_at": "2026-07-02T06:47:30.733398+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/10/download/?resource_id=47",
+            "file_name": "تقرير_30-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_30-6-2026.pdf",
+            "format": "PDF",
+            "id": 47,
+            "sort_order": 26
+          }
+        ],
+        "sector": "oil-gas",
+        "sector_display": "Petroleum",
+        "slug": "daily-reports-issued-by-the-petroleum-sector-regulatory-authority-for-the-month-of-june",
+        "status": "active",
+        "status_display": "Active",
+        "title_ar": "التقارير اليومية الصادرة عن هيئة تنظيم قطاع البترول لشهر حزيران",
+        "title_en": "Daily reports issued by the Petroleum Sector Regulatory Authority for the month of June",
+        "updated_at": "2026-07-27T07:43:08.277926+00:00",
+        "view_count": 14
+      },
+      {
+        "created_at": "2026-06-07T18:02:24.623331+00:00",
+        "data_end_date": null,
+        "data_start_date": null,
+        "description_ar": "مشروع طرطوس",
+        "description_en": "Tartoos Project",
+        "download_count": 0,
+        "download_url": "http://localhost:8002/api/v1/datasets/8/download/",
+        "external_url": "",
+        "file_name": "sahel_tartoos_uhSl3cl.kmz",
+        "file_url": "http://localhost:8002/media/datasets/files/sahel_tartoos_uhSl3cl.kmz",
+        "governorate": {
+          "id": 14,
+          "name_ar": "طرطوس",
+          "name_en": "Tartous",
+          "pcode": "SY05"
+        },
+        "has_download": true,
+        "id": 8,
+        "is_active": true,
+        "organization": {
+          "acronym": "O1",
+          "id": 1,
+          "name_en": "مديرية مياه الشرب",
+          "slug": "org-1"
+        },
+        "resource_formats": [
+          "KMZ",
+          "GeoJSON"
+        ],
+        "resources": [
+          {
+            "created_at": "2026-06-07T18:02:24.746220+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/8/download/?resource_id=16",
+            "file_name": "sahel_tartoos_uhSl3cl.kmz",
+            "file_url": "http://localhost:8002/media/datasets/files/sahel_tartoos_uhSl3cl.kmz",
+            "format": "KMZ",
+            "id": 16,
+            "sort_order": 0
+          },
+          {
+            "created_at": "2026-06-07T18:18:09.274900+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/8/download/?resource_id=17",
+            "file_name": "Tartoos_Project_oZjyGZo.geojson",
+            "file_url": "http://localhost:8002/media/datasets/files/Tartoos_Project_oZjyGZo.geojson",
+            "format": "GeoJSON",
+            "id": 17,
+            "sort_order": 1
+          }
+        ],
+        "sector": "water-resources",
+        "sector_display": "Water Resources",
+        "slug": "tartoos-project-1",
+        "status": "active",
+        "status_display": "Active",
+        "title_ar": "مشروع طرطوس",
+        "title_en": "Tartoos Project",
+        "updated_at": "2026-07-27T07:37:54.204040+00:00",
+        "view_count": 91
+      },
+      {
+        "created_at": "2026-07-02T06:50:19.124798+00:00",
+        "data_end_date": null,
+        "data_start_date": null,
+        "description_ar": "التقارير اليومية لشهر أيار",
+        "description_en": "daily reports for May",
+        "download_count": 0,
+        "download_url": "http://localhost:8002/api/v1/datasets/11/download/",
+        "external_url": "",
+        "file_name": "تقرير_صالة_التنسيق_1-5-2026.pdf",
+        "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_1-5-2026.pdf",
+        "governorate": {
+          "id": 5,
+          "name_ar": "دمشق",
+          "name_en": "Damascus",
+          "pcode": "SY01"
+        },
+        "has_download": true,
+        "id": 11,
+        "is_active": true,
+        "organization": {
+          "acronym": "O5",
+          "id": 5,
+          "name_en": "إدارة تنظيم قطاع الكهرباء",
+          "slug": "org-5"
+        },
+        "resource_formats": [
+          "PDF"
+        ],
+        "resources": [
+          {
+            "created_at": "2026-07-02T06:50:19.132368+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=48",
+            "file_name": "تقرير_صالة_التنسيق_1-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_1-5-2026.pdf",
+            "format": "PDF",
+            "id": 48,
+            "sort_order": 0
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.134586+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=49",
+            "file_name": "تقرير_صالة_التنسيق_2-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_2-5-2026.pdf",
+            "format": "PDF",
+            "id": 49,
+            "sort_order": 1
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.136621+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=50",
+            "file_name": "تقرير_صالة_التنسيق_3-5_2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_3-5_2026.pdf",
+            "format": "PDF",
+            "id": 50,
+            "sort_order": 2
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.138598+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=51",
+            "file_name": "تقرير_صالة_التنسيق_4-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_4-5-2026.pdf",
+            "format": "PDF",
+            "id": 51,
+            "sort_order": 3
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.141357+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=52",
+            "file_name": "تقرير_صالة_التنسيق_5-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_5-5-2026.pdf",
+            "format": "PDF",
+            "id": 52,
+            "sort_order": 4
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.143198+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=53",
+            "file_name": "تقرير_صالة_التنسيق_6-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_6-5-2026.pdf",
+            "format": "PDF",
+            "id": 53,
+            "sort_order": 5
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.144840+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=54",
+            "file_name": "تقرير_صالة_التنسيق_7-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_7-5-2026.pdf",
+            "format": "PDF",
+            "id": 54,
+            "sort_order": 6
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.146307+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=55",
+            "file_name": "تقرير_صالة_التنسيق_8-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_8-5-2026.pdf",
+            "format": "PDF",
+            "id": 55,
+            "sort_order": 7
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.147738+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=56",
+            "file_name": "تقرير_صالة_التنسيق_9-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_9-5-2026.pdf",
+            "format": "PDF",
+            "id": 56,
+            "sort_order": 8
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.149279+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=57",
+            "file_name": "تقرير_صالة_التنسيق_10-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_10-5-2026.pdf",
+            "format": "PDF",
+            "id": 57,
+            "sort_order": 9
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.150758+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=58",
+            "file_name": "تقرير_صالة_التنسيق_11-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_11-5-2026.pdf",
+            "format": "PDF",
+            "id": 58,
+            "sort_order": 10
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.152456+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=59",
+            "file_name": "تقرير_صالة_التنسيق_12-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_12-5-2026.pdf",
+            "format": "PDF",
+            "id": 59,
+            "sort_order": 11
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.154130+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=60",
+            "file_name": "تقرير_صالة_التنسيق_13-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_13-5-2026.pdf",
+            "format": "PDF",
+            "id": 60,
+            "sort_order": 12
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.156004+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=61",
+            "file_name": "تقرير_صالة_التنسيق_14-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_14-5-2026.pdf",
+            "format": "PDF",
+            "id": 61,
+            "sort_order": 13
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.157922+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=62",
+            "file_name": "تقرير_صالة_التنسيق_15-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_15-5-2026.pdf",
+            "format": "PDF",
+            "id": 62,
+            "sort_order": 14
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.159969+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=63",
+            "file_name": "تقرير_صالة_التنسيق_16-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_16-5-2026.pdf",
+            "format": "PDF",
+            "id": 63,
+            "sort_order": 15
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.161872+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=64",
+            "file_name": "تقرير_صالة_التنسيق_17-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_17-5-2026.pdf",
+            "format": "PDF",
+            "id": 64,
+            "sort_order": 16
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.163676+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=65",
+            "file_name": "تقرير_صالة_التنسيق_18-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_18-5-2026.pdf",
+            "format": "PDF",
+            "id": 65,
+            "sort_order": 17
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.165426+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=66",
+            "file_name": "تقرير_صالة_التنسيق_19-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_19-5-2026.pdf",
+            "format": "PDF",
+            "id": 66,
+            "sort_order": 18
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.167235+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=67",
+            "file_name": "تقرير_صالة_التنسيق_20-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_20-5-2026.pdf",
+            "format": "PDF",
+            "id": 67,
+            "sort_order": 19
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.169442+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=68",
+            "file_name": "تقرير_صالة_التنسيق_21-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_21-5-2026.pdf",
+            "format": "PDF",
+            "id": 68,
+            "sort_order": 20
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.172189+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=69",
+            "file_name": "تقرير_صالة_التنسيق_22-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_22-5-2026.pdf",
+            "format": "PDF",
+            "id": 69,
+            "sort_order": 21
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.174418+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=70",
+            "file_name": "تقرير_صالة_التنسيق_23-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_23-5-2026.pdf",
+            "format": "PDF",
+            "id": 70,
+            "sort_order": 22
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.176489+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=71",
+            "file_name": "تقرير_صالة_التنسيق_24-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_24-5-2026.pdf",
+            "format": "PDF",
+            "id": 71,
+            "sort_order": 23
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.178736+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=72",
+            "file_name": "تقرير_صالة_التنسيق_25-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_25-5-2026.pdf",
+            "format": "PDF",
+            "id": 72,
+            "sort_order": 24
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.181672+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=73",
+            "file_name": "تقرير_صالة_التنسيق_26-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_26-5-2026.pdf",
+            "format": "PDF",
+            "id": 73,
+            "sort_order": 25
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.184691+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=74",
+            "file_name": "تقرير_صالة_التنسيق_27-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_27-5-2026.pdf",
+            "format": "PDF",
+            "id": 74,
+            "sort_order": 26
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.187296+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=75",
+            "file_name": "تقرير_صالة_التنسيق_28-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_28-5-2026.pdf",
+            "format": "PDF",
+            "id": 75,
+            "sort_order": 27
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.190032+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=76",
+            "file_name": "تقرير_صالة_التنسيق_29-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_29-5-2026.pdf",
+            "format": "PDF",
+            "id": 76,
+            "sort_order": 28
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.192988+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=77",
+            "file_name": "تقرير_صالة_التنسيق_30-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_30-5-2026.pdf",
+            "format": "PDF",
+            "id": 77,
+            "sort_order": 29
+          },
+          {
+            "created_at": "2026-07-02T06:50:19.195906+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/11/download/?resource_id=78",
+            "file_name": "تقرير_صالة_التنسيق_31-5-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_31-5-2026.pdf",
+            "format": "PDF",
+            "id": 78,
+            "sort_order": 30
+          }
+        ],
+        "sector": "electricity",
+        "sector_display": "Electricity",
+        "slug": "daily-reports-from-the-electricity-sector-regulatory-authority-for-the-month-of-may",
+        "status": "active",
+        "status_display": "Active",
+        "title_ar": "التقارير اليومية الصادرة عن هيئة تنظيم قطاع الكهرباء لشهر أيار",
+        "title_en": "Daily reports from the Electricity Sector Regulatory Authority for the month of May",
+        "updated_at": "2026-07-27T07:18:28.656217+00:00",
+        "view_count": 18
+      },
+      {
+        "created_at": "2026-06-05T16:44:22.352825+00:00",
+        "data_end_date": null,
+        "data_start_date": null,
+        "description_ar": "معلومات فقط للاختبار",
+        "description_en": "Information for testing purposes only",
+        "download_count": 2,
+        "download_url": "http://localhost:8002/api/v1/datasets/1/download/",
+        "external_url": "",
+        "file_name": "tartoos_project_path_94fGxth.geojson",
+        "file_url": "http://localhost:8002/media/datasets/files/tartoos_project_path_94fGxth.geojson",
+        "governorate": {
+          "id": 5,
+          "name_ar": "دمشق",
+          "name_en": "Damascus",
+          "pcode": "SY01"
+        },
+        "has_download": true,
+        "id": 1,
+        "is_active": true,
+        "organization": {
+          "acronym": "O1",
+          "id": 1,
+          "name_en": "مديرية مياه الشرب",
+          "slug": "org-1"
+        },
+        "resource_formats": [
+          "GeoJSON"
+        ],
+        "resources": [
+          {
+            "created_at": "2026-06-06T18:13:23.567093+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/1/download/?resource_id=3",
+            "file_name": "tartoos_project_path_94fGxth.geojson",
+            "file_url": "http://localhost:8002/media/datasets/files/tartoos_project_path_94fGxth.geojson",
+            "format": "GeoJSON",
+            "id": 3,
+            "sort_order": 0
+          }
+        ],
+        "sector": "oil-gas",
+        "sector_display": "Petroleum",
+        "slug": "gas-destribution-among-fields-in-syria-governorates",
+        "status": "active",
+        "status_display": "Active",
+        "title_ar": "توزيع الغاز بين الحقول في محافظات سوريا",
+        "title_en": "Gas Destribution among Fields In Syria Governorates",
+        "updated_at": "2026-07-27T07:17:31.247040+00:00",
+        "view_count": 45
+      },
+      {
+        "created_at": "2026-06-05T17:39:48.124593+00:00",
+        "data_end_date": null,
+        "data_start_date": null,
+        "description_ar": "بعد إعادة تشغيل الواجهة الخلفية وتحديث البوابة، يجب أن ترى GeoJSON[1] ضمن التنسيقات عند تحديد دمشق، ويجب أن تعرض بطاقة مجموعة البيانات علامة GeoJSON.",
+        "description_en": "After restarting the backend and refreshing the portal, you should see GeoJSON [1] under Formats when Damascus is selected, and the dataset card should show the GeoJSON tag.",
+        "download_count": 2,
+        "download_url": "http://localhost:8002/api/v1/datasets/2/download/",
+        "external_url": "",
+        "file_name": "geology_UYKAN63.csv",
+        "file_url": "http://localhost:8002/media/datasets/files/geology_UYKAN63.csv",
+        "governorate": {
+          "id": 5,
+          "name_ar": "دمشق",
+          "name_en": "Damascus",
+          "pcode": "SY01"
+        },
+        "has_download": true,
+        "id": 2,
+        "is_active": true,
+        "organization": {
+          "acronym": "O10",
+          "id": 10,
+          "name_en": "دائرة المحطات الكهرومائية",
+          "slug": "org-10"
+        },
+        "resource_formats": [
+          "CSV"
+        ],
+        "resources": [
+          {
+            "created_at": "2026-06-06T18:13:21.493546+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/2/download/?resource_id=4",
+            "file_name": "geology_UYKAN63.csv",
+            "file_url": "http://localhost:8002/media/datasets/files/geology_UYKAN63.csv",
+            "format": "CSV",
+            "id": 4,
+            "sort_order": 0
+          }
+        ],
+        "sector": "oil-gas",
+        "sector_display": "Petroleum",
+        "slug": "sample-data-for-oil-sector-in-syria",
+        "status": "active",
+        "status_display": "Active",
+        "title_ar": "بيانات نموذجية لقطاع النفط في سوريا",
+        "title_en": "Sample Data for Oil Sector in Syria",
+        "updated_at": "2026-07-19T09:45:15.889920+00:00",
+        "view_count": 40
+      },
+      {
+        "created_at": "2026-07-02T07:23:27.046693+00:00",
+        "data_end_date": null,
+        "data_start_date": null,
+        "description_ar": "المعلومات الواردة من المؤسسة العامة لمياه الشرب",
+        "description_en": "Information received from the General Authority for Drinking Water",
+        "download_count": 2,
+        "download_url": "http://localhost:8002/api/v1/datasets/13/download/",
+        "external_url": "",
+        "file_name": "برنامج_تقييم_محطات_المياه_26-06-2026.xlsx",
+        "file_url": "http://localhost:8002/media/datasets/files/%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D8%AC_%D8%AA%D9%82%D9%8A%D9%8A%D9%85_%D9%85%D8%AD%D8%B7%D8%A7%D8%AA_%D8%A7%D9%84%D9%85%D9%8A%D8%A7%D9%87_26-06-2026.xlsx",
+        "governorate": {
+          "id": 5,
+          "name_ar": "دمشق",
+          "name_en": "Damascus",
+          "pcode": "SY01"
+        },
+        "has_download": true,
+        "id": 13,
+        "is_active": true,
+        "organization": {
+          "acronym": "O5",
+          "id": 5,
+          "name_en": "إدارة تنظيم قطاع الكهرباء",
+          "slug": "org-5"
+        },
+        "resource_formats": [
+          "XLSX"
+        ],
+        "resources": [
+          {
+            "created_at": "2026-07-02T07:23:27.057319+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/13/download/?resource_id=100",
+            "file_name": "برنامج_تقييم_محطات_المياه_26-06-2026.xlsx",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D8%AC_%D8%AA%D9%82%D9%8A%D9%8A%D9%85_%D9%85%D8%AD%D8%B7%D8%A7%D8%AA_%D8%A7%D9%84%D9%85%D9%8A%D8%A7%D9%87_26-06-2026.xlsx",
+            "format": "XLSX",
+            "id": 100,
+            "sort_order": 0
+          }
+        ],
+        "sector": "water-resources",
+        "sector_display": "Water Resources",
+        "slug": "information-received-from-the-general-authority-for-drinking-water",
+        "status": "active",
+        "status_display": "Active",
+        "title_ar": "المعلومات الواردة من المؤسسة العامة لمياه الشرب",
+        "title_en": "Information received from the General Authority for Drinking Water",
+        "updated_at": "2026-07-18T06:01:06.073634+00:00",
+        "view_count": 6
+      },
+      {
+        "created_at": "2026-06-06T17:23:35.146913+00:00",
+        "data_end_date": null,
+        "data_start_date": null,
+        "description_ar": "مياه سوريا",
+        "description_en": "Syria_Water",
+        "download_count": 0,
+        "download_url": "http://localhost:8002/api/v1/datasets/6/download/",
+        "external_url": "",
+        "file_name": "hotosm_syr_waterways_osm_shp.zip",
+        "file_url": "http://localhost:8002/media/datasets/files/hotosm_syr_waterways_osm_shp.zip",
+        "governorate": {
+          "id": 5,
+          "name_ar": "دمشق",
+          "name_en": "Damascus",
+          "pcode": "SY01"
+        },
+        "has_download": true,
+        "id": 6,
+        "is_active": true,
+        "organization": {
+          "acronym": "O1",
+          "id": 1,
+          "name_en": "مديرية مياه الشرب",
+          "slug": "org-1"
+        },
+        "resource_formats": [
+          "GeoJSON",
+          "SHP",
+          "KML"
+        ],
+        "resources": [
+          {
+            "created_at": "2026-06-07T03:28:26.790743+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/6/download/?resource_id=2",
+            "file_name": "hotosm_syr_waterways_osm_shp.zip",
+            "file_url": "http://localhost:8002/media/datasets/files/hotosm_syr_waterways_osm_shp.zip",
+            "format": "SHP",
+            "id": 2,
+            "sort_order": 0
+          },
+          {
+            "created_at": "2026-06-07T03:49:42.970255+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/6/download/?resource_id=10",
+            "file_name": "hotosm_syr_waterways_osm_geojson.zip",
+            "file_url": "http://localhost:8002/media/datasets/files/hotosm_syr_waterways_osm_geojson.zip",
+            "format": "GeoJSON",
+            "id": 10,
+            "sort_order": 2
+          }
+        ],
+        "sector": "water-resources",
+        "sector_display": "Water Resources",
+        "slug": "syria-waterways-openstreetmap-export-1",
+        "status": "active",
+        "status_display": "Active",
+        "title_ar": "سوريا: الممرات المائية",
+        "title_en": "Syria : Waterways (OpenStreetMap Export)",
+        "updated_at": "2026-07-10T19:31:34.650004+00:00",
+        "view_count": 202
+      },
+      {
+        "created_at": "2026-07-02T07:06:53.364381+00:00",
+        "data_end_date": null,
+        "data_start_date": null,
+        "description_ar": "التقارير اليومية لشهر يونيو",
+        "description_en": "Daily reports for June",
+        "download_count": 0,
+        "download_url": "http://localhost:8002/api/v1/datasets/12/download/",
+        "external_url": "",
+        "file_name": "تقرير_صالة_التنسيق_1-6-2026.pdf",
+        "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_1-6-2026.pdf",
+        "governorate": {
+          "id": 5,
+          "name_ar": "دمشق",
+          "name_en": "Damascus",
+          "pcode": "SY01"
+        },
+        "has_download": true,
+        "id": 12,
+        "is_active": true,
+        "organization": {
+          "acronym": "O5",
+          "id": 5,
+          "name_en": "إدارة تنظيم قطاع الكهرباء",
+          "slug": "org-5"
+        },
+        "resource_formats": [
+          "PDF"
+        ],
+        "resources": [
+          {
+            "created_at": "2026-07-02T07:06:53.374073+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=79",
+            "file_name": "تقرير_صالة_التنسيق_1-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_1-6-2026.pdf",
+            "format": "PDF",
+            "id": 79,
+            "sort_order": 0
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.377681+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=80",
+            "file_name": "تقرير_صالة_التنسيق_2-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_2-6-2026.pdf",
+            "format": "PDF",
+            "id": 80,
+            "sort_order": 1
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.380172+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=81",
+            "file_name": "تقرير_صالة_التنسيق_3-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_3-6-2026.pdf",
+            "format": "PDF",
+            "id": 81,
+            "sort_order": 2
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.382505+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=82",
+            "file_name": "تقرير_صالة_التنسيق_4-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_4-6-2026.pdf",
+            "format": "PDF",
+            "id": 82,
+            "sort_order": 3
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.384608+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=83",
+            "file_name": "تقرير_صالة_التنسيق_5-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_5-6-2026.pdf",
+            "format": "PDF",
+            "id": 83,
+            "sort_order": 4
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.386718+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=84",
+            "file_name": "تقرير_صالة_التنسيق_6-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_6-6-2026.pdf",
+            "format": "PDF",
+            "id": 84,
+            "sort_order": 5
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.388851+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=85",
+            "file_name": "تقرير_صالة_التنسيق_7-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_7-6-2026.pdf",
+            "format": "PDF",
+            "id": 85,
+            "sort_order": 6
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.390938+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=86",
+            "file_name": "تقرير_صالة_التنسيق_8-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_8-6-2026.pdf",
+            "format": "PDF",
+            "id": 86,
+            "sort_order": 7
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.392811+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=87",
+            "file_name": "تقرير_صالة_التنسيق_9-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_9-6-2026.pdf",
+            "format": "PDF",
+            "id": 87,
+            "sort_order": 8
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.394758+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=88",
+            "file_name": "تقرير_صالة_التنسيق_10-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_10-6-2026.pdf",
+            "format": "PDF",
+            "id": 88,
+            "sort_order": 9
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.396835+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=89",
+            "file_name": "تقرير_صالة_التنسيق_11-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_11-6-2026.pdf",
+            "format": "PDF",
+            "id": 89,
+            "sort_order": 10
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.398739+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=90",
+            "file_name": "تقرير_صالة_التنسيق_12-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_12-6-2026.pdf",
+            "format": "PDF",
+            "id": 90,
+            "sort_order": 11
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.400693+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=91",
+            "file_name": "تقرير_صالة_التنسيق_13-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_13-6-2026.pdf",
+            "format": "PDF",
+            "id": 91,
+            "sort_order": 12
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.402643+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=92",
+            "file_name": "تقرير_صالة_التنسيق_14-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_14-6-2026.pdf",
+            "format": "PDF",
+            "id": 92,
+            "sort_order": 13
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.404426+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=93",
+            "file_name": "تقرير_صالة_التنسيق_15-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_15-6-2026.pdf",
+            "format": "PDF",
+            "id": 93,
+            "sort_order": 14
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.406218+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=94",
+            "file_name": "تقرير_صالة_التنسيق_16-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_16-6-2026.pdf",
+            "format": "PDF",
+            "id": 94,
+            "sort_order": 15
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.407914+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=95",
+            "file_name": "تقرير_صالة_التنسيق_17-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_17-6-2026.pdf",
+            "format": "PDF",
+            "id": 95,
+            "sort_order": 16
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.409524+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=96",
+            "file_name": "تقرير_صالة_التنسيق_18-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_18-6-2026.pdf",
+            "format": "PDF",
+            "id": 96,
+            "sort_order": 17
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.411195+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=97",
+            "file_name": "تقرير_صالة_التنسيق_19-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_19-6-2026.pdf",
+            "format": "PDF",
+            "id": 97,
+            "sort_order": 18
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.412969+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=98",
+            "file_name": "تقرير_صالة_التنسيق_20-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_20-6-2026.pdf",
+            "format": "PDF",
+            "id": 98,
+            "sort_order": 19
+          },
+          {
+            "created_at": "2026-07-02T07:06:53.414723+00:00",
+            "download_url": "http://localhost:8002/api/v1/datasets/12/download/?resource_id=99",
+            "file_name": "تقرير_صالة_التنسيق_21-6-2026.pdf",
+            "file_url": "http://localhost:8002/media/datasets/files/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1_%D8%B5%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82_21-6-2026.pdf",
+            "format": "PDF",
+            "id": 99,
+            "sort_order": 20
+          }
+        ],
+        "sector": "electricity",
+        "sector_display": "Electricity",
+        "slug": "daily-reports-issued-by-the-electricity-regulatory-authority-for-the-month-of-june",
+        "status": "active",
+        "status_display": "Active",
+        "title_ar": "التقارير اليومية الصادرة عن هيئة تنظيم قطاع الكهرباء لشهر حزيران",
+        "title_en": "Daily reports issued by the Electricity Regulatory Authority for the month of June",
+        "updated_at": "2026-07-05T19:48:08.461754+00:00",
+        "view_count": 4
+      }
+    ]
+  },
+  "path": "/api/v1/datasets/",
+  "status": 200
+}

@@ -59,6 +59,8 @@ label {
   border-radius: $radius-md;
   background: #fafafa;
   min-height: 50px;
+  max-height: 140px;
+  overflow-y: auto;
   align-content: flex-start;
 }
 
@@ -161,4 +163,23 @@ label {
 
 .clear-all-btn:hover {
   background: rgba($error-border, 0.2);
+}
+
+.more-chips-btn {
+  align-self: flex-start;
+  margin-top: 2px;
+  padding: $spacing-1 10px;
+  border: 1px solid $border-color;
+  background: $bg-primary;
+  color: $gray-700;
+  border-radius: $radius-md;
+  cursor: pointer;
+  font-size: $font-size-xs;
+  font-weight: $fw-semibold;
+  font-family: inherit;
+  transition: background $transition-fast;
+}
+
+.more-chips-btn:hover {
+  background: $gray-100;
 }

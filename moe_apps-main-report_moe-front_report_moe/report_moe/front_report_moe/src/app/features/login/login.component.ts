@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -114,6 +114,7 @@ import { LanguageService, Language } from '../../shared/services/language.servic
       </section>
     </main>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
@@ -138,7 +139,8 @@ export class LoginComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     // Already signed in → leave login. Do not call fetchMe here when anonymous:
-    // DRF returns 403 for /auth/me without a session and used to spam a permission toast.
+    // /auth/me returns 401 without a session and used to spam a permission toast.
+    // The app-initializer (initSession) has already resolved currentUser by now.
     if (this.authService.currentUser()) {
       const user = this.authService.currentUser();
       if (user?.is_admin) {

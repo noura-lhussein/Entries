@@ -1,0 +1,809 @@
+{
+  "body": {
+    "category_name": "إدارة الجيولوجيا",
+    "era_mix": [
+      {
+        "count": 1116,
+        "era": "Cenozoic",
+        "label_ar": "حقبة الحياة الحديثة",
+        "label_en": "Cenozoic",
+        "percent": 52.1
+      },
+      {
+        "count": 562,
+        "era": "Quaternary",
+        "label_ar": "الرباعي",
+        "label_en": "Quaternary",
+        "percent": 26.2
+      },
+      {
+        "count": 456,
+        "era": "Mesozoic",
+        "label_ar": "حقبة الحياة الوسطى",
+        "label_en": "Mesozoic",
+        "percent": 21.3
+      },
+      {
+        "count": 6,
+        "era": "Proterozoic",
+        "label_ar": "البروتيروزوي",
+        "label_en": "Proterozoic",
+        "percent": 0.3
+      },
+      {
+        "count": 3,
+        "era": "—",
+        "label_ar": "—",
+        "label_en": "—",
+        "percent": 0.1
+      }
+    ],
+    "kpis": [
+      {
+        "id": "geology_layers",
+        "label_ar": "طبقات الخريطة الجيولوجية",
+        "label_en": "Geology map layers",
+        "unit": "",
+        "value": 11
+      },
+      {
+        "id": "geology_features",
+        "label_ar": "الوحدات الجيولوجية على الخريطة",
+        "label_en": "Mapped geological units",
+        "unit": "",
+        "value": 10323
+      },
+      {
+        "id": "geology_info",
+        "label_ar": "سجلات كتالوج المعلومات الجيولوجية",
+        "label_en": "Geology info catalog records",
+        "unit": "",
+        "value": 0
+      },
+      {
+        "id": "geology_category_volcanic",
+        "label_ar": "وحدات بركانية (كتالوج)",
+        "label_en": "Volcanic catalog units",
+        "unit": "",
+        "value": 0
+      },
+      {
+        "id": "geology_category_sedimentary",
+        "label_ar": "وحدات رسوبية (كتالوج)",
+        "label_en": "Sedimentary catalog units",
+        "unit": "",
+        "value": 0
+      },
+      {
+        "id": "geology_category_modern",
+        "label_ar": "طبقات حديثة (كتالوج)",
+        "label_en": "Modern catalog units",
+        "unit": "",
+        "value": 0
+      }
+    ],
+    "layers": [
+      {
+        "default_visible": false,
+        "feature_count": 2143,
+        "id": "geology-official",
+        "name_ar": "الجيولوجيا — ألوان الخريطة",
+        "name_en": "Geology — map colors"
+      },
+      {
+        "default_visible": false,
+        "feature_count": 2143,
+        "id": "geology-era",
+        "name_ar": "الجيولوجيا — حسب العصر الجيولوجي",
+        "name_en": "Geology — by geological era"
+      },
+      {
+        "default_visible": false,
+        "feature_count": 1116,
+        "id": "geology-cenozoic",
+        "name_ar": "وحدات حقبة الحياة الحديثة",
+        "name_en": "Cenozoic units"
+      },
+      {
+        "default_visible": false,
+        "feature_count": 562,
+        "id": "geology-quaternary",
+        "name_ar": "وحدات رباعي",
+        "name_en": "Quaternary units"
+      },
+      {
+        "default_visible": false,
+        "feature_count": 456,
+        "id": "geology-mesozoic",
+        "name_ar": "وحدات حقبة الحياة الوسطى",
+        "name_en": "Mesozoic units"
+      },
+      {
+        "default_visible": false,
+        "feature_count": 1349,
+        "id": "geology-sedimentary",
+        "name_ar": "وحدات رسوبية",
+        "name_en": "Sedimentary units"
+      },
+      {
+        "default_visible": false,
+        "feature_count": 308,
+        "id": "geology-volcanic",
+        "name_ar": "وحدات بركانية",
+        "name_en": "Volcanic units"
+      },
+      {
+        "default_visible": true,
+        "feature_count": 165,
+        "id": "geology-minerals",
+        "name_ar": "مواقع الخامات المعدنية",
+        "name_en": "Mineral deposits"
+      },
+      {
+        "default_visible": false,
+        "feature_count": 1234,
+        "id": "geology-geomillion",
+        "name_ar": "الخريطة الجيولوجية (Geomillion)",
+        "name_en": "Geomillion geological map"
+      },
+      {
+        "default_visible": false,
+        "feature_count": 580,
+        "id": "geology-faults",
+        "name_ar": "الفوالق الجيولوجية",
+        "name_en": "Geological faults"
+      },
+      {
+        "default_visible": false,
+        "feature_count": 267,
+        "id": "geology-extinct-volcanoes",
+        "name_ar": "البراكين الخامدة",
+        "name_en": "Extinct volcanoes"
+      }
+    ],
+    "mineral_by_governorate": [
+      {
+        "name_ar": "حمص",
+        "name_en": "Homs",
+        "pcode": "SY04",
+        "total": 59,
+        "types": [
+          {
+            "count": 23,
+            "name_ar": "رمال كوارتزية",
+            "name_en": "رمال كوارتزية",
+            "percent": 39.0
+          },
+          {
+            "count": 11,
+            "name_ar": "ملح",
+            "name_en": "ملح",
+            "percent": 18.6
+          },
+          {
+            "count": 7,
+            "name_ar": "غضار",
+            "name_en": "غضار",
+            "percent": 11.9
+          },
+          {
+            "count": 6,
+            "name_ar": "دولوميت",
+            "name_en": "دولوميت",
+            "percent": 10.2
+          },
+          {
+            "count": 4,
+            "name_ar": "الاسمنت",
+            "name_en": "الاسمنت",
+            "percent": 6.8
+          },
+          {
+            "count": 3,
+            "name_ar": "فوسفات",
+            "name_en": "فوسفات",
+            "percent": 5.1
+          },
+          {
+            "count": 2,
+            "name_ar": "حجر جيري",
+            "name_en": "حجر جيري",
+            "percent": 3.4
+          },
+          {
+            "count": 2,
+            "name_ar": "رخام",
+            "name_en": "رخام",
+            "percent": 3.4
+          },
+          {
+            "count": 1,
+            "name_ar": "تريبولي",
+            "name_en": "تريبولي",
+            "percent": 1.7
+          }
+        ]
+      },
+      {
+        "name_ar": "ريف دمشق",
+        "name_en": "Rural Damascus",
+        "pcode": "SY03",
+        "total": 33,
+        "types": [
+          {
+            "count": 10,
+            "name_ar": "رمال كوارتزية",
+            "name_en": "رمال كوارتزية",
+            "percent": 30.3
+          },
+          {
+            "count": 3,
+            "name_ar": "الاسمنت",
+            "name_en": "الاسمنت",
+            "percent": 9.1
+          },
+          {
+            "count": 3,
+            "name_ar": "حديد",
+            "name_en": "حديد",
+            "percent": 9.1
+          },
+          {
+            "count": 3,
+            "name_ar": "رخام",
+            "name_en": "رخام",
+            "percent": 9.1
+          },
+          {
+            "count": 3,
+            "name_ar": "زيوليت",
+            "name_en": "زيوليت",
+            "percent": 9.1
+          },
+          {
+            "count": 2,
+            "name_ar": "حجر جيري",
+            "name_en": "حجر جيري",
+            "percent": 6.1
+          },
+          {
+            "count": 2,
+            "name_ar": "دولوميت",
+            "name_en": "دولوميت",
+            "percent": 6.1
+          },
+          {
+            "count": 2,
+            "name_ar": "غضار",
+            "name_en": "غضار",
+            "percent": 6.1
+          },
+          {
+            "count": 1,
+            "name_ar": "الجص",
+            "name_en": "الجص",
+            "percent": 3.0
+          },
+          {
+            "count": 1,
+            "name_ar": "تورب",
+            "name_en": "تورب",
+            "percent": 3.0
+          },
+          {
+            "count": 1,
+            "name_ar": "سجيل زيتي",
+            "name_en": "سجيل زيتي",
+            "percent": 3.0
+          },
+          {
+            "count": 1,
+            "name_ar": "سكوريا",
+            "name_en": "سكوريا",
+            "percent": 3.0
+          },
+          {
+            "count": 1,
+            "name_ar": "ملح",
+            "name_en": "ملح",
+            "percent": 3.0
+          }
+        ]
+      },
+      {
+        "name_ar": "دير الزور",
+        "name_en": "Deir-ez-Zor",
+        "pcode": "SY09",
+        "total": 16,
+        "types": [
+          {
+            "count": 11,
+            "name_ar": "ملح",
+            "name_en": "ملح",
+            "percent": 68.8
+          },
+          {
+            "count": 2,
+            "name_ar": "اسفلت",
+            "name_en": "اسفلت",
+            "percent": 12.5
+          },
+          {
+            "count": 2,
+            "name_ar": "دولوميت",
+            "name_en": "دولوميت",
+            "percent": 12.5
+          },
+          {
+            "count": 1,
+            "name_ar": "رمال كوارتزية",
+            "name_en": "رمال كوارتزية",
+            "percent": 6.2
+          }
+        ]
+      },
+      {
+        "name_ar": "الرقة",
+        "name_en": "Ar-Raqqa",
+        "pcode": "SY11",
+        "total": 15,
+        "types": [
+          {
+            "count": 5,
+            "name_ar": "رمال كوارتزية",
+            "name_en": "رمال كوارتزية",
+            "percent": 33.3
+          },
+          {
+            "count": 3,
+            "name_ar": "الجص",
+            "name_en": "الجص",
+            "percent": 20.0
+          },
+          {
+            "count": 3,
+            "name_ar": "غضار",
+            "name_en": "غضار",
+            "percent": 20.0
+          },
+          {
+            "count": 2,
+            "name_ar": "سكوريا",
+            "name_en": "سكوريا",
+            "percent": 13.3
+          },
+          {
+            "count": 1,
+            "name_ar": "اسفلت",
+            "name_en": "اسفلت",
+            "percent": 6.7
+          },
+          {
+            "count": 1,
+            "name_ar": "الاسمنت",
+            "name_en": "الاسمنت",
+            "percent": 6.7
+          }
+        ]
+      },
+      {
+        "name_ar": "حلب",
+        "name_en": "Aleppo",
+        "pcode": "SY02",
+        "total": 14,
+        "types": [
+          {
+            "count": 4,
+            "name_ar": "الاسمنت",
+            "name_en": "الاسمنت",
+            "percent": 28.6
+          },
+          {
+            "count": 3,
+            "name_ar": "بنتونيت",
+            "name_en": "بنتونيت",
+            "percent": 21.4
+          },
+          {
+            "count": 3,
+            "name_ar": "حديد",
+            "name_en": "حديد",
+            "percent": 21.4
+          },
+          {
+            "count": 2,
+            "name_ar": "سجيل زيتي",
+            "name_en": "سجيل زيتي",
+            "percent": 14.3
+          },
+          {
+            "count": 2,
+            "name_ar": "ملح",
+            "name_en": "ملح",
+            "percent": 14.3
+          }
+        ]
+      },
+      {
+        "name_ar": "حماة",
+        "name_en": "Hama",
+        "pcode": "SY05",
+        "total": 7,
+        "types": [
+          {
+            "count": 2,
+            "name_ar": "بازلت",
+            "name_en": "بازلت",
+            "percent": 28.6
+          },
+          {
+            "count": 2,
+            "name_ar": "دولوميت",
+            "name_en": "دولوميت",
+            "percent": 28.6
+          },
+          {
+            "count": 2,
+            "name_ar": "سجيل زيتي",
+            "name_en": "سجيل زيتي",
+            "percent": 28.6
+          },
+          {
+            "count": 1,
+            "name_ar": "الاسمنت",
+            "name_en": "الاسمنت",
+            "percent": 14.3
+          }
+        ]
+      },
+      {
+        "name_ar": "السويداء",
+        "name_en": "As-Sweida",
+        "pcode": "SY13",
+        "total": 6,
+        "types": [
+          {
+            "count": 3,
+            "name_ar": "تراكيت",
+            "name_en": "تراكيت",
+            "percent": 50.0
+          },
+          {
+            "count": 2,
+            "name_ar": "سكوريا",
+            "name_en": "سكوريا",
+            "percent": 33.3
+          },
+          {
+            "count": 1,
+            "name_ar": "بازلت",
+            "name_en": "بازلت",
+            "percent": 16.7
+          }
+        ]
+      },
+      {
+        "name_ar": "اللاذقية",
+        "name_en": "Lattakia",
+        "pcode": "SY06",
+        "total": 5,
+        "types": [
+          {
+            "count": 1,
+            "name_ar": "اسفلت",
+            "name_en": "اسفلت",
+            "percent": 20.0
+          },
+          {
+            "count": 1,
+            "name_ar": "الجص",
+            "name_en": "الجص",
+            "percent": 20.0
+          },
+          {
+            "count": 1,
+            "name_ar": "رخام",
+            "name_en": "رخام",
+            "percent": 20.0
+          },
+          {
+            "count": 1,
+            "name_ar": "سيانيت نيفيليني",
+            "name_en": "سيانيت نيفيليني",
+            "percent": 20.0
+          },
+          {
+            "count": 1,
+            "name_ar": "فوسفات",
+            "name_en": "فوسفات",
+            "percent": 20.0
+          }
+        ]
+      },
+      {
+        "name_ar": "الحسكة",
+        "name_en": "Al-Hasakeh",
+        "pcode": "SY08",
+        "total": 4,
+        "types": [
+          {
+            "count": 1,
+            "name_ar": "الاسمنت",
+            "name_en": "الاسمنت",
+            "percent": 25.0
+          },
+          {
+            "count": 1,
+            "name_ar": "الجص",
+            "name_en": "الجص",
+            "percent": 25.0
+          },
+          {
+            "count": 1,
+            "name_ar": "دولوميت",
+            "name_en": "دولوميت",
+            "percent": 25.0
+          },
+          {
+            "count": 1,
+            "name_ar": "سكوريا",
+            "name_en": "سكوريا",
+            "percent": 25.0
+          }
+        ]
+      },
+      {
+        "name_ar": "طرطوس",
+        "name_en": "Tartous",
+        "pcode": "SY10",
+        "total": 3,
+        "types": [
+          {
+            "count": 2,
+            "name_ar": "دولوميت",
+            "name_en": "دولوميت",
+            "percent": 66.7
+          },
+          {
+            "count": 1,
+            "name_ar": "الاسمنت",
+            "name_en": "الاسمنت",
+            "percent": 33.3
+          }
+        ]
+      },
+      {
+        "name_ar": "درعا",
+        "name_en": "Dar'a",
+        "pcode": "SY12",
+        "total": 2,
+        "types": [
+          {
+            "count": 2,
+            "name_ar": "سجيل زيتي",
+            "name_en": "سجيل زيتي",
+            "percent": 100.0
+          }
+        ]
+      },
+      {
+        "name_ar": "إدلب",
+        "name_en": "Idleb",
+        "pcode": "SY07",
+        "total": 1,
+        "types": [
+          {
+            "count": 1,
+            "name_ar": "حجر جيري",
+            "name_en": "حجر جيري",
+            "percent": 100.0
+          }
+        ]
+      }
+    ],
+    "mineral_types": [
+      {
+        "count": 39,
+        "name_ar": "رمال كوارتزية",
+        "name_en": "رمال كوارتزية",
+        "percent": 23.6
+      },
+      {
+        "count": 25,
+        "name_ar": "ملح",
+        "name_en": "ملح",
+        "percent": 15.2
+      },
+      {
+        "count": 15,
+        "name_ar": "الاسمنت",
+        "name_en": "الاسمنت",
+        "percent": 9.1
+      },
+      {
+        "count": 15,
+        "name_ar": "دولوميت",
+        "name_en": "دولوميت",
+        "percent": 9.1
+      },
+      {
+        "count": 12,
+        "name_ar": "غضار",
+        "name_en": "غضار",
+        "percent": 7.3
+      },
+      {
+        "count": 7,
+        "name_ar": "سجيل زيتي",
+        "name_en": "سجيل زيتي",
+        "percent": 4.2
+      },
+      {
+        "count": 6,
+        "name_ar": "الجص",
+        "name_en": "الجص",
+        "percent": 3.6
+      },
+      {
+        "count": 6,
+        "name_ar": "حديد",
+        "name_en": "حديد",
+        "percent": 3.6
+      },
+      {
+        "count": 6,
+        "name_ar": "رخام",
+        "name_en": "رخام",
+        "percent": 3.6
+      },
+      {
+        "count": 6,
+        "name_ar": "سكوريا",
+        "name_en": "سكوريا",
+        "percent": 3.6
+      },
+      {
+        "count": 5,
+        "name_ar": "حجر جيري",
+        "name_en": "حجر جيري",
+        "percent": 3.0
+      },
+      {
+        "count": 4,
+        "name_ar": "اسفلت",
+        "name_en": "اسفلت",
+        "percent": 2.4
+      },
+      {
+        "count": 4,
+        "name_ar": "فوسفات",
+        "name_en": "فوسفات",
+        "percent": 2.4
+      },
+      {
+        "count": 3,
+        "name_ar": "بازلت",
+        "name_en": "بازلت",
+        "percent": 1.8
+      },
+      {
+        "count": 3,
+        "name_ar": "بنتونيت",
+        "name_en": "بنتونيت",
+        "percent": 1.8
+      },
+      {
+        "count": 3,
+        "name_ar": "تراكيت",
+        "name_en": "تراكيت",
+        "percent": 1.8
+      },
+      {
+        "count": 3,
+        "name_ar": "زيوليت",
+        "name_en": "زيوليت",
+        "percent": 1.8
+      },
+      {
+        "count": 1,
+        "name_ar": "تريبولي",
+        "name_en": "تريبولي",
+        "percent": 0.6
+      },
+      {
+        "count": 1,
+        "name_ar": "تورب",
+        "name_en": "تورب",
+        "percent": 0.6
+      },
+      {
+        "count": 1,
+        "name_ar": "سيانيت نيفيليني",
+        "name_en": "سيانيت نيفيليني",
+        "percent": 0.6
+      }
+    ],
+    "notes": [
+      {
+        "ar": "مؤشرات الكتالوج من Info المعتمد؛ هندسة طبقات الخريطة تبقى من GIS.",
+        "en": "Catalog KPIs from accepted Info; map layer geometry remains GIS."
+      }
+    ],
+    "ore_production": {
+      "available_plan_years": [
+        2026,
+        2025
+      ],
+      "category_name": "إدارة الجيولوجيا",
+      "plan_year": 2026,
+      "rows": [
+        {
+          "annual_plan_tons": 300000.0,
+          "contract_count": 4,
+          "execution_pct": 163.0,
+          "h1_executed_tons": 122251.5,
+          "h1_plan_tons": 75000.0,
+          "product_id": 1,
+          "product_name_ar": "الجص",
+          "product_name_en": "Gypsum",
+          "production_type": "",
+          "reserve_text": "اللاذقية 37 مليون / ريف دمشق 22 مليون / الرقة 3.5 مليار",
+          "unit": "طن"
+        },
+        {
+          "annual_plan_tons": 1200000.0,
+          "contract_count": 43,
+          "execution_pct": 144.75,
+          "h1_executed_tons": 248963.0,
+          "h1_plan_tons": 172000.0,
+          "product_id": 2,
+          "product_name_ar": "رمال كوارتزية",
+          "product_name_en": "Quartz sand",
+          "production_type": "ذاتي",
+          "reserve_text": "200 مليون من الرمل الصناعي / 100 مليون من الرمل الصالح للأغراض الإنشائية",
+          "unit": "طن"
+        },
+        {
+          "annual_plan_tons": 300000.0,
+          "contract_count": null,
+          "execution_pct": 127.8,
+          "h1_executed_tons": 416643.0,
+          "h1_plan_tons": 326000.0,
+          "product_id": 3,
+          "product_name_ar": "رمال كوارتزية",
+          "product_name_en": "Quartz sand",
+          "production_type": "معهّد",
+          "reserve_text": "",
+          "unit": "م3"
+        }
+      ],
+      "source": "dynamic_forms",
+      "status": "ready",
+      "totals": {
+        "annual_plan": 1800000.0,
+        "contracts": 47,
+        "h1_executed": 787857.5,
+        "h1_plan": 573000.0,
+        "lines": 3,
+        "products": 3
+      }
+    },
+    "sector": "mineral-resources",
+    "source": "gis",
+    "summary": {
+      "available_plan_years": [
+        2026,
+        2025
+      ],
+      "governorates_with_minerals": 12,
+      "info_catalog_records": 0,
+      "inventory_features": 10323,
+      "map_layers": 11,
+      "ore_contracts": 47,
+      "ore_products": 3,
+      "plan_year": 2026
+    }
+  },
+  "path": "/api/v1/geology/dashboard/",
+  "status": 200
+}

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -28,6 +28,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
     </div>
   `,
   styleUrl: './toast.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   animations: [
     trigger('slideIn', [
       transition(':enter', [

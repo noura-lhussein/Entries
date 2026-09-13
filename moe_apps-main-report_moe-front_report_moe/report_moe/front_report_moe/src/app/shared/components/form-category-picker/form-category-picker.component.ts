@@ -8,6 +8,7 @@ import {
   forwardRef,
   inject,
   signal,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import type { CategorySelectOption } from '../../../features/project-budget/project-budget.models';
@@ -150,6 +151,7 @@ import type { SelectValue } from '../form-select/form-select.component';
       <small *ngIf="errorMessage" class="error">{{ errorMessage }}</small>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './form-category-picker.component.scss',
 })
 export class FormCategoryPickerComponent implements ControlValueAccessor {

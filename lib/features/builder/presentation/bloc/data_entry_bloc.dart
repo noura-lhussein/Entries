@@ -5,6 +5,7 @@ import '../../../../core/network/user_facing_error.dart';
 import '../../data/datasources/builder_remote_data_source.dart';
 import '../../data/models/builder_models.dart';
 import '../utils/data_entry_logic.dart';
+import '../utils/filter_defaults.dart';
 import 'data_entry_event.dart';
 import 'data_entry_state.dart';
 
@@ -49,15 +50,11 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
         event.isAdmin
             ? Future.value(const UserBuilderPermissions())
             : _remote.getPermissions(),
-        event.isAdmin
-            ? Future.value(const <BuilderSubSection>[])
-            : _remote.getSubSections(),
       ], eagerError: false);
       var mains = fetched[0] as List<BuilderNamedItem>;
       var titles = fetched[1] as List<BuilderTitle>;
       final governorates = fetched[2] as List<BuilderSelectOption>;
       final perms = fetched[3] as UserBuilderPermissions;
-      final allSubs = fetched[4] as List<BuilderSubSection>;
 
       if (mains.isEmpty && titles.isEmpty) {
         emit(state.copyWith(
@@ -67,20 +64,13 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
         return;
       }
 
-      Set<int>? allowedMainIds;
       if (!event.isAdmin) {
         _allowedSubMainIds = perms.subMainIds;
-        final allowSubs = perms.subMainIds.toSet();
-        allowedMainIds = allSubs
-            .where((s) => allowSubs.contains(s.id))
-            .map((s) => s.mainSectionId)
-            .toSet();
       }
 
       mains = filterMainsForSector(
         mains: mains,
         sector: event.sector,
-        allowedMainIds: allowedMainIds,
       );
       titles = filterTitlesForSector(
         titles: titles,
@@ -97,6 +87,10 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
         titles: titles,
         governorates: governorates,
       ));
+      final onlyMain = soleItem(mains);
+      if (onlyMain != null) {
+        add(MainSectionSelected(onlyMain.id));
+      }
     } catch (e) {
       emit(state.copyWith(
         bootstrapping: false,
@@ -128,6 +122,13 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
         subs = subs.where((s) => allow.contains(s.id)).toList();
       }
       emit(state.copyWith(subSections: subs, loadingSubs: false));
+      final only = soleItem(subs);
+      if (only != null) {
+        add(SubSectionSelected(only.id));
+      } else if (state.selectedSubId != null &&
+          !subs.any((s) => s.id == state.selectedSubId)) {
+        add(const SubSectionSelected(null));
+      }
     } catch (_) {
       emit(state.copyWith(
         loadingSubs: false,

@@ -2,15 +2,18 @@ import 'package:dio/dio.dart';
 import '../../../../core/network/api_error_handler.dart';
 import '../../../../core/network/api_result.dart';
 import '../../../../core/network/api_constants.dart';
+import '../../../../core/network/auth_tokens.dart';
 import '../../../../core/network/cookie_session.dart';
 import '../../../../core/network/dio_client.dart';
 import '../../../../core/network/jwt_util.dart';
 import '../../../../core/network/token_refresher.dart';
+import '../../../../core/utils/media_url.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_datasource.dart';
 import '../datasources/auth_local_datasource.dart';
 import '../datasources/auth_secure_storage.dart';
+import '../models/login_response.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
@@ -32,25 +35,39 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<ApiResult<UserEntity>> login(String email, String password) async {
     try {
-      final response = await remoteDataSource.login({
-        'email': email,
-        'username': email,
-        'password': password,
-      });
+      final response = await dio.post<dynamic>(
+        ApiConstants.login,
+        data: {
+          'email': email,
+          'username': email,
+          'password': password,
+        },
+      );
 
-      await _persistCredentials(response.access, response.refresh);
-      await _warmCsrfCookie();
+      await cookieSession.saveFromResponse(response);
 
-      if (response.user != null) {
-        await localDataSource.saveUser(response.user!);
+      final map = _asMap(response.data) ?? <String, dynamic>{};
+      final parsed = LoginResponse.fromJson(map);
+      final jwtCookies = await cookieSession.readJwtCookies();
+      final tokens = AuthTokens(access: parsed.access, refresh: parsed.refresh)
+          .merged(AuthTokens.fromHeaders(response.headers))
+          .merged(
+            AuthTokens(access: jwtCookies.access, refresh: jwtCookies.refresh),
+          );
+
+      await _persistTokens(tokens.access, tokens.refresh);
+      await secureStorage.setHasServerSession(true);
+
+      if (parsed.user != null) {
+        await localDataSource.saveUser(parsed.user!);
       }
 
       final meResult = await fetchMe();
       if (meResult is Success<UserEntity>) {
         return ApiResult.success(meResult.data);
       }
-      if (response.user != null) {
-        return ApiResult.success(response.user!.toEntity());
+      if (parsed.user != null) {
+        return ApiResult.success(parsed.user!.toEntity());
       }
       return ApiResult.failure(ErrorHandler.handle('User data missing'));
     } catch (error) {
@@ -58,31 +75,33 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  Future<void> _persistCredentials(String? access, String? refresh) async {
-    var accessToken = access;
-    var refreshToken = refresh;
-    final fromCookies = await cookieSession.readJwtCookies();
-    accessToken ??= fromCookies.access;
-    refreshToken ??= fromCookies.refresh;
+  Future<void> _persistTokens(String? access, String? refresh) async {
+    final usableAccess = access != null &&
+        access.isNotEmpty &&
+        JwtUtil.looksLikeJwt(access) &&
+        !JwtUtil.isExpired(access);
+    final usableRefresh = refresh != null &&
+        refresh.isNotEmpty &&
+        JwtUtil.looksLikeJwt(refresh);
 
-    if (accessToken != null && accessToken.isNotEmpty) {
-      await secureStorage.saveAccessToken(accessToken);
-      DioFactory.updateHeaderWithToken(accessToken);
+    if (usableAccess) {
+      await secureStorage.saveAccessToken(access);
+      DioFactory.updateHeaderWithToken(access);
+    } else {
+      await secureStorage.deleteAccessToken();
+      DioFactory.clearToken();
     }
-    if (refreshToken != null && refreshToken.isNotEmpty) {
-      await secureStorage.saveRefreshToken(refreshToken);
+    if (usableRefresh) {
+      await secureStorage.saveRefreshToken(refresh);
+    } else {
+      await secureStorage.deleteRefreshToken();
     }
-    await secureStorage.setHasServerSession(true);
   }
 
-  Future<void> _warmCsrfCookie() async {
-    final client = DioFactory.dio;
-    if (client == null) return;
-    try {
-      await client.get<dynamic>(ApiConstants.csrf);
-    } catch (_) {
-      // Optional on session APIs; csrftoken often arrives with login Set-Cookie.
-    }
+  Map<String, dynamic>? _asMap(dynamic data) {
+    if (data is Map<String, dynamic>) return data;
+    if (data is Map) return Map<String, dynamic>.from(data);
+    return null;
   }
 
   @override
@@ -91,7 +110,6 @@ class AuthRepositoryImpl implements AuthRepository {
       await tokenRefresher.ensureAccessToken();
       final user = await remoteDataSource.getMe();
       await localDataSource.saveUser(user);
-      await secureStorage.setHasServerSession(true);
       return ApiResult.success(user.toEntity());
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));
@@ -107,18 +125,151 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       await tokenRefresher.ensureAccessToken();
-      await dio.patch(
+      final response = await dio.patch(
         ApiConstants.userById(userId),
         data: {
-          'first_name': firstName,
-          'last_name': lastName,
+          'full_name': [firstName, lastName]
+              .where((e) => e.trim().isNotEmpty)
+              .join(' ')
+              .trim(),
           'email': email,
         },
       );
-      return await fetchMe();
+      final parsed = _userFromBody(response.data);
+      if (parsed != null) {
+        await localDataSource.saveUser(parsed);
+        final me = await fetchMe();
+        if (me is Success<UserEntity>) return me;
+        return ApiResult.success(parsed.toEntity());
+      }
+      final me = await fetchMe();
+      if (me is Success<UserEntity>) return me;
+      final cached = await getSavedUser();
+      if (cached != null) {
+        return ApiResult.success(
+          cached.copyWith(
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            fullName: [firstName, lastName]
+                .where((e) => e.trim().isNotEmpty)
+                .join(' '),
+          ),
+        );
+      }
+      return me;
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));
     }
+  }
+
+  @override
+  Future<ApiResult<UserEntity>> updateProfilePhoto({
+    required int userId,
+    required String filePath,
+  }) async {
+    try {
+      await tokenRefresher.ensureAccessToken();
+      final filename = filePath.split(RegExp(r'[\\/]')).last;
+      var uploadedUrl = await _patchUserPhotoFile(userId, filePath, filename);
+      uploadedUrl ??= await _uploadThenPatchPhotoUrl(userId, filePath, filename);
+      final photo = uploadedUrl ?? filePath;
+
+      final me = await fetchMe();
+      if (me is Success<UserEntity>) {
+        final resolved =
+            (me.data.photoUrl != null && me.data.photoUrl!.isNotEmpty)
+                ? me.data.photoUrl!
+                : photo;
+        await _persistPhotoOnCachedUser(resolved);
+        if (resolved != me.data.photoUrl) {
+          return ApiResult.success(me.data.copyWith(photoUrl: resolved));
+        }
+        return me;
+      }
+      await _persistPhotoOnCachedUser(photo);
+      final cached = await getSavedUser();
+      if (cached != null) {
+        return ApiResult.success(cached.copyWith(photoUrl: photo));
+      }
+      if (me is Failure<UserEntity>) return me;
+      return ApiResult.failure(ErrorHandler.handle('تعذر تحديث الصورة'));
+    } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  Future<String?> _patchUserPhotoFile(
+    int userId,
+    String filePath,
+    String filename,
+  ) async {
+    try {
+      final file = await MultipartFile.fromFile(filePath, filename: filename);
+      final response = await dio.patch(
+        ApiConstants.userById(userId),
+        data: FormData.fromMap({'photo': file}),
+      );
+      final parsed = _userFromBody(response.data);
+      if (parsed != null) {
+        await localDataSource.saveUser(parsed);
+        return parsed.photoUrl;
+      }
+      return photoUrlFromJson(_asMap(response.data) ?? const {});
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<String?> _uploadThenPatchPhotoUrl(
+    int userId,
+    String filePath,
+    String filename,
+  ) async {
+    try {
+      final file = await MultipartFile.fromFile(filePath, filename: filename);
+      final upload = await dio.post(
+        ApiConstants.builderFormFileUpload,
+        data: FormData.fromMap({'file': file, 'kind': 'image'}),
+      );
+      final url = _uploadUrl(upload.data);
+      if (url == null || url.isEmpty) return null;
+      await dio.patch(
+        ApiConstants.userById(userId),
+        data: {'photo': url},
+      );
+      return url;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> _persistPhotoOnCachedUser(String url) async {
+    final existing = await localDataSource.getUser();
+    if (existing == null) return;
+    await localDataSource.saveUser(
+      UserResponse.fromJson({
+        ...existing.toJson(),
+        'photo': url,
+      }),
+    );
+  }
+
+  UserResponse? _userFromBody(dynamic data) {
+    final map = _asMap(data);
+    if (map == null) return null;
+    if (map['id'] == null && map['username'] == null && map['email'] == null) {
+      return null;
+    }
+    return UserResponse.fromJson(map);
+  }
+
+  String? _uploadUrl(dynamic data) {
+    final map = _asMap(data);
+    if (map == null) return null;
+    final url = map['url']?.toString().trim();
+    if (url != null && url.isNotEmpty) return url;
+    return photoUrlFromJson(map);
   }
 
   @override
@@ -161,10 +312,23 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<bool> isLoggedIn() async {
     final access = await secureStorage.getAccessToken();
     final refresh = await secureStorage.getRefreshToken();
-    final hasAccess = access != null && access.isNotEmpty;
-    final hasRefresh = refresh != null && refresh.isNotEmpty;
-    if (hasAccess && !JwtUtil.isExpired(access)) return true;
+    final hasAccess = access != null &&
+        access.isNotEmpty &&
+        JwtUtil.looksLikeJwt(access);
+    final hasRefresh =
+        refresh != null && refresh.isNotEmpty && JwtUtil.looksLikeJwt(refresh);
+
+    if (access != null && access.isNotEmpty && !hasAccess) {
+      await secureStorage.deleteAccessToken();
+      DioFactory.clearToken();
+    }
+
+    if (hasAccess && !JwtUtil.isExpired(access)) {
+      DioFactory.updateHeaderWithToken(access);
+      return true;
+    }
     if (hasRefresh) return true;
+    DioFactory.clearToken();
     if (await cookieSession.hasServerSession()) return true;
     return secureStorage.hasServerSession();
   }

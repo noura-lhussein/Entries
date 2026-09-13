@@ -67,7 +67,7 @@ class SchemaDateField extends StatelessWidget {
                   ),
               ],
             ),
-            textAlign: TextAlign.right,
+            textAlign: TextAlign.start,
           ),
         if (label.isNotEmpty) SizedBox(height: 5.h),
         Material(
@@ -107,7 +107,9 @@ class SchemaDateField extends StatelessWidget {
                   Expanded(
                     child: Text(
                       parsed == null ? 'اختر التاريخ' : _ar(parsed),
-                      textAlign: TextAlign.right,
+                      textAlign: parsed == null
+                          ? TextAlign.start
+                          : TextAlign.end,
                       textDirection: parsed == null
                           ? TextDirection.rtl
                           : TextDirection.ltr,

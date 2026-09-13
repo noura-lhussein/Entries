@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-form-hierarchy-trail',
@@ -20,6 +20,7 @@ import { Component, Input } from '@angular/core';
       </ol>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './form-hierarchy-trail.component.scss',
 })
 export class FormHierarchyTrailComponent {

@@ -41,8 +41,8 @@ class DynamicSchemaField extends StatelessWidget {
         return Container(
           padding: EdgeInsets.symmetric(vertical: 2.h),
           decoration: BoxDecoration(
-            border: Border(
-              right: BorderSide(
+            border: BorderDirectional(
+              start: BorderSide(
                 width: 2.5,
                 color: hasError
                     ? AppColors.errorRed
@@ -60,7 +60,7 @@ class DynamicSchemaField extends StatelessWidget {
                 SizedBox(height: 4.h),
                 Text(
                   field.helpAr!,
-                  textAlign: TextAlign.right,
+                  textAlign: TextAlign.start,
                   style: TextStyle(
                     fontFamily: 'Cairo',
                     fontSize: 10.sp,
@@ -72,7 +72,7 @@ class DynamicSchemaField extends StatelessWidget {
                 SizedBox(height: 4.h),
                 Text(
                   error,
-                  textAlign: TextAlign.right,
+                  textAlign: TextAlign.start,
                   style: TextStyle(
                     fontFamily: 'Cairo',
                     fontSize: 11.sp,
@@ -84,7 +84,7 @@ class DynamicSchemaField extends StatelessWidget {
                 SizedBox(height: 4.h),
                 Text(
                   warning,
-                  textAlign: TextAlign.right,
+                  textAlign: TextAlign.start,
                   style: TextStyle(
                     fontFamily: 'Cairo',
                     fontSize: 11.sp,
@@ -117,7 +117,7 @@ class DynamicSchemaField extends StatelessWidget {
         controlAffinity: ListTileControlAffinity.trailing,
         title: Text(
           field.labelAr,
-          textAlign: TextAlign.right,
+          textAlign: TextAlign.start,
           style: TextStyle(
             fontFamily: 'Cairo',
             fontSize: 13.sp,
@@ -311,7 +311,7 @@ class _BoundTextFieldState extends State<_BoundTextField> {
                 ),
             ],
           ),
-          textAlign: TextAlign.right,
+          textAlign: TextAlign.start,
         ),
         SizedBox(height: 5.h),
         TextField(
@@ -322,7 +322,7 @@ class _BoundTextFieldState extends State<_BoundTextField> {
           keyboardType: widget.number
               ? const TextInputType.numberWithOptions(decimal: true)
               : TextInputType.text,
-          textAlign: TextAlign.right,
+          textAlign: widget.number ? TextAlign.end : TextAlign.start,
           textDirection:
               widget.number ? TextDirection.ltr : TextDirection.rtl,
           onChanged: widget.onChanged,
@@ -412,7 +412,7 @@ class _FileFieldState extends State<_FileField> {
       children: [
         Text(
           widget.field.labelAr,
-          textAlign: TextAlign.right,
+          textAlign: TextAlign.start,
           style: TextStyle(
             fontFamily: 'Cairo',
             fontSize: 11.sp,

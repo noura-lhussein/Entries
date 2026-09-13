@@ -135,3 +135,20 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.export-date-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: $font-size-sm;
+  color: $gray-700;
+}
+
+.export-date-input {
+  width: 100%;
+  max-width: 240px;
+  padding: 8px 10px;
+  border: 1px solid $gray-300;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  margin-bottom: 8px;
+}

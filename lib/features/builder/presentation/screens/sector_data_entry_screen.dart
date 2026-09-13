@@ -106,73 +106,11 @@ class _SectorEntryView extends StatelessWidget {
         ),
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         children: [
-          _Header(title: title, subtitle: subtitle, icon: icon),
+          ForestPageHeader(title: title, subtitle: subtitle, icon: icon),
           SizedBox(height: 10.h),
           _SectionPickers(emptyMainsHint: emptyMainsHint),
           SizedBox(height: 8.h),
           const _Body(),
-        ],
-      ),
-    );
-  }
-}
-
-class _Header extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final IconData icon;
-  const _Header({
-    required this.title,
-    required this.subtitle,
-    required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(14.r),
-      decoration: BoxDecoration(
-        gradient: AppColors.cardForestGradient,
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.all(10.r),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            child: Icon(icon, color: AppColors.golden1, size: 28.r),
-          ),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    fontFamily: 'Cairo',
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 3.h),
-                Text(
-                  subtitle,
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    fontFamily: 'Cairo',
-                    fontSize: 11.sp,
-                    color: Colors.white70,
-                  ),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
     );
@@ -195,47 +133,42 @@ class _SectionPickers extends StatelessWidget {
           p.bootstrapping != c.bootstrapping,
       builder: (context, state) {
         return FormCard(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(
-                child: LabeledSelectField(
-                  label: 'القسم الرئيسي',
-                  hint: state.mainSections.isEmpty
-                      ? emptyMainsHint
-                      : '-- اختر القسم --',
-                  value: state.selectedMainId?.toString(),
+              LabeledSelectField(
+                label: 'القسم الرئيسي',
+                hint: state.mainSections.isEmpty
+                    ? emptyMainsHint
+                    : '-- اختر القسم --',
+                value: state.selectedMainId?.toString(),
+                options: [
+                  for (final m in state.mainSections)
+                    BuilderSelectOption(id: m.id, label: m.name),
+                ],
+                onChanged: (v) {
+                  final id = int.tryParse(v ?? '');
+                  context.read<DataEntryBloc>().add(MainSectionSelected(id));
+                },
+              ),
+              SizedBox(height: 10.h),
+              if (state.loadingSubs)
+                const FieldShimmer(label: 'القسم الفرعي')
+              else
+                LabeledSelectField(
+                  label: 'القسم الفرعي',
+                  hint: '-- اختر القسم الفرعي --',
+                  value: state.selectedSubId?.toString(),
+                  enabled: state.selectedMainId != null,
                   options: [
-                    for (final m in state.mainSections)
-                      BuilderSelectOption(id: m.id, label: m.name),
+                    for (final s in state.subSections)
+                      BuilderSelectOption(id: s.id, label: s.name),
                   ],
                   onChanged: (v) {
                     final id = int.tryParse(v ?? '');
-                    context.read<DataEntryBloc>().add(MainSectionSelected(id));
+                    context.read<DataEntryBloc>().add(SubSectionSelected(id));
                   },
                 ),
-              ),
-              SizedBox(width: 10.w),
-              Expanded(
-                child: state.loadingSubs
-                    ? const FieldShimmer(label: 'القسم الفرعي')
-                    : LabeledSelectField(
-                        label: 'القسم الفرعي',
-                        hint: '-- اختر القسم الفرعي --',
-                        value: state.selectedSubId?.toString(),
-                        enabled: state.selectedMainId != null,
-                        options: [
-                          for (final s in state.subSections)
-                            BuilderSelectOption(id: s.id, label: s.displayLabel),
-                        ],
-                        onChanged: (v) {
-                          final id = int.tryParse(v ?? '');
-                          context
-                              .read<DataEntryBloc>()
-                              .add(SubSectionSelected(id));
-                        },
-                      ),
-              ),
             ],
           ),
         );

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /**
@@ -10,13 +10,19 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="page-loader" [class.page-loader--overlay]="overlay" role="status" aria-live="polite">
+    <div
+      class="page-loader"
+      [class.page-loader--overlay]="overlay"
+      role="status"
+      aria-live="polite"
+    >
       <div class="loader-container">
         <div class="spinner" aria-hidden="true"></div>
         <p class="loader-text">{{ message }}</p>
       </div>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './page-loader.component.scss',
 })
 export class PageLoaderComponent {

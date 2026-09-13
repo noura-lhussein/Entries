@@ -1,0 +1,105 @@
+{
+  "body": [
+    {
+      "admin_level": 0,
+      "default_visible": false,
+      "filter_key": null,
+      "geometry_type": "polygon",
+      "group": "administrative_units",
+      "id": "admin0",
+      "name_ar": "حدود الدولة",
+      "name_en": "Country boundary",
+      "sort_order": 10
+    },
+    {
+      "admin_level": 1,
+      "default_visible": true,
+      "filter_key": "governorate",
+      "geometry_type": "polygon",
+      "group": "administrative_units",
+      "id": "governorate",
+      "name_ar": "المحافظات",
+      "name_en": "Governorates",
+      "sort_order": 20
+    },
+    {
+      "admin_level": 2,
+      "default_visible": false,
+      "filter_key": "district",
+      "geometry_type": "polygon",
+      "group": "administrative_units",
+      "id": "district",
+      "name_ar": "المناطق",
+      "name_en": "Districts",
+      "sort_order": 30
+    },
+    {
+      "admin_level": 3,
+      "default_visible": false,
+      "filter_key": "subdistrict",
+      "geometry_type": "polygon",
+      "group": "administrative_units",
+      "id": "subdistrict",
+      "name_ar": "النواحي",
+      "name_en": "Sub-districts",
+      "sort_order": 40
+    },
+    {
+      "admin_level": null,
+      "default_visible": false,
+      "filter_key": null,
+      "geometry_type": "line",
+      "group": "administrative_units",
+      "id": "admin-lines",
+      "name_ar": "خطوط إدارية",
+      "name_en": "Administrative lines",
+      "sort_order": 50
+    },
+    {
+      "admin_level": null,
+      "default_visible": false,
+      "filter_key": null,
+      "geometry_type": "point",
+      "group": "administrative_units",
+      "id": "admin-points",
+      "name_ar": "نقاط إدارية",
+      "name_en": "Administrative points",
+      "sort_order": 60
+    },
+    {
+      "admin_level": null,
+      "default_visible": false,
+      "filter_key": null,
+      "geometry_type": "point",
+      "group": "administrative_units",
+      "id": "admin-capitals",
+      "name_ar": "مراكز إدارية",
+      "name_en": "Admin capitals",
+      "sort_order": 70
+    },
+    {
+      "admin_level": 4,
+      "default_visible": false,
+      "filter_key": null,
+      "geometry_type": "polygon",
+      "group": "administrative_units",
+      "id": "neighborhoods",
+      "name_ar": "الأحياء",
+      "name_en": "Neighborhoods",
+      "sort_order": 80
+    },
+    {
+      "admin_level": null,
+      "default_visible": false,
+      "filter_key": null,
+      "geometry_type": "point",
+      "group": "administrative_units",
+      "id": "populated-places",
+      "name_ar": "الأماكن المأهولة",
+      "name_en": "Populated places",
+      "sort_order": 90
+    }
+  ],
+  "path": "/api/v1/gis/admin-layers/",
+  "status": 200
+}

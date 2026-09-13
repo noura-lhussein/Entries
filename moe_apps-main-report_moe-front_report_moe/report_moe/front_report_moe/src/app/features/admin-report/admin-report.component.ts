@@ -1,4 +1,13 @@
-import { Component, OnInit, inject, signal, computed, DestroyRef, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  inject,
+  signal,
+  computed,
+  DestroyRef,
+  Input,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ADMIN_REPORT_PAGE_META, type AdminReportPageMode } from './admin-report-page-mode';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
@@ -50,6 +59,7 @@ import {
   withAdminReportColumnSizing,
 } from './admin-report.models';
 import { parseFilterIds, serializeFilterIds } from '../../shared/utils/filter-params';
+import { DATA_TABLE_PAGE_SIZE } from '../../shared/utils/data-table-page-size';
 import { captureScrollPosition } from '../../shared/utils/scroll-preserve.util';
 import { bulkToastRowCount } from '../../core/utils/bulk-row-count';
 import { ExportReportsDownloadService } from './export-reports-download.service';
@@ -85,9 +95,13 @@ import {
     EmptyStateComponent,
   ],
   templateUrl: './admin-report.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './admin-report.component.scss',
 })
 export class AdminReportComponent implements OnInit {
+  /** Keep at most this many loaded pages per title table (infinite-scroll window). */
+  private static readonly MAX_ACCUMULATED_PAGES = 5;
+
   /** Set by thin route wrappers (`export`, `overview`); default `admin` uses route data. */
   @Input() pageMode: AdminReportPageMode = 'admin';
 
@@ -218,10 +232,7 @@ export class AdminReportComponent implements OnInit {
 
   /** Titles available in the title filter (optionally narrowed by category). */
   private titlesForFilterOptions = computed(() =>
-    titlesForCategory(
-      this.titles(),
-      parseFilterIds(this.activeFilters()['title_category_id']),
-    ),
+    titlesForCategory(this.titles(), parseFilterIds(this.activeFilters()['title_category_id'])),
   );
 
   /** Sub-sections to load in tables (respects multi sub-section filter). */
@@ -252,7 +263,8 @@ export class AdminReportComponent implements OnInit {
       key === 'archive_status' ||
       key === 'entry_date' ||
       key === 'from' ||
-      key === 'to'
+      key === 'to' ||
+      key === 'confirmed'
     ) {
       return String(this.activeFilters()[key] || '').trim() === String(value || '').trim();
     }
@@ -271,11 +283,7 @@ export class AdminReportComponent implements OnInit {
 
   /** View titles by category/title filter without selecting a sub-section. */
   isCategoryScopedView = computed(() =>
-    isCategoryScopedViewFromFilters(
-      this.activeFilters(),
-      this.selectedSubId(),
-      this.showAll(),
-    ),
+    isCategoryScopedViewFromFilters(this.activeFilters(), this.selectedSubId(), this.showAll()),
   );
 
   showSelectPrompt = computed(
@@ -392,11 +400,29 @@ export class AdminReportComponent implements OnInit {
         },
       );
     } else {
-      rest.push({
-        label: this.t('admin-report.date-filter'),
-        key: 'entry_date',
-        type: 'date',
-      });
+      rest.push(
+        {
+          label: this.t('user-data.confirmation-state'),
+          key: 'confirmed',
+          type: 'select',
+          options: [
+            { value: '', label: this.t('user-data.confirmed-all') },
+            { value: 'waiting', label: this.t('user-data.confirmed-waiting') },
+            { value: 'accept', label: this.t('user-data.confirmed-true') },
+            { value: 'reject', label: this.t('user-data.confirmed-reject') },
+          ],
+        },
+        {
+          label: this.t('reports.from-date'),
+          key: 'from',
+          type: 'date',
+        },
+        {
+          label: this.t('reports.to-date'),
+          key: 'to',
+          type: 'date',
+        },
+      );
     }
 
     if (this.isInfosOverview()) return rest;
@@ -562,6 +588,8 @@ export class AdminReportComponent implements OnInit {
     this.activeFilters.update((prev) => ({
       ...prev,
       entry_date: value || '',
+      // Prefer explicit from/to when set; clear single-day fallback key when range used.
+      ...(value ? { from: '', to: '' } : {}),
     }));
     this.reloadExpandedTitles();
     this.refreshTitleFieldCounts();
@@ -609,9 +637,7 @@ export class AdminReportComponent implements OnInit {
         ...applyTitleCategoryFilterChange(prev, ids, this.titles()),
       }));
       const keptTitleIds = parseFilterIds(this.activeFilters()['title_id']);
-      this.selectedTitleId.set(
-        keptTitleIds.length === 1 ? Number(keptTitleIds[0]) : null,
-      );
+      this.selectedTitleId.set(keptTitleIds.length === 1 ? Number(keptTitleIds[0]) : null);
       if (this.showAll()) {
         this.prepareShowAllShells();
       } else {
@@ -659,11 +685,23 @@ export class AdminReportComponent implements OnInit {
       this.setDate(value || null);
       return;
     }
-    if (change.key === 'from' || change.key === 'to') {
+    if (change.key === 'confirmed') {
       const value = String(change.value || '').trim();
       this.activeFilters.update((prev) => ({
         ...prev,
+        confirmed: value,
+      }));
+      this.reloadExpandedTitles();
+      this.refreshTitleFieldCounts();
+      return;
+    }
+    if (change.key === 'from' || change.key === 'to') {
+      const value = String(change.value || '').trim();
+      this.selectedDate.set(null);
+      this.activeFilters.update((prev) => ({
+        ...prev,
         [change.key]: value,
+        entry_date: '',
       }));
       this.reloadExpandedTitles();
       this.refreshTitleFieldCounts();
@@ -911,12 +949,16 @@ export class AdminReportComponent implements OnInit {
 
   /** Query params for bulk confirm/reject on Submitted data (current sub + optional filters). */
   private overviewBulkFilterParams(): ApiParams {
+    const af = this.activeFilters();
     return overviewBulkParams({
       subMainId: this.selectedSubId(),
       titleId: this.selectedTitleId(),
       userId: this.selectedUserId(),
       date: this.selectedDate(),
-      titleCategoryIds: parseFilterIds(this.activeFilters()['title_category_id']),
+      titleCategoryIds: parseFilterIds(af['title_category_id']),
+      confirmed: String(af['confirmed'] || '').trim() || null,
+      from: String(af['from'] || '').trim() || null,
+      to: String(af['to'] || '').trim() || null,
     });
   }
 
@@ -1163,12 +1205,15 @@ export class AdminReportComponent implements OnInit {
     const restoreScroll = restoreUi ?? this.captureUiState();
     const current = this.findTitleTable(subMainId, titleId);
     const nextPage = append ? (current?.loadedPage ?? 1) + 1 : 1;
+    const cursor = append ? (current?.nextCursor ?? null) : null;
     if (append) {
       if (
         !current ||
         current.isLoading ||
         current.isLoadingMore ||
-        (current.totalCount != null && current.rows.length >= current.totalCount)
+        (!current.nextCursor &&
+          current.totalCount != null &&
+          current.rows.length >= current.totalCount)
       ) {
         return;
       }
@@ -1184,6 +1229,7 @@ export class AdminReportComponent implements OnInit {
         isLoading: true,
         isLoadingMore: false,
         loadedPage: 0,
+        nextCursor: null,
         isExpanded: true,
       }));
     }
@@ -1191,7 +1237,9 @@ export class AdminReportComponent implements OnInit {
 
     const queryOpts = {
       ...titleScopedQueryOpts(subMainId, titleId),
-      page: nextPage,
+      page: cursor ? 1 : nextPage,
+      cursor,
+      includeCount: !append,
     };
 
     this.api.get<PaginatedInfoRows>(this.infoRowsUrl(this.buildInfoQuery(queryOpts))).subscribe({
@@ -1199,18 +1247,25 @@ export class AdminReportComponent implements OnInit {
         const built = this.buildTitleTableFromApiRows(res.results || [], titleId);
         this.patchTitleTable(subMainId, titleId, (table) => {
           const newRows = built?.rows ?? [];
-          const rows = append ? [...table.rows, ...newRows] : newRows;
+          let rows = append ? [...table.rows, ...newRows] : newRows;
+          const maxRows = DATA_TABLE_PAGE_SIZE * AdminReportComponent.MAX_ACCUMULATED_PAGES;
+          if (rows.length > maxRows) {
+            rows = rows.slice(rows.length - maxRows);
+          }
           const columns = built?.columns?.length ? built.columns : table.columns;
           const allInfoIds = rows.flatMap((r) => r._infoIds);
+          const totalCount =
+            res.count != null ? res.count : (table.totalCount ?? table.rowCount ?? null);
           return {
             ...table,
             titleName: built?.titleName ?? table.titleName,
             columns,
             rows,
             allInfoIds,
-            totalCount: res.count ?? rows.length,
-            rowCount: res.count ?? rows.length,
+            totalCount,
+            rowCount: totalCount ?? rows.length,
             loadedPage: nextPage,
+            nextCursor: res.next_cursor ?? null,
             isLoading: false,
             isLoadingMore: false,
             isLoaded: true,
@@ -1234,6 +1289,7 @@ export class AdminReportComponent implements OnInit {
                 rowCount: 0,
                 totalCount: 0,
                 loadedPage: 0,
+                nextCursor: null,
               }),
         }));
         restoreScroll();
@@ -1367,38 +1423,51 @@ export class AdminReportComponent implements OnInit {
     const titleIds = tables.map((table) => table.titleId).filter((id): id is number => id != null);
     if (!titleIds.length) return;
 
-    forkJoin(
-      titleIds.map((titleId) =>
-        this.api
-          .get<{ count: number; title_id: number }>(
-            this.rowCountUrl(this.buildInfoQuery(titleScopedQueryOpts(subMainId, titleId))),
-          )
-          .pipe(
-            map((res) => ({ titleId, count: res.count ?? 0 })),
-            catchError(() => of({ titleId, count: 0 })),
-          ),
-      ),
-    ).subscribe((counts) => {
-      const countByTitle = new Map(counts.map((item) => [item.titleId, item.count]));
-      const applyCounts = (list: TitleTable[]): TitleTable[] =>
-        list.map((table) =>
-          table.titleId != null && countByTitle.has(table.titleId)
-            ? { ...table, rowCount: countByTitle.get(table.titleId)! }
-            : table,
-        );
-
-      if (this.showAll() && subMainId != null) {
-        this.subSectionBlocks.update((blocks) =>
-          blocks.map((block) =>
-            block.subSection.id === subMainId
-              ? { ...block, titleTables: applyCounts(block.titleTables) }
-              : block,
-          ),
-        );
-      } else {
-        this.singleViewTitleTables.update((list) => applyCounts(list));
-      }
+    const query = this.buildInfoQuery({
+      ...(subMainId != null ? { subMainId } : {}),
+      titleIds,
+      includeTitleFilter: false,
     });
+
+    this.api
+      .get<
+        { results: { title_id: number; count: number }[] } | { count: number; title_id: number }
+      >(this.rowCountUrl(query))
+      .pipe(
+        map((res) => {
+          if ('results' in res && Array.isArray(res.results)) {
+            return res.results.map((r) => ({ titleId: r.title_id, count: r.count ?? 0 }));
+          }
+          return [
+            {
+              titleId: (res as { title_id: number }).title_id,
+              count: (res as { count: number }).count ?? 0,
+            },
+          ];
+        }),
+        catchError(() => of(titleIds.map((titleId) => ({ titleId, count: 0 })))),
+      )
+      .subscribe((counts) => {
+        const countByTitle = new Map(counts.map((item) => [item.titleId, item.count]));
+        const applyCounts = (list: TitleTable[]): TitleTable[] =>
+          list.map((table) =>
+            table.titleId != null && countByTitle.has(table.titleId)
+              ? { ...table, rowCount: countByTitle.get(table.titleId)! }
+              : table,
+          );
+
+        if (this.showAll() && subMainId != null) {
+          this.subSectionBlocks.update((blocks) =>
+            blocks.map((block) =>
+              block.subSection.id === subMainId
+                ? { ...block, titleTables: applyCounts(block.titleTables) }
+                : block,
+            ),
+          );
+        } else {
+          this.singleViewTitleTables.update((list) => applyCounts(list));
+        }
+      });
   }
 
   private buildEmptyTitleTables(): TitleTable[] {
@@ -1503,10 +1572,13 @@ export class AdminReportComponent implements OnInit {
   private buildInfoQuery(opts?: {
     subMainId?: number;
     titleId?: number;
+    titleIds?: number[];
     includeUser?: boolean;
     includeTitleFilter?: boolean;
     pageSize?: number;
     page?: number;
+    cursor?: string | null;
+    includeCount?: boolean;
   }): string {
     return buildInfoQueryParams({
       activeFilters: this.activeFilters(),

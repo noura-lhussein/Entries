@@ -39,6 +39,12 @@ class LoginSubmitButton extends StatelessWidget {
                 ],
                 stops: [0.0, 0.55, 1.0],
               ),
+              border: Border(
+                top: BorderSide(
+                  color: AppColors.goldWarm.withValues(alpha: 0.55),
+                  width: 1.2,
+                ),
+              ),
             ),
             child: Center(
               child: isLoading
@@ -47,7 +53,7 @@ class LoginSubmitButton extends StatelessWidget {
                       height: 24.r,
                       child: const CircularProgressIndicator(
                         strokeWidth: 2.4,
-                        color: Colors.white,
+                        color: AppColors.goldWarm,
                       ),
                     )
                   : Text(
@@ -56,7 +62,7 @@ class LoginSubmitButton extends StatelessWidget {
                         fontFamily: 'Cairo',
                         fontSize: 15.5.sp,
                         fontWeight: FontWeight.w800,
-                        color: Colors.white,
+                        color: AppColors.goldWarm,
                       ),
                     ),
             ),

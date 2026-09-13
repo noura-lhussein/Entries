@@ -1,0 +1,37 @@
+from .budget_user_views import BudgetUserViewSet
+from .budget_views import (
+    AnnualBudgetViewSet,
+    CurrencyViewSet,
+    FoundationViewSet,
+    MeasureUnitViewSet,
+    MilestoneTransactionViewSet,
+    MilestoneViewSet,
+    PolicyViewSet,
+    ProjectCategoryViewSet,
+    ProjectChangeLogViewSet,
+    ProjectTransactionViewSet,
+    ProjectTypeViewSet,
+    ProjectViewSet,
+    ResponsibleViewSet,
+    TargetViewSet,
+    TransactionViewSet,
+)
+
+__all__ = [
+    "AnnualBudgetViewSet",
+    "BudgetUserViewSet",
+    "CurrencyViewSet",
+    "FoundationViewSet",
+    "MeasureUnitViewSet",
+    "MilestoneTransactionViewSet",
+    "MilestoneViewSet",
+    "PolicyViewSet",
+    "ProjectCategoryViewSet",
+    "ProjectChangeLogViewSet",
+    "ProjectTransactionViewSet",
+    "ProjectTypeViewSet",
+    "ProjectViewSet",
+    "ResponsibleViewSet",
+    "TargetViewSet",
+    "TransactionViewSet",
+]

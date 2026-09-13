@@ -1,0 +1,12 @@
+{
+  "/api": {
+    "target": "http://web:8001",
+    "secure": false,
+    "changeOrigin": false
+  },
+  "/media": {
+    "target": "http://web:8001",
+    "secure": false,
+    "changeOrigin": false
+  }
+}

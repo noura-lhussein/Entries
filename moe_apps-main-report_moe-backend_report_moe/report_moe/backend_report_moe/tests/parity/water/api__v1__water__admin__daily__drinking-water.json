@@ -1,0 +1,7 @@
+{
+  "body": {
+    "detail": "Invalid station_id."
+  },
+  "path": "/api/v1/water/admin/daily/drinking-water/",
+  "status": 400
+}

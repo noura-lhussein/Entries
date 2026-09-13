@@ -9,10 +9,13 @@ export interface BuildInfoQueryInput {
   opts?: {
     subMainId?: number;
     titleId?: number;
+    titleIds?: number[];
     includeUser?: boolean;
     includeTitleFilter?: boolean;
     pageSize?: number;
     page?: number;
+    cursor?: string | null;
+    includeCount?: boolean;
   };
 }
 
@@ -20,7 +23,18 @@ export interface BuildInfoQueryInput {
 export function buildInfoQueryParams(input: BuildInfoQueryInput): string {
   const params = new URLSearchParams();
   const opts = input.opts;
-  params.set('page', String(opts?.page ?? 1));
+  const cursor = (opts?.cursor || '').trim();
+  if (cursor) {
+    params.set('cursor', cursor);
+    params.set('include_count', '0');
+  } else {
+    params.set('page', String(opts?.page ?? 1));
+    if (opts?.includeCount === false) {
+      params.set('include_count', '0');
+    } else if (opts?.includeCount === true || (opts?.page ?? 1) === 1) {
+      params.set('include_count', '1');
+    }
+  }
   params.set('page_size', String(opts?.pageSize ?? DATA_TABLE_PAGE_SIZE));
   const af = input.activeFilters;
   const subIds = parseFilterIds(af['sub_main_id']);
@@ -44,7 +58,9 @@ export function buildInfoQueryParams(input: BuildInfoQueryInput): string {
   if (titleCategoryIds.length) {
     params.set('title_category_id', serializeFilterIds(titleCategoryIds));
   }
-  if (opts?.titleId != null) {
+  if (opts?.titleIds?.length) {
+    params.set('title_ids', serializeFilterIds(opts.titleIds.map(String)));
+  } else if (opts?.titleId != null) {
     params.set('title_id', String(opts.titleId));
   } else if (opts?.includeTitleFilter !== false && titleIds.length) {
     params.set('title_id', serializeFilterIds(titleIds));
@@ -58,12 +74,15 @@ export function buildInfoQueryParams(input: BuildInfoQueryInput): string {
   } else if (archiveStatus === 'archived_only') {
     params.set('archived_only', 'true');
   }
+
+  const confirmed = String(af['confirmed'] || '').trim();
+  const from = String(af['from'] || '').trim();
+  const to = String(af['to'] || '').trim();
+
   if (input.isExportReports) {
     params.set('confirmed', 'accept');
     const cityIds = parseFilterIds(af['city_id']);
     const districtIds = parseFilterIds(af['district_id']);
-    const from = String(af['from'] || '').trim();
-    const to = String(af['to'] || '').trim();
     if (districtIds.length) {
       params.set('district_id', serializeFilterIds(districtIds));
     } else if (cityIds.length) {
@@ -72,9 +91,15 @@ export function buildInfoQueryParams(input: BuildInfoQueryInput): string {
     }
     if (from) params.set('from', from);
     if (to) params.set('to', to);
-  } else if (date) {
-    params.set('from', date);
-    params.set('to', date);
+  } else {
+    if (confirmed) params.set('confirmed', confirmed);
+    if (from || to) {
+      if (from) params.set('from', from);
+      if (to) params.set('to', to);
+    } else if (date) {
+      params.set('from', date);
+      params.set('to', date);
+    }
   }
   return params.toString();
 }
@@ -85,6 +110,9 @@ export interface OverviewBulkParamsInput {
   userId: number | null;
   date: string | null;
   titleCategoryIds: string[];
+  confirmed?: string | null;
+  from?: string | null;
+  to?: string | null;
 }
 
 /** Query object for overview bulk confirm/reject. */
@@ -98,7 +126,14 @@ export function overviewBulkParams(
   }
   if (input.titleId != null) p['title_id'] = input.titleId;
   if (input.userId != null) p['user'] = input.userId;
-  if (input.date) {
+  const confirmed = String(input.confirmed || '').trim();
+  if (confirmed) p['confirmed'] = confirmed;
+  const from = String(input.from || '').trim();
+  const to = String(input.to || '').trim();
+  if (from || to) {
+    if (from) p['from'] = from;
+    if (to) p['to'] = to;
+  } else if (input.date) {
     p['from'] = input.date;
     p['to'] = input.date;
   }

@@ -28,6 +28,8 @@ export interface User {
   can_manage_budget_users: boolean;
   can_manage_budget: boolean;
   can_manage_reference_data: boolean;
+  /** moeds portal sectors — the input; the booleans below are the derived cache. */
+  portal_sectors?: string[];
   can_view_oil_gas?: boolean;
   can_write_oil_gas?: boolean;
   can_view_electricity?: boolean;
@@ -36,6 +38,9 @@ export interface User {
   can_write_water?: boolean;
   can_view_mineral?: boolean;
   can_write_mineral?: boolean;
+  can_manage_projects?: boolean;
+  can_manage_datasets?: boolean;
+  can_manage_control_panel?: boolean;
   foundation_id: number | null;
   foundation_name: string | null;
   sub_main_ids: number[];
@@ -74,6 +79,12 @@ export interface UserCreate {
   can_view_info?: boolean;
   can_confirm_info?: boolean;
   can_export_reports?: boolean;
+  can_add_user?: boolean;
+  is_admin?: boolean;
+  /** moeds portal sectors, subset of water|electricity|oil_gas|mineral|projects */
+  portal_sectors?: string[];
+  can_manage_datasets?: boolean;
+  can_manage_control_panel?: boolean;
   sub_main_ids?: number[];
   title_category_ids?: number[];
   title_ids?: number[];
@@ -93,6 +104,12 @@ export interface UserUpdate {
   can_view_info?: boolean;
   can_confirm_info?: boolean;
   can_export_reports?: boolean;
+  can_add_user?: boolean;
+  is_admin?: boolean;
+  /** moeds portal sectors, subset of water|electricity|oil_gas|mineral|projects */
+  portal_sectors?: string[];
+  can_manage_datasets?: boolean;
+  can_manage_control_panel?: boolean;
   sub_main_ids?: number[];
   title_category_ids?: number[];
   title_ids?: number[];

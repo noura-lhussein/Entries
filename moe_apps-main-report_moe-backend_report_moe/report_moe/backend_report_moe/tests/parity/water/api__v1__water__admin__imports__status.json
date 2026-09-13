@@ -1,0 +1,47 @@
+{
+  "body": {
+    "dams": {
+      "dams": 169,
+      "latest_date": "2026-07-05",
+      "readings": 458974,
+      "year_from": 1970,
+      "year_to": 2026
+    },
+    "drinking_water": {
+      "latest_enrollment_date": "2026-06-25",
+      "non_operational": 4074,
+      "operational": 1636,
+      "stations": 5710,
+      "with_coordinates": 5710,
+      "with_survey": 5710
+    },
+    "euphrates": {
+      "latest_date": "2026-12-31",
+      "months": [
+        "2026-12",
+        "2026-11",
+        "2026-10",
+        "2026-09",
+        "2026-08",
+        "2026-07",
+        "2026-06",
+        "2026-05",
+        "2026-04",
+        "2026-03",
+        "2026-02",
+        "2026-01"
+      ],
+      "readings": 7896
+    },
+    "rainfall": {
+      "basins": 7,
+      "latest_date": "2025-11-13",
+      "observations": 179244,
+      "stations": 179,
+      "year_from": 1980,
+      "year_to": 2025
+    }
+  },
+  "path": "/api/v1/water/admin/imports/status/",
+  "status": 200
+}

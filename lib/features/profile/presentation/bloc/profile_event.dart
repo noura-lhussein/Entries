@@ -21,6 +21,17 @@ class ProfileUpdateRequested extends ProfileEvent {
   List<Object?> get props => [userId, firstName, lastName, email];
 }
 
+class ProfilePhotoUpdateRequested extends ProfileEvent {
+  final int userId;
+  final String filePath;
+  const ProfilePhotoUpdateRequested({
+    required this.userId,
+    required this.filePath,
+  });
+  @override
+  List<Object?> get props => [userId, filePath];
+}
+
 class ProfilePasswordChangeRequested extends ProfileEvent {
   final int userId;
   final String currentPassword;

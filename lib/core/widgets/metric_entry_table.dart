@@ -63,7 +63,7 @@ class MetricEntryTable extends StatelessWidget {
             flex: 5,
             child: Text(
               row.label,
-              textAlign: TextAlign.right,
+              textAlign: TextAlign.start,
               style: TextStyle(
                 fontFamily: 'Cairo',
                 fontSize: 11.sp,

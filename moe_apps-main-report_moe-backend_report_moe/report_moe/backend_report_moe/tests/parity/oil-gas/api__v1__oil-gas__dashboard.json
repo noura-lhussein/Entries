@@ -1,0 +1,853 @@
+{
+  "body": {
+    "alerts": [],
+    "available_dates": [
+      "2026-06-30",
+      "2026-06-29",
+      "2026-06-28",
+      "2026-06-27",
+      "2026-06-26",
+      "2026-06-25",
+      "2026-06-24",
+      "2026-06-23",
+      "2026-06-22",
+      "2026-06-21",
+      "2026-06-20",
+      "2026-06-19",
+      "2026-06-18",
+      "2026-06-16",
+      "2026-06-14",
+      "2026-06-13",
+      "2026-06-12",
+      "2026-06-11",
+      "2026-06-10",
+      "2026-06-09",
+      "2026-06-08",
+      "2026-06-07",
+      "2026-06-06",
+      "2026-06-04",
+      "2026-06-03",
+      "2026-06-02",
+      "2026-06-01"
+    ],
+    "available_months": [
+      "2026-06"
+    ],
+    "category_name": "إدارة قطاع البترول",
+    "charts": {
+      "clean_gas_mix": {
+        "labels_ar": [
+          "الإنتاج المحلي",
+          "استيراد أذربيجان",
+          "استيراد الأردن"
+        ],
+        "labels_en": [
+          "Local production",
+          "Azerbaijan import",
+          "Jordan import"
+        ],
+        "unit": "M m³",
+        "values": [
+          7.126,
+          5.346,
+          0.991
+        ]
+      },
+      "fuel_sales": {
+        "labels_ar": [
+          "مازوت",
+          "بنزين 90+95",
+          "غاز مسال منزلي",
+          "فيول"
+        ],
+        "labels_en": [
+          "Mazut",
+          "Gasoline 90+95",
+          "Domestic LPG",
+          "Fuel oil"
+        ],
+        "unit": "m³",
+        "values": [
+          17520.0,
+          7740.0,
+          2843.0,
+          4223.0
+        ]
+      },
+      "gas_distribution": {
+        "labels_ar": [
+          "موزّع للمستهلكين",
+          "قطاع الكهرباء"
+        ],
+        "labels_en": [
+          "Distributed to consumers",
+          "Electricity sector"
+        ],
+        "unit": "M m³",
+        "values": [
+          12.831,
+          11.781
+        ]
+      }
+    },
+    "fields": [
+      {
+        "code": "FURAT",
+        "condensate_bbl": 0.0,
+        "crude_oil_bbl": 12800.0,
+        "id": 1,
+        "name_ar": "حقل الفرات",
+        "name_en": "Al-Furat Field",
+        "natural_gas_mmscf": 0.0,
+        "operating_hours": null,
+        "production_date": "2026-03-26",
+        "water_cut_percent": null
+      },
+      {
+        "code": "TAYM",
+        "condensate_bbl": 611.0,
+        "crude_oil_bbl": 0.0,
+        "id": 2,
+        "name_ar": "حقل التيم",
+        "name_en": "Al-Taym Field",
+        "natural_gas_mmscf": 14.6,
+        "operating_hours": 0.0,
+        "production_date": "2026-03-25",
+        "water_cut_percent": null
+      },
+      {
+        "code": "OMAR",
+        "condensate_bbl": null,
+        "crude_oil_bbl": null,
+        "id": 6,
+        "name_ar": "حقل العمر النفطي",
+        "name_en": "Al-Omar Oil Field",
+        "natural_gas_mmscf": null,
+        "operating_hours": null,
+        "production_date": null,
+        "water_cut_percent": null
+      },
+      {
+        "code": "TANAK",
+        "condensate_bbl": null,
+        "crude_oil_bbl": null,
+        "id": 8,
+        "name_ar": "حقل التنك النفطي",
+        "name_en": "Al-Tanak Oil Field",
+        "natural_gas_mmscf": null,
+        "operating_hours": null,
+        "production_date": null,
+        "water_cut_percent": null
+      },
+      {
+        "code": "THAWRA",
+        "condensate_bbl": null,
+        "crude_oil_bbl": null,
+        "id": 9,
+        "name_ar": "حقل الثورة النفطي",
+        "name_en": "Al-Thawra Oil Field",
+        "natural_gas_mmscf": null,
+        "operating_hours": null,
+        "production_date": null,
+        "water_cut_percent": null
+      },
+      {
+        "code": "DEIR",
+        "condensate_bbl": null,
+        "crude_oil_bbl": null,
+        "id": 10,
+        "name_ar": "دير الزور",
+        "name_en": "Deir ez-Zor Field",
+        "natural_gas_mmscf": null,
+        "operating_hours": null,
+        "production_date": null,
+        "water_cut_percent": null
+      },
+      {
+        "code": "EBLA",
+        "condensate_bbl": null,
+        "crude_oil_bbl": null,
+        "id": 4,
+        "name_ar": "حيان / إيبلا",
+        "name_en": "Ebla & Hayyan",
+        "natural_gas_mmscf": null,
+        "operating_hours": null,
+        "production_date": "2026-08-03",
+        "water_cut_percent": null
+      },
+      {
+        "code": "RMEILAN",
+        "condensate_bbl": null,
+        "crude_oil_bbl": null,
+        "id": 7,
+        "name_ar": "تجمع حقول الرميلان",
+        "name_en": "Rmeilan Fields Complex",
+        "natural_gas_mmscf": null,
+        "operating_hours": null,
+        "production_date": "2026-08-02",
+        "water_cut_percent": null
+      }
+    ],
+    "kpi_groups": [
+      {
+        "id": "oil_production",
+        "kpis": [
+          {
+            "achievement_pct": null,
+            "delta_pct": -1.3,
+            "id": "total_oil_production_bbl",
+            "label_ar": "إجمالي إنتاج النفط",
+            "label_en": "Total oil production",
+            "status": "ok",
+            "target_value": null,
+            "unit": "bbl",
+            "value": 106000.0
+          },
+          {
+            "achievement_pct": null,
+            "delta_pct": -19.1,
+            "id": "total_crude_transferred_bbl",
+            "label_ar": "إجمالي النفط الخام المرحل",
+            "label_en": "Total crude oil transferred",
+            "status": "ok",
+            "target_value": null,
+            "unit": "bbl",
+            "value": 98512.0
+          }
+        ],
+        "label_ar": "إنتاج النفط",
+        "label_en": "Oil production"
+      },
+      {
+        "id": "clean_gas",
+        "kpis": [
+          {
+            "achievement_pct": null,
+            "delta_pct": 0.5,
+            "id": "local_clean_gas_mm3",
+            "label_ar": "الإنتاج المحلي من الغاز النظيف",
+            "label_en": "Local clean gas production",
+            "status": "ok",
+            "target_value": null,
+            "unit": "M m³",
+            "value": 7.126
+          },
+          {
+            "achievement_pct": null,
+            "delta_pct": 0.1,
+            "id": "clean_gas_import_azerbaijan_mm3",
+            "label_ar": "الغاز النظيف المستورد من أذربيجان",
+            "label_en": "Clean gas imported from Azerbaijan",
+            "status": "ok",
+            "target_value": null,
+            "unit": "M m³",
+            "value": 5.346
+          },
+          {
+            "achievement_pct": null,
+            "delta_pct": 0.0,
+            "id": "clean_gas_import_jordan_mm3",
+            "label_ar": "الغاز النظيف المستورد من الأردن",
+            "label_en": "Clean gas imported from Jordan",
+            "status": "ok",
+            "target_value": null,
+            "unit": "M m³",
+            "value": 0.991
+          },
+          {
+            "achievement_pct": null,
+            "delta_pct": 0.3,
+            "id": "total_clean_gas_mm3",
+            "label_ar": "إجمالي الغاز النظيف (الإنتاج المحلي + المستورد)",
+            "label_en": "Total clean gas (local + imported)",
+            "status": "ok",
+            "target_value": null,
+            "unit": "M m³",
+            "value": 13.463
+          },
+          {
+            "achievement_pct": null,
+            "delta_pct": -2.3,
+            "id": "clean_gas_distributed_mm3",
+            "label_ar": "مجموع كميات الغاز النظيف الموزعة للمستهلكين",
+            "label_en": "Clean gas distributed to consumers",
+            "status": "ok",
+            "target_value": null,
+            "unit": "M m³",
+            "value": 12.831
+          },
+          {
+            "achievement_pct": null,
+            "delta_pct": -2.8,
+            "id": "electricity_clean_gas_consumption_mm3",
+            "label_ar": "استهلاك قطاع الكهرباء من الغاز النظيف",
+            "label_en": "Electricity sector clean gas consumption",
+            "status": "ok",
+            "target_value": null,
+            "unit": "M m³",
+            "value": 11.781
+          }
+        ],
+        "label_ar": "الغاز النظيف",
+        "label_en": "Clean gas"
+      },
+      {
+        "id": "fuel_sales",
+        "kpis": [
+          {
+            "achievement_pct": null,
+            "delta_pct": 14.2,
+            "id": "mazut_sold_thu_fri_m3",
+            "label_ar": "كميات المازوت المباعة",
+            "label_en": "Mazut sold",
+            "status": "ok",
+            "target_value": null,
+            "unit": "m³",
+            "value": 17520.0
+          },
+          {
+            "achievement_pct": null,
+            "delta_pct": 4.5,
+            "id": "gasoline_90_95_sold_thu_fri_m3",
+            "label_ar": "كميات البنزين (90+95) المباعة",
+            "label_en": "Gasoline 90+95 sold",
+            "status": "ok",
+            "target_value": null,
+            "unit": "m³",
+            "value": 7740.0
+          },
+          {
+            "achievement_pct": null,
+            "delta_pct": -9.9,
+            "id": "domestic_lpg_sold_m3",
+            "label_ar": "كميات الغاز المسال (المنزلي LPG) المباعة",
+            "label_en": "Domestic LPG sold",
+            "status": "ok",
+            "target_value": null,
+            "unit": "m³",
+            "value": 2843.0
+          },
+          {
+            "achievement_pct": null,
+            "delta_pct": -8.1,
+            "id": "fuel_oil_sold_m3",
+            "label_ar": "كميات الفيول المباعة",
+            "label_en": "Fuel oil sold",
+            "status": "ok",
+            "target_value": null,
+            "unit": "m³",
+            "value": 4223.0
+          }
+        ],
+        "label_ar": "مبيعات المشتقات",
+        "label_en": "Fuel product sales"
+      },
+      {
+        "id": "commodity_prices",
+        "kpis": [
+          {
+            "achievement_pct": null,
+            "delta_pct": -3.8,
+            "id": "brent_crude_price_usd_bbl",
+            "label_ar": "سعر النفط كخام برنت",
+            "label_en": "Brent crude oil price",
+            "status": "ok",
+            "target_value": null,
+            "unit": "USD/bbl",
+            "value": 71.4069
+          },
+          {
+            "achievement_pct": null,
+            "delta_pct": 3.1,
+            "id": "gas_price_usd_mmbtu",
+            "label_ar": "سعر الغاز (مليون وحدة حرارية بريطانية)",
+            "label_en": "Gas price",
+            "status": "ok",
+            "target_value": null,
+            "unit": "USD/MMBtu",
+            "value": 14.67
+          }
+        ],
+        "label_ar": "أسعار السلع",
+        "label_en": "Commodity prices"
+      }
+    ],
+    "kpis": [
+      {
+        "achievement_pct": null,
+        "delta_pct": -1.3,
+        "id": "total_oil_production_bbl",
+        "label_ar": "إجمالي إنتاج النفط",
+        "label_en": "Total oil production",
+        "status": "ok",
+        "target_value": null,
+        "unit": "bbl",
+        "value": 106000.0
+      },
+      {
+        "achievement_pct": null,
+        "delta_pct": -19.1,
+        "id": "total_crude_transferred_bbl",
+        "label_ar": "إجمالي النفط الخام المرحل",
+        "label_en": "Total crude oil transferred",
+        "status": "ok",
+        "target_value": null,
+        "unit": "bbl",
+        "value": 98512.0
+      },
+      {
+        "achievement_pct": null,
+        "delta_pct": 0.5,
+        "id": "local_clean_gas_mm3",
+        "label_ar": "الإنتاج المحلي من الغاز النظيف",
+        "label_en": "Local clean gas production",
+        "status": "ok",
+        "target_value": null,
+        "unit": "M m³",
+        "value": 7.126
+      },
+      {
+        "achievement_pct": null,
+        "delta_pct": 0.1,
+        "id": "clean_gas_import_azerbaijan_mm3",
+        "label_ar": "الغاز النظيف المستورد من أذربيجان",
+        "label_en": "Clean gas imported from Azerbaijan",
+        "status": "ok",
+        "target_value": null,
+        "unit": "M m³",
+        "value": 5.346
+      },
+      {
+        "achievement_pct": null,
+        "delta_pct": 0.0,
+        "id": "clean_gas_import_jordan_mm3",
+        "label_ar": "الغاز النظيف المستورد من الأردن",
+        "label_en": "Clean gas imported from Jordan",
+        "status": "ok",
+        "target_value": null,
+        "unit": "M m³",
+        "value": 0.991
+      },
+      {
+        "achievement_pct": null,
+        "delta_pct": 0.3,
+        "id": "total_clean_gas_mm3",
+        "label_ar": "إجمالي الغاز النظيف (الإنتاج المحلي + المستورد)",
+        "label_en": "Total clean gas (local + imported)",
+        "status": "ok",
+        "target_value": null,
+        "unit": "M m³",
+        "value": 13.463
+      },
+      {
+        "achievement_pct": null,
+        "delta_pct": -2.3,
+        "id": "clean_gas_distributed_mm3",
+        "label_ar": "مجموع كميات الغاز النظيف الموزعة للمستهلكين",
+        "label_en": "Clean gas distributed to consumers",
+        "status": "ok",
+        "target_value": null,
+        "unit": "M m³",
+        "value": 12.831
+      },
+      {
+        "achievement_pct": null,
+        "delta_pct": -2.8,
+        "id": "electricity_clean_gas_consumption_mm3",
+        "label_ar": "استهلاك قطاع الكهرباء من الغاز النظيف",
+        "label_en": "Electricity sector clean gas consumption",
+        "status": "ok",
+        "target_value": null,
+        "unit": "M m³",
+        "value": 11.781
+      },
+      {
+        "achievement_pct": null,
+        "delta_pct": 14.2,
+        "id": "mazut_sold_thu_fri_m3",
+        "label_ar": "كميات المازوت المباعة",
+        "label_en": "Mazut sold",
+        "status": "ok",
+        "target_value": null,
+        "unit": "m³",
+        "value": 17520.0
+      },
+      {
+        "achievement_pct": null,
+        "delta_pct": 4.5,
+        "id": "gasoline_90_95_sold_thu_fri_m3",
+        "label_ar": "كميات البنزين (90+95) المباعة",
+        "label_en": "Gasoline 90+95 sold",
+        "status": "ok",
+        "target_value": null,
+        "unit": "m³",
+        "value": 7740.0
+      },
+      {
+        "achievement_pct": null,
+        "delta_pct": -9.9,
+        "id": "domestic_lpg_sold_m3",
+        "label_ar": "كميات الغاز المسال (المنزلي LPG) المباعة",
+        "label_en": "Domestic LPG sold",
+        "status": "ok",
+        "target_value": null,
+        "unit": "m³",
+        "value": 2843.0
+      },
+      {
+        "achievement_pct": null,
+        "delta_pct": -8.1,
+        "id": "fuel_oil_sold_m3",
+        "label_ar": "كميات الفيول المباعة",
+        "label_en": "Fuel oil sold",
+        "status": "ok",
+        "target_value": null,
+        "unit": "m³",
+        "value": 4223.0
+      },
+      {
+        "achievement_pct": null,
+        "delta_pct": -3.8,
+        "id": "brent_crude_price_usd_bbl",
+        "label_ar": "سعر النفط كخام برنت",
+        "label_en": "Brent crude oil price",
+        "status": "ok",
+        "target_value": null,
+        "unit": "USD/bbl",
+        "value": 71.4069
+      },
+      {
+        "achievement_pct": null,
+        "delta_pct": 3.1,
+        "id": "gas_price_usd_mmbtu",
+        "label_ar": "سعر الغاز (مليون وحدة حرارية بريطانية)",
+        "label_en": "Gas price",
+        "status": "ok",
+        "target_value": null,
+        "unit": "USD/MMBtu",
+        "value": 14.67
+      }
+    ],
+    "notes": [],
+    "period": "day",
+    "refineries": [
+      {
+        "diesel_ton": 3100.0,
+        "fuel_oil_ton": 2800.0,
+        "gasoline_ton": 3940.0,
+        "id": 5,
+        "lpg_ton": 400.0,
+        "name_ar": "مصفاة حمص للنفط",
+        "name_en": "مصفاة حمص",
+        "production_date": "2026-03-25"
+      },
+      {
+        "diesel_ton": 0.0,
+        "fuel_oil_ton": 0.0,
+        "gasoline_ton": 0.0,
+        "id": 6,
+        "lpg_ton": 0.0,
+        "name_ar": "مصفاة ومصب بانياس",
+        "name_en": "\tمصفاة بانياس",
+        "production_date": "2026-03-25"
+      },
+      {
+        "diesel_ton": null,
+        "fuel_oil_ton": null,
+        "gasoline_ton": null,
+        "id": 8,
+        "lpg_ton": null,
+        "name_ar": "مصفاة ومصب بانياس",
+        "name_en": "Banias Refinery",
+        "production_date": null
+      },
+      {
+        "diesel_ton": null,
+        "fuel_oil_ton": null,
+        "gasoline_ton": null,
+        "id": 7,
+        "lpg_ton": null,
+        "name_ar": "مصفاة حمص للنفط",
+        "name_en": "Homs Refinery",
+        "production_date": null
+      }
+    ],
+    "report_date": "2026-06-30",
+    "source": "dynamic_forms",
+    "status": "ready",
+    "status_cards": [
+      {
+        "detail_ar": "1 متوقف",
+        "detail_en": "1 shutdown",
+        "id": "fields",
+        "label_ar": "حالة الحقول",
+        "label_en": "Oil fields status",
+        "status": "critical",
+        "value": "7/8"
+      },
+      {
+        "detail_ar": "وحدات عاملة",
+        "detail_en": "Operating units",
+        "id": "refineries",
+        "label_ar": "حالة المصافي",
+        "label_en": "Refineries status",
+        "status": "ok",
+        "value": "4/4"
+      },
+      {
+        "detail_ar": "تشغيل طبيعي",
+        "detail_en": "Normal operations",
+        "id": "pipelines",
+        "label_ar": "حالة الخطوط",
+        "label_en": "Pipelines status",
+        "status": "warning",
+        "value": "0/2"
+      }
+    ],
+    "trends": {
+      "clean_gas_distributed_mm3": {
+        "label_ar": "مجموع كميات الغاز النظيف الموزعة للمستهلكين",
+        "label_en": "Clean gas distributed to consumers",
+        "metric_key": "clean_gas_distributed_mm3",
+        "points": [
+          {
+            "date": "2026-06-18",
+            "value": 13.054
+          },
+          {
+            "date": "2026-06-19",
+            "value": 12.81
+          },
+          {
+            "date": "2026-06-20",
+            "value": 12.571
+          },
+          {
+            "date": "2026-06-21",
+            "value": 13.061
+          },
+          {
+            "date": "2026-06-22",
+            "value": 13.197
+          },
+          {
+            "date": "2026-06-23",
+            "value": 13.164
+          },
+          {
+            "date": "2026-06-24",
+            "value": 13.121
+          },
+          {
+            "date": "2026-06-25",
+            "value": 13.015
+          },
+          {
+            "date": "2026-06-26",
+            "value": 13.023
+          },
+          {
+            "date": "2026-06-27",
+            "value": 13.202
+          },
+          {
+            "date": "2026-06-28",
+            "value": 12.87
+          },
+          {
+            "date": "2026-06-29",
+            "value": 13.128
+          },
+          {
+            "date": "2026-06-30",
+            "value": 12.831
+          }
+        ],
+        "unit": "M m³"
+      },
+      "electricity_clean_gas_consumption_mm3": {
+        "label_ar": "استهلاك قطاع الكهرباء من الغاز النظيف",
+        "label_en": "Electricity sector clean gas consumption",
+        "metric_key": "electricity_clean_gas_consumption_mm3",
+        "points": [
+          {
+            "date": "2026-06-18",
+            "value": 11.863
+          },
+          {
+            "date": "2026-06-19",
+            "value": 11.736
+          },
+          {
+            "date": "2026-06-20",
+            "value": 11.532
+          },
+          {
+            "date": "2026-06-21",
+            "value": 12.028
+          },
+          {
+            "date": "2026-06-22",
+            "value": 12.134
+          },
+          {
+            "date": "2026-06-23",
+            "value": 12.037
+          },
+          {
+            "date": "2026-06-24",
+            "value": 12.042
+          },
+          {
+            "date": "2026-06-25",
+            "value": 12.024
+          },
+          {
+            "date": "2026-06-26",
+            "value": 11.937
+          },
+          {
+            "date": "2026-06-27",
+            "value": 12.309
+          },
+          {
+            "date": "2026-06-28",
+            "value": 12.043
+          },
+          {
+            "date": "2026-06-29",
+            "value": 12.126
+          },
+          {
+            "date": "2026-06-30",
+            "value": 11.781
+          }
+        ],
+        "unit": "M m³"
+      },
+      "total_clean_gas_mm3": {
+        "label_ar": "إجمالي الغاز النظيف (الإنتاج المحلي + المستورد)",
+        "label_en": "Total clean gas (local + imported)",
+        "metric_key": "total_clean_gas_mm3",
+        "points": [
+          {
+            "date": "2026-06-18",
+            "value": 12.818
+          },
+          {
+            "date": "2026-06-19",
+            "value": 12.9
+          },
+          {
+            "date": "2026-06-20",
+            "value": 12.91
+          },
+          {
+            "date": "2026-06-21",
+            "value": 12.786
+          },
+          {
+            "date": "2026-06-22",
+            "value": 12.977
+          },
+          {
+            "date": "2026-06-23",
+            "value": 12.994
+          },
+          {
+            "date": "2026-06-24",
+            "value": 12.915
+          },
+          {
+            "date": "2026-06-25",
+            "value": 13.428
+          },
+          {
+            "date": "2026-06-26",
+            "value": 13.436
+          },
+          {
+            "date": "2026-06-27",
+            "value": 13.284
+          },
+          {
+            "date": "2026-06-28",
+            "value": 13.255
+          },
+          {
+            "date": "2026-06-29",
+            "value": 13.42
+          },
+          {
+            "date": "2026-06-30",
+            "value": 13.463
+          }
+        ],
+        "unit": "M m³"
+      },
+      "total_oil_production_bbl": {
+        "label_ar": "إجمالي إنتاج النفط",
+        "label_en": "Total oil production",
+        "metric_key": "total_oil_production_bbl",
+        "points": [
+          {
+            "date": "2026-06-18",
+            "value": 106767.0
+          },
+          {
+            "date": "2026-06-19",
+            "value": 106921.0
+          },
+          {
+            "date": "2026-06-20",
+            "value": 108353.0
+          },
+          {
+            "date": "2026-06-21",
+            "value": 105034.0
+          },
+          {
+            "date": "2026-06-22",
+            "value": 106825.0
+          },
+          {
+            "date": "2026-06-23",
+            "value": 91088.0
+          },
+          {
+            "date": "2026-06-24",
+            "value": 98182.0
+          },
+          {
+            "date": "2026-06-25",
+            "value": 102941.0
+          },
+          {
+            "date": "2026-06-26",
+            "value": 106010.0
+          },
+          {
+            "date": "2026-06-27",
+            "value": 109548.0
+          },
+          {
+            "date": "2026-06-28",
+            "value": 110275.0
+          },
+          {
+            "date": "2026-06-29",
+            "value": 107376.0
+          },
+          {
+            "date": "2026-06-30",
+            "value": 106000.0
+          }
+        ],
+        "unit": "bbl"
+      }
+    },
+    "view": "executive"
+  },
+  "path": "/api/v1/oil-gas/dashboard/",
+  "status": 200
+}

@@ -8,9 +8,7 @@ export function titlesForCategory<T extends TitleWithCategory>(
   categoryIds: string[],
 ): T[] {
   if (!categoryIds.length) return titles;
-  return titles.filter(
-    (t) => t.category != null && categoryIds.includes(String(t.category)),
-  );
+  return titles.filter((t) => t.category != null && categoryIds.includes(String(t.category)));
 }
 
 export function hasTitleScope(filters: Record<string, unknown>): boolean {
@@ -34,15 +32,19 @@ export function applyTitleCategoryFilterChange(
   categoryIds: string[],
   titles: TitleWithCategory[],
 ): { title_category_id: string; title_id: string } {
-  const allowed = new Set(
-    titlesForCategory(titles, categoryIds).map((t) => String(t.id)),
-  );
+  const allowed = titlesForCategory(titles, categoryIds).map((t) => String(t.id));
+  const allowedSet = new Set(allowed);
   const prevTitleIds = parseFilterIds(prevFilters['title_id']).filter((id) =>
-    categoryIds.length ? allowed.has(id) : true,
+    categoryIds.length ? allowedSet.has(id) : true,
   );
+  let titleId = prevTitleIds.length ? serializeFilterIds(prevTitleIds) : '';
+  // Sole remaining title under the category → select it by default.
+  if (!titleId && allowed.length === 1) {
+    titleId = allowed[0];
+  }
   return {
     title_category_id: categoryIds.length ? serializeFilterIds(categoryIds) : '',
-    title_id: prevTitleIds.length ? serializeFilterIds(prevTitleIds) : '',
+    title_id: titleId,
   };
 }
 
@@ -54,9 +56,7 @@ export function filterTitleTablesByScope<T extends { titleId: number | null }>(
 ): T[] {
   const titleIds = parseFilterIds(filters['title_id']);
   const categoryIds = parseFilterIds(filters['title_category_id']);
-  const allowedTitleIds = new Set(
-    titlesForCategory(titles, categoryIds).map((t) => String(t.id)),
-  );
+  const allowedTitleIds = new Set(titlesForCategory(titles, categoryIds).map((t) => String(t.id)));
   return tables.filter((t) => {
     if (t.titleId == null) return false;
     const id = String(t.titleId);

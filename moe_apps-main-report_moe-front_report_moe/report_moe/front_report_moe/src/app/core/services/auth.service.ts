@@ -89,6 +89,20 @@ export class AuthService {
     }
   }
 
+  /**
+   * App-start bootstrap: prime the CSRF cookie (so a returning user with a live
+   * session but no csrftoken can still make writes) and resolve the session.
+   * Never throws — an anonymous or unreachable backend just leaves currentUser null.
+   */
+  async initSession(): Promise<User | null> {
+    try {
+      await firstValueFrom(this.api.get('auth/csrf/').pipe(timeout(8000)));
+    } catch {
+      // non-fatal — /auth/me/ also refreshes the cookie (ensure_csrf_cookie)
+    }
+    return this.fetchMe();
+  }
+
   clearSession(): void {
     this.currentUser.set(null);
   }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -24,7 +24,7 @@ export interface PageHeaderAction {
         <h1 class="page-title">{{ title }}</h1>
         <p *ngIf="description" class="page-description">{{ description }}</p>
       </div>
-      <div *ngIf="action || actions?.length" class="header-action">
+      <div *ngIf="action || actions.length" class="header-action">
         <app-button
           *ngIf="action"
           [label]="action.label"
@@ -56,6 +56,7 @@ export interface PageHeaderAction {
       </div>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './page-header.component.scss',
 })
 export class PageHeaderComponent {

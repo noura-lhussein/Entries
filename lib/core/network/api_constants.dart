@@ -56,6 +56,7 @@ class ApiConstants {
   static const String me = 'v1/auth/me/';
   static const String csrf = 'v1/auth/csrf/';
   static String userById(int id) => 'v1/users/$id/';
+  static const String users = 'v1/users/';
 
   // ── Water — Admin (data entry / imports) ─────────────────────────────────
   static const String waterAdminBase = 'v1/water/admin';
@@ -147,6 +148,7 @@ class ApiConstants {
   // ── Dynamic builder / reports (report_moe) ───────────────────────────────
   static const String builderMainSections = 'v1/main-sections/';
   static const String builderSubSections = 'v1/sub-sections/';
+  static const String builderSubSectionTree = 'v1/sub-sections/tree/';
   static const String builderTitles = 'v1/titles/';
   static const String builderTitleCategories = 'v1/title-categories/';
   static const String builderAttributes = 'v1/attributes/';
@@ -155,7 +157,13 @@ class ApiConstants {
   static const String builderReportSubmit = 'v1/reports/submit/';
   static const String builderCheckDate = 'v1/reports/check-date/';
   static const String builderInfoRows = 'v1/info-rows/';
+  static const String builderInfos = 'v1/infos/';
   static const String builderInfoRowCount = 'v1/infos/row-count/';
+  static const String builderInfoDeleteRow = 'v1/infos/delete-row/';
+  static const String builderInfoConfirmIds = 'v1/infos/confirm-ids/';
+  static const String builderInfoCommitNoteIds = 'v1/infos/commit-note-ids/';
+  static String builderInfoById(int id) => 'v1/infos/$id/';
+  static String builderInfoDetail(int id) => 'v1/infos/$id/detail/';
   static const String builderGovernorates = 'v1/locations/governorates/options/';
   static const String builderDistricts = 'v1/locations/districts/options/';
   static const String builderSubdistricts =

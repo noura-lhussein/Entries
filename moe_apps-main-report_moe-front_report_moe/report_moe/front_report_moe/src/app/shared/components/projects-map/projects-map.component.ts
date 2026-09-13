@@ -10,6 +10,7 @@ import {
   SimpleChanges,
   ViewChild,
   signal,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as L from 'leaflet';
@@ -33,7 +34,11 @@ const STATUS_COLORS: Record<string, string> = {
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="projects-map" [class.is-fullscreen]="fullscreen()" [class.is-zoom-locked]="zoomLocked()">
+    <div
+      class="projects-map"
+      [class.is-fullscreen]="fullscreen()"
+      [class.is-zoom-locked]="zoomLocked()"
+    >
       <div class="map-toolbar">
         @if (lockZoomUntilMapClick) {
           <button
@@ -91,6 +96,7 @@ const STATUS_COLORS: Record<string, string> = {
       }
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './projects-map.component.scss',
 })
 export class ProjectsMapComponent implements AfterViewInit, OnChanges, OnDestroy {

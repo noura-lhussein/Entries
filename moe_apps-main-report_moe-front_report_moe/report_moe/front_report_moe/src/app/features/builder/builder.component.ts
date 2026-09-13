@@ -1,4 +1,13 @@
-import { Component, OnInit, inject, signal, computed, effect, untracked } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  inject,
+  signal,
+  computed,
+  effect,
+  untracked,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -23,6 +32,7 @@ import { ToastService } from '../../shared/services/toast.service';
 import { TranslationService } from '../../shared/services/translation.service';
 import { AuthService } from '../../core/services/auth.service';
 import { ApiService } from '../../core/services/api.service';
+import { soleItem } from '../../shared/utils/sole-option';
 import {
   DynamicFormComponent,
   FormConfig,
@@ -68,6 +78,7 @@ type CrudLevel = 'main' | 'sub' | 'title' | 'category';
     DataEntryWorkspaceComponent,
   ],
   templateUrl: './builder.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./builder.component.scss'],
 })
 export class BuilderComponent implements OnInit {
@@ -329,6 +340,10 @@ export class BuilderComponent implements OnInit {
           this.userAllAttributes.set(normalized);
           this.initializeTitleFormVisibility();
           this.loadLocations();
+          const onlyMain = soleItem(mainSections);
+          if (onlyMain && this.selectedMain() == null) {
+            this.onMainChange(onlyMain.id);
+          }
         },
         error: () => this.toast.error(this.translation.t('builder.title')),
       });
@@ -336,7 +351,14 @@ export class BuilderComponent implements OnInit {
 
   loadMainSections(): void {
     this.builder.getMainSections().subscribe({
-      next: (data) => this.mainSections.set(data.results || []),
+      next: (data) => {
+        const mains = data.results || [];
+        this.mainSections.set(mains);
+        const only = soleItem(mains);
+        if (only && this.selectedMain() == null) {
+          this.onMainChange(only.id);
+        }
+      },
       error: () => this.toast.error(this.translation.t('builder.title')),
     });
   }
@@ -351,6 +373,12 @@ export class BuilderComponent implements OnInit {
           subs = subs.filter((s) => allowedIds.includes(s.id));
         }
         this.subSections.set(subs);
+        const only = soleItem(subs);
+        if (only) {
+          this.onSubChange(only.id);
+        } else if (this.selectedSub() != null && !subs.some((s) => s.id === this.selectedSub())) {
+          this.onSubChange(null);
+        }
       },
       error: () => this.toast.error(this.translation.t('builder.subSections')),
     });
@@ -358,14 +386,28 @@ export class BuilderComponent implements OnInit {
 
   loadTitleCategories(): void {
     this.builder.getTitleCategories().subscribe({
-      next: (data) => this.titleCategories.set(data.results || []),
+      next: (data) => {
+        const cats = data.results || [];
+        this.titleCategories.set(cats);
+        const only = soleItem(cats);
+        if (only && this.selectedCategory() == null) {
+          this.selectedCategory.set(only.id);
+        }
+      },
       error: () => this.titleCategories.set([]),
     });
   }
 
   loadTitles(): void {
     this.builder.getTitles().subscribe({
-      next: (data) => this.titles.set(data.results || []),
+      next: (data) => {
+        const titles = data.results || [];
+        this.titles.set(titles);
+        const only = soleItem(titles);
+        if (only && this.selectedTitle() !== only.id) {
+          this.onTitleChange(only.id);
+        }
+      },
       error: () => this.toast.error(this.translation.t('builder.title')),
     });
   }
@@ -1046,7 +1088,15 @@ export class BuilderComponent implements OnInit {
       return;
     }
     this.builder.getDistricts(governorateId).subscribe({
-      next: (data) => this.districts.set(data.results || []),
+      next: (data) => {
+        const rows = data.results || [];
+        this.districts.set(rows);
+        const only = soleItem(rows);
+        if (only && this.selectedDistrictId() == null) {
+          this.selectedDistrictId.set(only.id);
+          this.loadSubDistrictsByDistrict(only.id);
+        }
+      },
       error: () => this.districts.set([]),
     });
   }
@@ -1057,7 +1107,15 @@ export class BuilderComponent implements OnInit {
       return;
     }
     this.builder.getSubDistricts(districtId).subscribe({
-      next: (data) => this.subdistricts.set(data.results || []),
+      next: (data) => {
+        const rows = data.results || [];
+        this.subdistricts.set(rows);
+        const only = soleItem(rows);
+        if (only && this.selectedSubdistrictId() == null) {
+          this.selectedSubdistrictId.set(only.id);
+          this.loadCommunitiesBySubdistrict(only.id);
+        }
+      },
       error: () => this.subdistricts.set([]),
     });
   }

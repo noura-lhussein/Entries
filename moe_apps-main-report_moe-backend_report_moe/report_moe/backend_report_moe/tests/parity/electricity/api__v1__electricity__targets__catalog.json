@@ -1,0 +1,55 @@
+{
+  "body": [
+    {
+      "higher_is_better": true,
+      "key": "total_generation_mwh",
+      "label_ar": "إجمالي التوليد",
+      "label_en": "Total generation",
+      "unit": "MWh/d"
+    },
+    {
+      "higher_is_better": true,
+      "key": "peak_demand_mw",
+      "label_ar": "ذروة الحمل",
+      "label_en": "Peak demand",
+      "unit": "MW"
+    },
+    {
+      "higher_is_better": true,
+      "key": "plant_availability_percent",
+      "label_ar": "توفر المحطات",
+      "label_en": "Plant availability",
+      "unit": "%"
+    },
+    {
+      "higher_is_better": true,
+      "key": "capacity_factor_percent",
+      "label_ar": "معامل الحمل",
+      "label_en": "Capacity factor",
+      "unit": "%"
+    },
+    {
+      "higher_is_better": true,
+      "key": "renewable_share_percent",
+      "label_ar": "حصة المتجددة",
+      "label_en": "Renewable share",
+      "unit": "%"
+    },
+    {
+      "higher_is_better": false,
+      "key": "supply_demand_gap_mw",
+      "label_ar": "فجوة العرض والطلب",
+      "label_en": "Supply–demand gap",
+      "unit": "MW"
+    },
+    {
+      "higher_is_better": true,
+      "key": "generation_mwh",
+      "label_ar": "توليد المحطة",
+      "label_en": "Plant generation",
+      "unit": "MWh/d"
+    }
+  ],
+  "path": "/api/v1/electricity/targets/catalog/",
+  "status": 200
+}

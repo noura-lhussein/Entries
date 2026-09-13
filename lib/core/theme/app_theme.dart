@@ -108,6 +108,50 @@ class AppColors {
   static const LinearGradient cardGoldenGradient = goldGradient;
 }
 
+/// Shared surface recipes — forest = structure, gold = accent.
+class AppDecorations {
+  static List<BoxShadow> get cardShadow => [
+        BoxShadow(
+          color: AppColors.ink.withValues(alpha: 0.07),
+          blurRadius: 16,
+          offset: const Offset(0, 5),
+        ),
+        BoxShadow(
+          color: AppColors.goldDeep.withValues(alpha: 0.06),
+          blurRadius: 8,
+          offset: const Offset(0, 1),
+        ),
+      ];
+
+  static BoxDecoration surfaceCard({double? radius}) => BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(radius ?? 14.r),
+        border: Border.all(color: AppColors.border),
+        boxShadow: cardShadow,
+      );
+
+  static BoxDecoration forestHeader({double? radius}) => BoxDecoration(
+        gradient: AppColors.cardForestGradient,
+        borderRadius: BorderRadius.circular(radius ?? 14.r),
+        border: Border.all(
+          color: AppColors.goldWarm.withValues(alpha: 0.38),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.ink.withValues(alpha: 0.2),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      );
+
+  static BoxDecoration goldWashTile({double? radius}) => BoxDecoration(
+        color: AppColors.goldWash,
+        borderRadius: BorderRadius.circular(radius ?? 12.r),
+        border: Border.all(color: AppColors.border),
+      );
+}
+
 /// ─── Theme ────────────────────────────────────────────────────────────────────
 class AppTheme {
   static ThemeData get theme => ThemeData(
@@ -120,6 +164,9 @@ class AppTheme {
       surface:     AppColors.surface,
       onSurface:   AppColors.textPrimary,
       error:       AppColors.errorRed,
+    ),
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      color: AppColors.goldWarm,
     ),
     scaffoldBackgroundColor: AppColors.background,
 
@@ -155,6 +202,33 @@ class AppTheme {
       ),
       hintStyle: TextStyle(
         color: AppColors.inkSoft, fontSize: 12.sp, fontFamily: 'Cairo'),
+    ),
+
+    filledButtonTheme: FilledButtonThemeData(
+      style: FilledButton.styleFrom(
+        backgroundColor: AppColors.ink,
+        foregroundColor: AppColors.goldWarm,
+        textStyle: TextStyle(
+          fontSize: 13.sp, fontWeight: FontWeight.w700, fontFamily: 'Cairo'),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: AppColors.inkMid,
+        side: const BorderSide(color: AppColors.borderMid),
+        textStyle: TextStyle(
+          fontSize: 12.sp, fontWeight: FontWeight.w700, fontFamily: 'Cairo'),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
+      ),
+    ),
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: AppColors.inkDeep,
+      contentTextStyle: TextStyle(
+        fontFamily: 'Cairo', fontSize: 13.sp, color: Colors.white),
+      actionTextColor: AppColors.goldWarm,
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
     ),
 
     // Elevated button (transparent — real bg set per-widget via DecoratedBox)
